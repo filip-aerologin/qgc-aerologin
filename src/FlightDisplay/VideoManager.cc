@@ -208,7 +208,7 @@ VideoManager2::setToolbox(QGCToolbox *toolbox)
    qmlRegisterUncreatableType<VideoManager2> ("QGroundControl.VideoManager2", 1, 0, "VideoManager2", "Reference only");
    qmlRegisterUncreatableType<VideoReceiver>("QGroundControl",              1, 0, "VideoReceiver","Reference only");
    qmlRegisterUncreatableType<VideoSurface> ("QGroundControl",              1, 0, "VideoSurface", "Reference only");
-   _videoSettings = toolbox->settingsManager()->videoSettings();
+   _videoSettings = toolbox->settingsManager()->videoSettings2();
    QString videoSource = _videoSettings->videoSource()->rawValue().toString();
    connect(_videoSettings->videoSource(),   &Fact::rawValueChanged, this, &VideoManager2::_videoSourceChanged);
    connect(_videoSettings->udpPort(),       &Fact::rawValueChanged, this, &VideoManager2::_udpPortChanged);
@@ -307,11 +307,11 @@ VideoManager2::_updateSettings()
 {
     if(!_videoSettings || !_videoReceiver)
         return;
-  //  if (_videoSettings->videoSource()->rawValue().toString() == VideoSettings::videoSourceUDP)
-  //      _videoReceiver->setUri(QStringLiteral("udp://0.0.0.0:%1").arg(_videoSettings->udpPort()->rawValue().toInt()));
-
     if (_videoSettings->videoSource()->rawValue().toString() == VideoSettings::videoSourceUDP)
-           _videoReceiver->setUri(QStringLiteral("udp://0.0.0.0:5000"));
+      _videoReceiver->setUri(QStringLiteral("udp://0.0.0.0:%1").arg(_videoSettings->udpPort()->rawValue().toInt()));
+
+   // if (_videoSettings->videoSource()->rawValue().toString() == VideoSettings::videoSourceUDP)
+    //       _videoReceiver->setUri(QStringLiteral("udp://0.0.0.0:5000"));
 
 
     else if (_videoSettings->videoSource()->rawValue().toString() == VideoSettings::videoSourceRTSP)

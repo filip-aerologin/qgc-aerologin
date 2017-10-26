@@ -37,6 +37,7 @@ public:
     Q_PROPERTY(QObject* unitsSettings       READ unitsSettings          CONSTANT)
     Q_PROPERTY(QObject* autoConnectSettings READ autoConnectSettings    CONSTANT)
     Q_PROPERTY(QObject* videoSettings       READ videoSettings          CONSTANT)
+    Q_PROPERTY(QObject* videoSettings2      READ videoSettings2         CONSTANT)
     Q_PROPERTY(QObject* flightMapSettings   READ flightMapSettings      CONSTANT)
     Q_PROPERTY(QObject* rtkSettings         READ rtkSettings            CONSTANT)
     Q_PROPERTY(QObject* guidedSettings      READ guidedSettings         CONSTANT)
@@ -49,6 +50,7 @@ public:
     UnitsSettings*          unitsSettings       (void) { return _unitsSettings; }
     AutoConnectSettings*    autoConnectSettings (void) { return _autoConnectSettings; }
     VideoSettings*          videoSettings       (void) { return _videoSettings; }
+    VideoSettings*          videoSettings2      (void) { return _videoSettings2; }
     FlightMapSettings*      flightMapSettings   (void) { return _flightMapSettings; }
     RTKSettings*            rtkSettings         (void) { return _rtkSettings; }
     GuidedSettings*         guidedSettings      (void) { return _guidedSettings; }
@@ -59,6 +61,7 @@ private:
     UnitsSettings*          _unitsSettings;
     AutoConnectSettings*    _autoConnectSettings;
     VideoSettings*          _videoSettings;
+    VideoSettings*          _videoSettings2;
     FlightMapSettings*      _flightMapSettings;
     RTKSettings*            _rtkSettings;
     GuidedSettings*         _guidedSettings;

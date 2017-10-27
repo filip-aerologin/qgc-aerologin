@@ -80,7 +80,7 @@ QGCToolbox::QGCToolbox(QGCApplication* app)
     _qgcPositionManager =       new QGCPositionManager      (app, this);
     _followMe =                 new FollowMe                (app, this);
     _videoManager =             new VideoManager            (app, this);
-    _videoManager2 =            new VideoManager2            (app, this);
+    _videoManager2 =            new VideoManager2           (app, this);
     _mavlinkLogManager =        new MAVLinkLogManager       (app, this);
 }
 

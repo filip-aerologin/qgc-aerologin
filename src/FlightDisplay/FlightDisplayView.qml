@@ -46,6 +46,7 @@ QGCView {
     property var    _videoReceiver:         QGroundControl.videoManager.videoReceiver
     property bool   _recordingVideo:        _videoReceiver && _videoReceiver.recording
     property bool   _mainIsMap:             QGroundControl.videoManager.hasVideo ? QGroundControl.loadBoolGlobalSetting(_mainIsMapKey,  true) : true
+    property bool   _mainIsMap2:             QGroundControl.videoManager.hasVideo ? QGroundControl.loadBoolGlobalSetting(_mainIsMapKey2,  true) : true
     property bool   _isPipVisible:          QGroundControl.videoManager.hasVideo ? QGroundControl.loadBoolGlobalSetting(_PIPVisibleKey, true) : false
     property bool   _isPipVisible2:         QGroundControl.videoManager2.hasVideo ? QGroundControl.loadBoolGlobalSetting(_PIPVisibleKey2, true) : false
     property real   _savedZoomLevel:        0
@@ -68,6 +69,7 @@ QGCView {
     readonly property string    _mapName:               "FlightDisplayView"
     readonly property string    _showMapBackgroundKey:  "/showMapBackground"
     readonly property string    _mainIsMapKey:          "MainFlyWindowIsMap"
+    readonly property string    _mainIsMapKey2:          "MainFlyWindowIsMap"
     readonly property string    _PIPVisibleKey:         "IsPIPVisible"
     readonly property string    _PIPVisibleKey2:        "IsPIPVisible"
 
@@ -77,7 +79,6 @@ QGCView {
             //-- Adjust Margins
             _flightMapContainer.state   = "fullMode"
             _flightVideo.state          = "pipMode"
-            _flightVideo2.state          = "pipMode"
             //-- Save/Restore Map Zoom Level
             if(_savedZoomLevel != 0)
                 _flightMap.zoomLevel = _savedZoomLevel
@@ -87,10 +88,30 @@ QGCView {
             //-- Adjust Margins
             _flightMapContainer.state   = "pipMode"
             _flightVideo.state          = "fullMode"
-            _flightVideo2.state          = "fullMode"
             //-- Set Map Zoom Level
             _savedZoomLevel = _flightMap.zoomLevel
             _flightMap.zoomLevel = _savedZoomLevel - 3
+        }
+    }
+
+    function setStates2() {
+        QGroundControl.saveBoolGlobalSetting(_mainIsMapKey2, _mainIsMap2)
+        if(_mainIsMap2) {
+            //-- Adjust Margins
+            _flightMapContainer2.state   = "fullMode"
+            _flightVideo2.state          = "pipMode"
+            //-- Save/Restore Map Zoom Level
+            if(_savedZoomLevel != 0)
+                _flightMap2.zoomLevel = _savedZoomLevel
+            else
+                _savedZoomLevel = _flightMap2.zoomLevel
+        } else {
+            //-- Adjust Margins
+            _flightMapContainer2.state   = "pipMode"
+            _flightVideo2.state          = "fullMode"
+            //-- Set Map Zoom Level
+            _savedZoomLevel = _flightMap2.zoomLevel
+            _flightMap2.zoomLevel = _savedZoomLevel - 3
         }
     }
 
@@ -116,6 +137,7 @@ QGCView {
 
     Component.onCompleted: {
         setStates()
+        setStates2()
         if(QGroundControl.corePlugin.options.flyViewOverlay.toString().length) {
             flyViewOverlay.source = QGroundControl.corePlugin.options.flyViewOverlay
         }
@@ -195,6 +217,7 @@ QGCView {
 
     QGCMapPalette { id: mapPal; lightColors: _mainIsMap ? _flightMap.isSatelliteMap : true }
 
+
     QGCViewPanel {
         id:             _panel
         anchors.fill:   parent
@@ -245,12 +268,12 @@ QGCView {
 
         Item {
             id: _flightMapContainer2
-            z:  _mainIsMap ? _panel.z + 1 : _panel.z + 2
+            z:  _mainIsMap2 ? _panel.z + 1 : _panel.z + 2
             anchors.right:   _panel.right
             anchors.bottom: _panel.bottom
-            visible:        _mainIsMap || _isPipVisible2 && !QGroundControl.videoManager2.fullScreen
-            width:          _mainIsMap ? _panel.width  : _pipSize2
-            height:         _mainIsMap ? _panel.height : _pipSize2 * (9/16)
+            visible:        _mainIsMap2 || _isPipVisible2 && !QGroundControl.videoManager2.fullScreen
+            width:          _mainIsMap2 ? _panel.width  : _pipSize2
+            height:         _mainIsMap2 ? _panel.height : _pipSize2 * (9/16)
             states: [
                 State {
                     name:   "pipMode"
@@ -276,7 +299,7 @@ QGCView {
                 rightPanelWidth:            ScreenTools.defaultFontPixelHeight * 9
                 qgcView:                    root
                 multiVehicleView:           !singleVehicleView.checked
-                scaleState:                 (_mainIsMap && flyViewOverlay.item) ? (flyViewOverlay.item.scaleState ? flyViewOverlay.item.scaleState : "bottomMode") : "bottomMode"
+                scaleState:                 (_mainIsMap2 && flyViewOverlay.item) ? (flyViewOverlay.item.scaleState ? flyViewOverlay.item.scaleState : "bottomMode") : "bottomMode"
             }
         }
 
@@ -344,12 +367,12 @@ QGCView {
         //-- NEW VIDEO VIEW
         Item {
             id:             _flightVideo2
-            z:              _mainIsMap ? _panel.z + 2 : _panel.z + 1
-            width:          !_mainIsMap ? _panel.width  : _pipSize2
-            height:         !_mainIsMap ? _panel.height : _pipSize2 * (9/16)
+            z:              _mainIsMap2 ? _panel.z + 2 : _panel.z + 1
+            width:          !_mainIsMap2 ? _panel.width  : _pipSize2
+            height:         !_mainIsMap2 ? _panel.height : _pipSize2 * (9/16)
             anchors.right:  _panel.right
             anchors.bottom: _panel.bottom
-            visible:        QGroundControl.videoManager2.hasVideo && (!_mainIsMap || _isPipVisible2)
+            visible:        QGroundControl.videoManager2.hasVideo && (!_mainIsMap2 || _isPipVisible2)
             states: [
                 State {
                     name:   "pipMode"
@@ -391,8 +414,8 @@ QGCView {
             isHidden:           !_isPipVisible2
             isDark:             isBackgroundDark
             onActivated: {
-                _mainIsMap = !_mainIsMap
-                setStates()
+                _mainIsMap2 = !_mainIsMap2
+                setStates2()
             }
             onHideIt: {
                 setPipVisibility2(!state)

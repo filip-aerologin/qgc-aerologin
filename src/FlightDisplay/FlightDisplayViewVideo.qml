@@ -40,12 +40,12 @@ Item {
             font.pointSize:     _mainIsMap ? ScreenTools.smallFontPointSize : ScreenTools.largeFontPointSize
             anchors.centerIn:   parent
         }
-        MouseArea {
+    /*    MouseArea {
             anchors.fill: parent
             onDoubleClicked: {
                 QGroundControl.videoManager.fullScreen = !QGroundControl.videoManager.fullScreen
             }
-        }
+        } */
     }
     Rectangle {
         anchors.fill:   parent
@@ -98,11 +98,11 @@ Item {
                 visible: _showGrid && !QGroundControl.videoManager.fullScreen
             }
         }
-        MouseArea {
+       /* MouseArea {
             anchors.fill: parent
             onDoubleClicked: {
                 QGroundControl.videoManager.fullScreen = !QGroundControl.videoManager.fullScreen
             }
-        }
+        }*/
     }
 }

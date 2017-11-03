@@ -34,18 +34,18 @@ Item {
         color:          Qt.rgba(0,0,0,0.75)
         visible:        !(_videoReceiver && _videoReceiver.videoRunning)
         QGCLabel {
-            text:               qsTr("XD")
+            text:               qsTr("XDD")
             font.family:        ScreenTools.demiboldFontFamily
             color:              "white"
             font.pointSize:     _mainIsMap ? ScreenTools.smallFontPointSize : ScreenTools.largeFontPointSize
             anchors.centerIn:   parent
         }
-        MouseArea {
+      /*  MouseArea {
             anchors.fill: parent
             onDoubleClicked: {
                 QGroundControl.videoManager2.fullScreen = !QGroundControl.videoManager2.fullScreen
             }
-        }
+        } */
     }
 
 
@@ -100,11 +100,11 @@ Item {
                 visible: _showGrid && !QGroundControl.videoManager2.fullScreen
             }
         }
-        MouseArea {
+     /*   MouseArea {
             anchors.fill: parent
             onDoubleClicked: {
                 QGroundControl.videoManager2.fullScreen = !QGroundControl.videoManager2.fullScreen
             }
-        }
+        } */
     }
 }

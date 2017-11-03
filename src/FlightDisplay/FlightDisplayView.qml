@@ -46,13 +46,17 @@ QGCView {
     property var    _videoReceiver:         QGroundControl.videoManager.videoReceiver
     property bool   _recordingVideo:        _videoReceiver && _videoReceiver.recording
     property bool   _mainIsMap:             QGroundControl.videoManager.hasVideo ? QGroundControl.loadBoolGlobalSetting(_mainIsMapKey,  true) : true
-    property bool   _mainIsMap2:             QGroundControl.videoManager.hasVideo ? QGroundControl.loadBoolGlobalSetting(_mainIsMapKey2,  true) : true
+  //  property bool   _mainIsMap2:            QGroundControl.videoManager.hasVideo ? QGroundControl.loadBoolGlobalSetting(_mainIsMapKey2,  true) : true
     property bool   _isPipVisible:          QGroundControl.videoManager.hasVideo ? QGroundControl.loadBoolGlobalSetting(_PIPVisibleKey, true) : false
     property bool   _isPipVisible2:         QGroundControl.videoManager2.hasVideo ? QGroundControl.loadBoolGlobalSetting(_PIPVisibleKey2, true) : false
+    property bool   _mainIsVideo1:          false
+    property bool   _mainIsVideo2:          false
+    property bool   _trigger1:          false
+    property bool   _trigger2:          false
     property real   _savedZoomLevel:        0
     property real   _margins:               ScreenTools.defaultFontPixelWidth / 2
     property real   _pipSize:               flightView.width * 0.2
-    property real   _pipSize2:               flightView.width * 0.2
+    property real   _pipSize2:              flightView.width * 0.2
     property alias  _guidedController:      guidedActionsController
     property alias  _altitudeSlider:        altitudeSlider
 
@@ -69,49 +73,43 @@ QGCView {
     readonly property string    _mapName:               "FlightDisplayView"
     readonly property string    _showMapBackgroundKey:  "/showMapBackground"
     readonly property string    _mainIsMapKey:          "MainFlyWindowIsMap"
-    readonly property string    _mainIsMapKey2:          "MainFlyWindowIsMap"
+    readonly property string    _mainIsMapKey2:         "MainFlyWindowIsMap"
     readonly property string    _PIPVisibleKey:         "IsPIPVisible"
     readonly property string    _PIPVisibleKey2:        "IsPIPVisible"
 
     function setStates() {
-        QGroundControl.saveBoolGlobalSetting(_mainIsMapKey, _mainIsMap)
+        //QGroundControl.saveBoolGlobalSetting(_mainIsMapKey, _mainIsMap)
         if(_mainIsMap) {
             //-- Adjust Margins
-            _flightMapContainer.state   = "fullMode"
-            _flightVideo.state          = "pipMode"
-            //-- Save/Restore Map Zoom Level
-            if(_savedZoomLevel != 0)
-                _flightMap.zoomLevel = _savedZoomLevel
-            else
-                _savedZoomLevel = _flightMap.zoomLevel
-        } else {
-            //-- Adjust Margins
-            _flightMapContainer.state   = "pipMode"
-            _flightVideo.state          = "fullMode"
-            //-- Set Map Zoom Level
-            _savedZoomLevel = _flightMap.zoomLevel
-            _flightMap.zoomLevel = _savedZoomLevel - 3
-        }
-    }
-
-    function setStates2() {
-        QGroundControl.saveBoolGlobalSetting(_mainIsMapKey2, _mainIsMap2)
-        if(_mainIsMap2) {
-            //-- Adjust Margins
+            _flightMapContainer.state    = "fullMode"
             _flightMapContainer2.state   = "fullMode"
+            _flightVideo.state           = "pipMode"
             _flightVideo2.state          = "pipMode"
             //-- Save/Restore Map Zoom Level
-            if(_savedZoomLevel != 0)
+            if(_savedZoomLevel != 0) {
+                _flightMap.zoomLevel = _savedZoomLevel
                 _flightMap2.zoomLevel = _savedZoomLevel
+            }
             else
-                _savedZoomLevel = _flightMap2.zoomLevel
-        } else {
-            //-- Adjust Margins
+                _savedZoomLevel = _flightMap.zoomLevel
+        }
+        else {
+            _flightMapContainer.state    = "pipMode"
             _flightMapContainer2.state   = "pipMode"
-            _flightVideo2.state          = "fullMode"
             //-- Set Map Zoom Level
+            _savedZoomLevel = _flightMap.zoomLevel
             _savedZoomLevel = _flightMap2.zoomLevel
+            _flightMap.zoomLevel = _savedZoomLevel - 3
             _flightMap2.zoomLevel = _savedZoomLevel - 3
+
+            if (_mainIsVideo1) {
+                _flightVideo.state        = "fullMode"
+                _flightVideo2.state       = "pipMode"
+            }
+            if (_mainIsVideo2) {
+                _flightVideo.state       = "pipMode"
+                _flightVideo2.state       = "fullMode"
+            }
         }
     }
 
@@ -137,7 +135,6 @@ QGCView {
 
     Component.onCompleted: {
         setStates()
-        setStates2()
         if(QGroundControl.corePlugin.options.flyViewOverlay.toString().length) {
             flyViewOverlay.source = QGroundControl.corePlugin.options.flyViewOverlay
         }
@@ -227,12 +224,14 @@ QGCView {
         //   width/height has no effect.
         Item {
             id: _flightMapContainer
-            z:  _mainIsMap ? _panel.z + 1 : _panel.z + 2
+            z:  (_mainIsVideo1 || _mainIsVideo2) ? _panel.z + 2 : _panel.z + 1
             anchors.left:   _panel.left
             anchors.bottom: _panel.bottom
-            visible:        _mainIsMap || _isPipVisible && !QGroundControl.videoManager.fullScreen || _isPipVisible2 && !QGroundControl.videoManager2.fullScreen
-            width:          _mainIsMap ? _panel.width  : _pipSize
-            height:         _mainIsMap ? _panel.height : _pipSize * (9/16)
+            visible:        _mainIsMap || _isPipVisible && _mainIsVideo1
+            width:          if(_mainIsVideo1 || _mainIsVideo2) _pipSize
+                            else _panel.width
+            height:         if(_mainIsVideo1 || _mainIsVideo2) _pipSize * (9/16)
+                            else _panel.height
             states: [
                 State {
                     name:   "pipMode"
@@ -268,12 +267,14 @@ QGCView {
 
         Item {
             id: _flightMapContainer2
-            z:  _mainIsMap2 ? _panel.z + 1 : _panel.z + 2
-            anchors.right:   _panel.right
+            z:  (_mainIsVideo1 || _mainIsVideo2) ? _panel.z + 2 : _panel.z + 1
+            anchors.right:  _panel.right
             anchors.bottom: _panel.bottom
-            visible:        _mainIsMap2 || _isPipVisible2 && !QGroundControl.videoManager2.fullScreen
-            width:          _mainIsMap2 ? _panel.width  : _pipSize2
-            height:         _mainIsMap2 ? _panel.height : _pipSize2 * (9/16)
+            visible:        _mainIsMap || _isPipVisible2 && _mainIsVideo2
+            width:          if(_mainIsVideo1 || _mainIsVideo2) _pipSize2
+                            else _panel.width
+            height:         if(_mainIsVideo1 || _mainIsVideo2) _pipSize2 * (9/16)
+                            else _panel.height
             states: [
                 State {
                     name:   "pipMode"
@@ -299,20 +300,24 @@ QGCView {
                 rightPanelWidth:            ScreenTools.defaultFontPixelHeight * 9
                 qgcView:                    root
                 multiVehicleView:           !singleVehicleView.checked
-                scaleState:                 (_mainIsMap2 && flyViewOverlay.item) ? (flyViewOverlay.item.scaleState ? flyViewOverlay.item.scaleState : "bottomMode") : "bottomMode"
+                scaleState:                 (_mainIsMap && flyViewOverlay.item) ? (flyViewOverlay.item.scaleState ? flyViewOverlay.item.scaleState : "bottomMode") : "bottomMode"
             }
+
+
         }
 
 
         //-- Video View
         Item {
             id:             _flightVideo
-            z:              _mainIsMap ? _panel.z + 2 : _panel.z + 1
-            width:          !_mainIsMap ? _panel.width  : _pipSize
-            height:         !_mainIsMap ? _panel.height : _pipSize * (9/16)
+            z:              !_mainIsVideo1 ? _panel.z + 2 : _panel.z + 1
+            width:          if(_mainIsVideo1) _panel.width
+                            else _pipSize
+            height:         if(_mainIsVideo1) _panel.height
+                            else _pipSize * (9/16)         
             anchors.left:   _panel.left
             anchors.bottom: _panel.bottom
-            visible:        QGroundControl.videoManager.hasVideo && (!_mainIsMap || _isPipVisible)
+            visible:        QGroundControl.videoManager.hasVideo && ((!_mainIsMap && !_mainIsVideo2) || _isPipVisible )
             states: [
                 State {
                     name:   "pipMode"
@@ -354,8 +359,18 @@ QGCView {
             isHidden:           !_isPipVisible
             isDark:             isBackgroundDark
             onActivated: {
-                _mainIsMap = !_mainIsMap
-                setStates()
+                if (_mainIsVideo1 == true) {
+                    _mainIsMap = true
+                    _mainIsVideo1 = false
+                    setStates()
+                }
+                else {
+                    _mainIsMap = false
+                    _mainIsVideo1 = true
+                    _mainIsVideo2 = false
+                    setStates()
+                }
+
             }
             onHideIt: {
                 setPipVisibility(!state)
@@ -364,15 +379,17 @@ QGCView {
                 _pipSize = newWidth
             }
         }
-        //-- NEW VIDEO VIEW
+       //-- NEW VIDEO VIEW
         Item {
             id:             _flightVideo2
-            z:              _mainIsMap2 ? _panel.z + 2 : _panel.z + 1
-            width:          !_mainIsMap2 ? _panel.width  : _pipSize2
-            height:         !_mainIsMap2 ? _panel.height : _pipSize2 * (9/16)
+            z:             !_mainIsVideo2 ? _panel.z + 2 : _panel.z + 1
+            width:          if(_mainIsVideo2) _panel.width
+                            else _pipSize2
+            height:         if(_mainIsVideo2) _panel.height
+                            else _pipSize2 * (9/16)
             anchors.right:  _panel.right
             anchors.bottom: _panel.bottom
-            visible:        QGroundControl.videoManager2.hasVideo && (!_mainIsMap2 || _isPipVisible2)
+            visible:        QGroundControl.videoManager2.hasVideo && ((!_mainIsMap && !_mainIsVideo1) || _isPipVisible2)
             states: [
                 State {
                     name:   "pipMode"
@@ -414,8 +431,17 @@ QGCView {
             isHidden:           !_isPipVisible2
             isDark:             isBackgroundDark
             onActivated: {
-                _mainIsMap2 = !_mainIsMap2
-                setStates2()
+                if (_mainIsVideo2 == true) {
+                    _mainIsMap = true
+                    _mainIsVideo2 = false
+                    setStates()
+                }
+                else {
+                    _mainIsMap = false
+                    _mainIsVideo1 = false
+                    _mainIsVideo2 = true
+                    setStates()
+                }
             }
             onHideIt: {
                 setPipVisibility2(!state)
@@ -425,6 +451,7 @@ QGCView {
             }
         }
         ///////////////////////////////////////////////////////////////
+
 
         Row {
             id:                     singleMultiSelector

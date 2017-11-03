@@ -125,13 +125,15 @@ QVariantList &QGCCorePlugin::settingsPages()
                                            QUrl::fromUserInput("qrc:/qml/OfflineMap.qml"),
                                            QUrl::fromUserInput("qrc:/res/waves.svg"));
         _p->settingsList.append(QVariant::fromValue((QmlComponentInfo*)_p->pOfflineMaps));
-        _p->pMAVLink = new QmlComponentInfo(tr("MAVLink"),
+    /*    _p->pMAVLink = new QmlComponentInfo(tr("MAVLink"),
                                        QUrl::fromUserInput("qrc:/qml/MavlinkSettings.qml"),
                                        QUrl::fromUserInput("qrc:/res/waves.svg"));
         _p->settingsList.append(QVariant::fromValue((QmlComponentInfo*)_p->pMAVLink));
         _p->pConsole = new QmlComponentInfo(tr("Console"),
                                        QUrl::fromUserInput("qrc:/qml/QGroundControl/Controls/AppMessages.qml"));
         _p->settingsList.append(QVariant::fromValue((QmlComponentInfo*)_p->pConsole));
+    */
+
 #if defined(QT_DEBUG)
         //-- These are always present on Debug builds
         _p->pMockLink = new QmlComponentInfo(tr("Mock Link"),

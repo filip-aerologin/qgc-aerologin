@@ -49,6 +49,7 @@ QGCMapPolygonVisuals    1.0 QGCMapPolygonVisuals.qml
 QGCMouseArea            1.0 QGCMouseArea.qml
 QGCMovableItem          1.0 QGCMovableItem.qml
 QGCPipable              1.0 QGCPipable.qml
+QGCPipableinv           1.0 QGCPipableinv.qml
 QGCRadioButton          1.0 QGCRadioButton.qml
 QGCSlider               1.0 QGCSlider.qml
 QGCTextField            1.0 QGCTextField.qml

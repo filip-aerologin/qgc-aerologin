@@ -419,7 +419,7 @@ QGCView {
                 source:         QGroundControl.videoManager2.uvcEnabled ? "qrc:/qml/FlightDisplayViewUVC.qml" : "qrc:/qml/FlightDisplayViewDummy.qml"
             }
         }
-        QGCPipable {
+        QGCPipableinv {
             id:                 _flightVideoPipControl2
             z:                  _flightVideo2.z + 3
             width:              _pipSize2

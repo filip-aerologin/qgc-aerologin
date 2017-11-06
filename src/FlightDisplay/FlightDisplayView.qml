@@ -291,7 +291,7 @@ QGCView {
                     }
                 }
             ]
-            FlightDisplayViewMap {
+           FlightDisplayViewMap {
                 id:                         _flightMap2
                 anchors.fill:               parent
                 planMasterController:       masterController

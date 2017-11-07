@@ -399,9 +399,9 @@ QGCView {
 
             ToolStrip {
                 id:                 toolStrip
-                anchors.leftMargin: ScreenTools.defaultFontPixelWidth
+                anchors.leftMargin: ScreenTools.defaultFontPixelWidth + 20 /////////////
                 anchors.left:       parent.left
-                anchors.topMargin:  _toolButtonTopMargin
+                anchors.topMargin:  _toolButtonTopMargin + 20 //////////////
                 anchors.top:        parent.top
                 color:              qgcPal.window
                 title:              qsTr("Plan")

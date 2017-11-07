@@ -781,6 +781,8 @@ QGCView {
 
                 //-----------------------------------------------------------------
                 //-- Custom Brand Image
+
+                /*
                 Item {
                     width:                      _qgcView.width * 0.8
                     height:                     userBrandImageLabel.height
@@ -884,6 +886,7 @@ QGCView {
                         }
                     }
                 }
+                */
 
                 QGCLabel {
                     anchors.horizontalCenter:   parent.horizontalCenter

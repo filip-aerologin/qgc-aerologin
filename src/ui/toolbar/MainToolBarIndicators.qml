@@ -62,9 +62,9 @@ Item {
         id:                     waitForVehicle
         anchors.verticalCenter: parent.verticalCenter
         text:                   qsTr("Waiting For Vehicle Connection")
-        font.pointSize:         ScreenTools.mediumFontPointSize
-        font.family:            ScreenTools.demiboldFontFamily
-        color:                  qgcPal.colorRed
+        font.pointSize:         ScreenTools.largeFontPointSize //ScreenTools.mediumFontPointSize  // small
+        font.family:            ScreenTools.semiboldFontFamily
+        color:                  qgcPal.colorBlue // qgcPal.colorRed
         visible:                !_activeVehicle
     }
 
@@ -72,7 +72,7 @@ Item {
         id:             indicatorRow
         anchors.top:    parent.top
         anchors.bottom: parent.bottom
-        spacing:        ScreenTools.defaultFontPixelWidth * 1.5
+        spacing:        ScreenTools.defaultFontPixelWidth * 15// przerwa pomiędzy ikonami (gps, battery itp.) default podzielone przez 1.5
         visible:        _activeVehicle && !_communicationLost
 
         Repeater {

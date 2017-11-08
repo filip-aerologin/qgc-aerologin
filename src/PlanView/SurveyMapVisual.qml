@@ -94,8 +94,8 @@ Item {
         interactive:        _missionItem.isCurrentItem
         borderWidth:        1
         borderColor:        "black"
-        interiorColor:      "green"
-        interiorOpacity:    0.5
+        interiorColor:      "blue"  // zmiana koloru wypełnienia survey
+        interiorOpacity:    0.4  // transparentnosc default 0.5
     }
 
     // Survey grid lines
@@ -103,7 +103,7 @@ Item {
         id: gridComponent
 
         MapPolyline {
-            line.color: "white"
+            line.color: "white" // kolor wygenerowanej ścieżki
             line.width: 2
             path:       _missionItem.gridPoints
         }

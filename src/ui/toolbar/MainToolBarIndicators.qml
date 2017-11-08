@@ -84,14 +84,17 @@ Item {
             }
         }
     }
-
+    // Brand image --------------------------------------------------------------------------------------------------------------------------------------------------------------
     Image {
         anchors.right:          parent.right
+        anchors.rightMargin:    10
         anchors.top:            parent.top
+        anchors.topMargin:      -11
         anchors.bottom:         parent.bottom
-        visible:                x > indicatorRow.width && !_communicationLost
+        anchors.bottomMargin:   -11
+        visible:                true //x > indicatorRow.width && !_communicationLost
         fillMode:               Image.PreserveAspectFit
-        source:                 _outdoorPalette ? _brandImageOutdoor : _brandImageIndoor
+        source:                 _outdoorPalette ? "/qmlimages/UAVS/BrandOutdoor" : "/qmlimages/UAVS/BrandIndoor" ////////////////////////////////////////////////////////
         mipmap:                 true
 
         property bool   _outdoorPalette:        qgcPal.globalTheme === QGCPalette.Light
@@ -117,7 +120,7 @@ Item {
                                                         )
                                                     )
     }
-
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     Row {
         anchors.fill:       parent
         layoutDirection:    Qt.RightToLeft

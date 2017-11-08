@@ -168,7 +168,7 @@ MainWindow::MainWindow()
 #ifdef UNITTEST_BUILD
     QAction* qmlTestAction = new QAction("Test QML palette and controls", NULL);
     connect(qmlTestAction, &QAction::triggered, this, &MainWindow::_showQmlTestWidget);
-    _ui.menuWidgets->addAction(qmlTestAction);
+    //_ui.menuWidgets->addAction(qmlTestAction);
 #endif
 
     connect(qgcApp()->toolbox()->corePlugin(), &QGCCorePlugin::showAdvancedUIChanged, this, &MainWindow::_showAdvancedUIChanged);
@@ -321,7 +321,7 @@ void MainWindow::_buildCommonWidgets(void)
         action->setCheckable(true);
         action->setData(i);
         connect(action, &QAction::triggered, this, &MainWindow::_showDockWidgetAction);
-        _ui.menuWidgets->addAction(action);
+        //_ui.menuWidgets->addAction(action);
         _mapName2Action[pDockWidgetName] = action;
     }
 }
@@ -555,8 +555,8 @@ QObject* MainWindow::rootQmlObject(void)
 void MainWindow::_showAdvancedUIChanged(bool advanced)
 {
     if (advanced) {
-        menuBar()->addMenu(_ui.menuFile);
-        menuBar()->addMenu(_ui.menuWidgets);
+        //menuBar()->addMenu(_ui.menuFile);
+        //menuBar()->addMenu(_ui.menuWidgets);
     } else {
         menuBar()->clear();
     }

@@ -97,14 +97,15 @@ Rectangle {
         id:                     logoRow
         anchors.bottomMargin:   1
         anchors.left:           parent.left
+        anchors.leftMargin:     20
         anchors.top:            parent.top
         anchors.bottom:         parent.bottom
         QGCToolBarButton {
             id:                 settingsButton
             anchors.top:        parent.top
             anchors.bottom:     parent.bottom
-            source:             "/qmlimages/PaperPlane.svg"
-            logo:               true
+            source:             "/qmlimages/Quadnew.svg"
+            //logo:               true
             checked:            false
             onClicked: {
                 checked = false

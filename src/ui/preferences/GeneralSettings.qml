@@ -242,13 +242,13 @@ QGCView {
                             }
                         }
                         //-----------------------------------------------------------------
-                        //-- Audio preferences
+                        /*-- Audio preferences
                         FactCheckBox {
                             text:       qsTr("Mute all audio output")
                             fact:       _audioMuted
                             visible:    _audioMuted.visible
                             property Fact _audioMuted: QGroundControl.settingsManager.appSettings.audioMuted
-                        }
+                        }*/
                         //-----------------------------------------------------------------
                         //-- Save telemetry log
                         FactCheckBox {
@@ -321,14 +321,14 @@ QGCView {
                             }
                         }
                         //-----------------------------------------------------------------
-                        //-- Virtual joystick settings
+                        /*-- Virtual joystick settings
                         FactCheckBox {
                             text:       qsTr("Virtual Joystick")
                             visible:    _virtualJoystick.visible
                             fact:       _virtualJoystick
 
                             property Fact _virtualJoystick: QGroundControl.settingsManager.appSettings.virtualJoystick
-                        }
+                        }*/
                         //-----------------------------------------------------------------
                         //-- Default mission item altitude
                         Row {

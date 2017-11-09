@@ -59,10 +59,10 @@ Item {
     }
 
     QGCLabel {
-        id:                     waitForVehicle
+        id:                     waitForVehicle       
         anchors.verticalCenter: parent.verticalCenter
         text:                   qsTr("Waiting For Vehicle Connection")
-        font.pointSize:         ScreenTools.largeFontPointSize //ScreenTools.mediumFontPointSize  // small
+        font.pointSize:         20//ScreenTools.largeFontPointSize // ScreenTools.mediumFontPointSize  // small
         font.family:            ScreenTools.semiboldFontFamily
         color:                  qgcPal.colorBlue // qgcPal.colorRed
         visible:                !_activeVehicle
@@ -72,7 +72,7 @@ Item {
         id:             indicatorRow
         anchors.top:    parent.top
         anchors.bottom: parent.bottom
-        spacing:        ScreenTools.defaultFontPixelWidth * 15// przerwa pomiędzy ikonami (gps, battery itp.) default podzielone przez 1.5
+        spacing:        ScreenTools.defaultFontPixelWidth * 10// przerwa pomiędzy ikonami (gps, battery itp.) default podzielone przez 1.5
         visible:        _activeVehicle && !_communicationLost
 
         Repeater {
@@ -89,9 +89,9 @@ Item {
         anchors.right:          parent.right
         anchors.rightMargin:    10
         anchors.top:            parent.top
-        anchors.topMargin:      -11
+        anchors.topMargin:      -3
         anchors.bottom:         parent.bottom
-        anchors.bottomMargin:   -11
+        anchors.bottomMargin:   -3
         visible:                true //x > indicatorRow.width && !_communicationLost
         fillMode:               Image.PreserveAspectFit
         source:                 _outdoorPalette ? "/qmlimages/UAVS/BrandOutdoor" : "/qmlimages/UAVS/BrandIndoor" ////////////////////////////////////////////////////////

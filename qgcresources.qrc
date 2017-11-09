@@ -115,6 +115,8 @@
         <file alias="pipResize.svg">src/FlightMap/Images/pipResize.svg</file>
 		<file alias="pipResize_inv.svg">src/FlightMap/Images/pipResize_inv.svg</file>
 
+		<file alias="Drone.svg">src/FlightMap/Images/Drone.svg</file>
+
         <file alias="rollDialWhite.svg">src/FlightMap/Images/rollDialWhite.svg</file>
         <file alias="rollPointerWhite.svg">src/FlightMap/Images/rollPointerWhite.svg</file>
         <file alias="scale.png">src/FlightMap/Images/scale.png</file>
@@ -152,6 +154,12 @@
         <file alias="Hamburger.svg">src/ui/toolbar/Images/Hamburger.svg</file>
         <file alias="Megaphone.svg">src/ui/toolbar/Images/Megaphone.svg</file>
         <file alias="PaperPlane.svg">src/ui/toolbar/Images/PaperPlane.svg</file>
+
+		<file alias="DroneSettings.svg">src/ui/toolbar/Images/DroneSettings.svg</file>
+		<file alias="Map.svg">src/ui/toolbar/Images/Map.svg</file>
+		<file alias="Quadnew.svg">src/ui/toolbar/Images/Quadnew.svg</file>
+		<file alias="Settingss.svg">src/ui/toolbar/Images/Settingss.svg</file>
+
         <file alias="Plan.svg">src/ui/toolbar/Images/Plan.svg</file>
         <file alias="Quad.svg">src/ui/toolbar/Images/Quad.svg</file>
         <file alias="RC.svg">src/ui/toolbar/Images/RC.svg</file>

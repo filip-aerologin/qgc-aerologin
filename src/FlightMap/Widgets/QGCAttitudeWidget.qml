@@ -100,7 +100,7 @@ Item {
         id:             mask
         anchors.fill:   instrument
         radius:         width / 2
-        color:          "black"
+        color:          "blue"
         visible:        false
     }
 

@@ -85,6 +85,7 @@ Rectangle {
     RowLayout {
         anchors.bottomMargin:   1
         anchors.rightMargin:    ScreenTools.defaultFontPixelWidth / 2
+        anchors.leftMargin:     20   ////////////////////////////////////////////////////////////////////////////////////////////////
         anchors.fill:           parent
         spacing:                ScreenTools.defaultFontPixelWidth * 2
 
@@ -94,7 +95,7 @@ Rectangle {
             id:             viewRow
             anchors.top:    parent.top
             anchors.bottom: parent.bottom
-            spacing:        ScreenTools.defaultFontPixelWidth * 5 // odstępy pomiędzy ikonami na toolbarze (defaultowo dzielone przez 2)
+            spacing:        ScreenTools.defaultFontPixelWidth * 7 // odstępy pomiędzy ikonami na toolbarze (defaultowo dzielone przez 2)
 
             ExclusiveGroup { id: mainActionGroup }
 
@@ -104,7 +105,7 @@ Rectangle {
                 anchors.bottom:     parent.bottom
                 exclusiveGroup:     mainActionGroup
                 //source:             "/res/QGCLogoWhite"
-                source:             "/qmlimages/Hamburger.svg"
+                source:             "/qmlimages/Settingss.svg"
                 //logo:               true
                 onClicked:          toolBar.showSettingsView()
                 visible:            !QGroundControl.corePlugin.options.combineSettingsAndSetup
@@ -115,7 +116,7 @@ Rectangle {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 exclusiveGroup:     mainActionGroup
-                source:             "/qmlimages/Gears.svg"
+                source:             "/qmlimages/DroneSettings.svg"
                 onClicked:          toolBar.showSetupView()
             }
 
@@ -124,7 +125,7 @@ Rectangle {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 exclusiveGroup:     mainActionGroup
-                source:             "/qmlimages/Plan.svg"
+                source:             "/qmlimages/Map.svg"
                 onClicked:          toolBar.showPlanView()
             }
 
@@ -133,7 +134,7 @@ Rectangle {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 exclusiveGroup:     mainActionGroup
-                source:             "/qmlimages/Quad.svg"    //"/qmlimages/PaperPlane.svg"
+                source:             "/qmlimages/Quadnew.svg"    //"/qmlimages/PaperPlane.svg"
                 onClicked:          toolBar.showFlyView()
             }
 

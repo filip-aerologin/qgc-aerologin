@@ -169,7 +169,7 @@ SetupPage {
                 Column {
                     anchors.left:   parent.left
                     anchors.right:  parent.right
-                    spacing:        Math.round(ScreenTools.defaultFontPixelHeight / 2)
+                    spacing:        Math.round(ScreenTools.defaultFontPixelHeight / 2) * 5
                     visible:        sensorParams.rgCompassAvailable[index] && sensorParams.rgCompassUseFact[index].value
 
                     property real greenMaxThreshold:   8 * (sensorParams.rgCompassExternal[index] ? 1 : 2)
@@ -198,7 +198,7 @@ SetupPage {
                             Rectangle {
                                 width:  parent.width * ((fitnessRange - yellowMaxThreshold) / fitnessRange)
                                 height: parent.height
-                                color:  "red"
+                                color:  "yellow" //red
                             }
                         }
 

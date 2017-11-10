@@ -60,7 +60,7 @@ Rectangle {
         flyButton.checked = true
     }
 
-    /// Bottom single pixel divider
+    /// Bottom single pixel divider------------------------------------------------------------------------------------------------------------
     Rectangle {
         anchors.left:   parent.left
         anchors.right:  parent.right
@@ -69,10 +69,23 @@ Rectangle {
         color:          "black"
         visible:        qgcPal.globalTheme === QGCPalette.Light
     }
+    //-----------------------------------------------------------------------------------------------------------------------------------------
+
+    /// Top single pixel divider---------------------------------------------------------------------------------------------------------------
+    Rectangle {
+        anchors.left:   parent.left
+        anchors.right:  parent.right
+        anchors.top: parent.top
+        height:         1
+        color:          "black"
+        visible:        qgcPal.globalTheme === QGCPalette.Light
+    }
+    //-----------------------------------------------------------------------------------------------------------------------------------------
 
     RowLayout {
         anchors.bottomMargin:   1
         anchors.rightMargin:    ScreenTools.defaultFontPixelWidth / 2
+        anchors.leftMargin:     20   ////////////////////////////////////////////////////////////////////////////////////////////////
         anchors.fill:           parent
         spacing:                ScreenTools.defaultFontPixelWidth * 2
 
@@ -82,7 +95,7 @@ Rectangle {
             id:             viewRow
             anchors.top:    parent.top
             anchors.bottom: parent.bottom
-            spacing:        ScreenTools.defaultFontPixelWidth / 2
+            spacing:        ScreenTools.defaultFontPixelWidth * 7 // odstępy pomiędzy ikonami na toolbarze (defaultowo dzielone przez 2)
 
             ExclusiveGroup { id: mainActionGroup }
 
@@ -91,8 +104,9 @@ Rectangle {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 exclusiveGroup:     mainActionGroup
-                source:             "/res/QGCLogoWhite"
-                logo:               true
+                //source:             "/res/QGCLogoWhite"
+                source:             "/qmlimages/Settingss.svg"
+                //logo:               true
                 onClicked:          toolBar.showSettingsView()
                 visible:            !QGroundControl.corePlugin.options.combineSettingsAndSetup
             }
@@ -102,7 +116,7 @@ Rectangle {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 exclusiveGroup:     mainActionGroup
-                source:             "/qmlimages/Gears.svg"
+                source:             "/qmlimages/DroneSettings.svg"
                 onClicked:          toolBar.showSetupView()
             }
 
@@ -111,7 +125,7 @@ Rectangle {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 exclusiveGroup:     mainActionGroup
-                source:             "/qmlimages/Plan.svg"
+                source:             "/qmlimages/Map.svg"
                 onClicked:          toolBar.showPlanView()
             }
 
@@ -120,7 +134,7 @@ Rectangle {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 exclusiveGroup:     mainActionGroup
-                source:             "/qmlimages/PaperPlane.svg"
+                source:             "/qmlimages/Quadnew.svg"    //"/qmlimages/PaperPlane.svg"
                 onClicked:          toolBar.showFlyView()
             }
 
@@ -204,12 +218,12 @@ Rectangle {
         }
     }
 
-    // Progress bar
-    Rectangle {
+        // Progress bar
+        Rectangle {
         id:             progressBar
-        anchors.bottom: parent.bottom
-        height:         toolBar.height * 0.05
+        anchors.top:    parent.top
+        height:         toolBar.height * 0.15
         width:          _activeVehicle ? _activeVehicle.parameterManager.loadProgress * parent.width : 0
-        color:          qgcPal.colorGreen
+        color:          qgcPal.colorBlue
     }
 }

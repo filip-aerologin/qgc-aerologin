@@ -108,11 +108,12 @@ Rectangle {
                         buttonText:         qsTr("GeoTag Images")
                         pageSource:         "GeoTagPage.qml"
                     }
+                    /*
                     ListElement {
                         buttonImage:        "/qmlimages/MavlinkConsoleIcon"
                         buttonText:         qsTr("Mavlink Console")
                         pageSource:         "MavlinkConsolePage.qml"
-                    }
+                    } */
                 }
 
                 Component.onCompleted: itemAt(0).checked = true

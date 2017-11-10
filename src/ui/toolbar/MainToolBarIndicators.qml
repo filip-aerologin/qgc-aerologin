@@ -59,12 +59,12 @@ Item {
     }
 
     QGCLabel {
-        id:                     waitForVehicle
+        id:                     waitForVehicle       
         anchors.verticalCenter: parent.verticalCenter
         text:                   qsTr("Waiting For Vehicle Connection")
-        font.pointSize:         ScreenTools.mediumFontPointSize
-        font.family:            ScreenTools.demiboldFontFamily
-        color:                  qgcPal.colorRed
+        font.pointSize:         20//ScreenTools.largeFontPointSize // ScreenTools.mediumFontPointSize  // small
+        font.family:            ScreenTools.semiboldFontFamily
+        color:                  qgcPal.colorBlue // qgcPal.colorRed
         visible:                !_activeVehicle
     }
 
@@ -72,7 +72,7 @@ Item {
         id:             indicatorRow
         anchors.top:    parent.top
         anchors.bottom: parent.bottom
-        spacing:        ScreenTools.defaultFontPixelWidth * 1.5
+        spacing:        ScreenTools.defaultFontPixelWidth * 10// przerwa pomiędzy ikonami (gps, battery itp.) default podzielone przez 1.5
         visible:        _activeVehicle && !_communicationLost
 
         Repeater {
@@ -84,14 +84,17 @@ Item {
             }
         }
     }
-
+    // Brand image --------------------------------------------------------------------------------------------------------------------------------------------------------------
     Image {
         anchors.right:          parent.right
+        anchors.rightMargin:    10
         anchors.top:            parent.top
+        anchors.topMargin:      -3
         anchors.bottom:         parent.bottom
-        visible:                x > indicatorRow.width && !_communicationLost
+        anchors.bottomMargin:   -3
+        visible:                true //x > indicatorRow.width && !_communicationLost
         fillMode:               Image.PreserveAspectFit
-        source:                 _outdoorPalette ? _brandImageOutdoor : _brandImageIndoor
+        source:                 _outdoorPalette ? "/qmlimages/UAVS/BrandOutdoor" : "/qmlimages/UAVS/BrandIndoor" ////////////////////////////////////////////////////////
         mipmap:                 true
 
         property bool   _outdoorPalette:        qgcPal.globalTheme === QGCPalette.Light
@@ -117,7 +120,7 @@ Item {
                                                         )
                                                     )
     }
-
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     Row {
         anchors.fill:       parent
         layoutDirection:    Qt.RightToLeft

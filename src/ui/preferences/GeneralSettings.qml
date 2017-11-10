@@ -242,13 +242,13 @@ QGCView {
                             }
                         }
                         //-----------------------------------------------------------------
-                        //-- Audio preferences
+                        /*-- Audio preferences
                         FactCheckBox {
                             text:       qsTr("Mute all audio output")
                             fact:       _audioMuted
                             visible:    _audioMuted.visible
                             property Fact _audioMuted: QGroundControl.settingsManager.appSettings.audioMuted
-                        }
+                        }*/
                         //-----------------------------------------------------------------
                         //-- Save telemetry log
                         FactCheckBox {
@@ -321,14 +321,14 @@ QGCView {
                             }
                         }
                         //-----------------------------------------------------------------
-                        //-- Virtual joystick settings
+                        /*-- Virtual joystick settings
                         FactCheckBox {
                             text:       qsTr("Virtual Joystick")
                             visible:    _virtualJoystick.visible
                             fact:       _virtualJoystick
 
                             property Fact _virtualJoystick: QGroundControl.settingsManager.appSettings.virtualJoystick
-                        }
+                        }*/
                         //-----------------------------------------------------------------
                         //-- Default mission item altitude
                         Row {
@@ -436,7 +436,7 @@ QGCView {
                 }
 
                 //-----------------------------------------------------------------
-                //-- Autoconnect settings
+                /*-- Autoconnect settings
                 Item {
                     width:                      _qgcView.width * 0.8
                     height:                     autoConnectLabel.height
@@ -486,8 +486,9 @@ QGCView {
                         }
                     }
                 }
+                */
 
-                //-----------------------------------------------------------------
+                /*-----------------------------------------------------------------
                 //-- Video Source1
                 Item {
                     width:                      _qgcView.width * 0.8
@@ -602,7 +603,9 @@ QGCView {
                         }
                     }
                 }
-                //-----------------------------------------------------------------
+                */
+
+                /*-----------------------------------------------------------------
                 //-- Video Source 2
                 Item {
                     width:                      _qgcView.width * 0.8
@@ -717,12 +720,12 @@ QGCView {
                         }
                     }
                 }
-
+                */
 
                 //-----------------------------------------------------------------------------------------------------------
                 // Video Source - Rectangle
                 //-----------------------------------------------------------------
-                //-- Video Source
+                /*-- Video Source
                 Item {
                     width:                      _qgcView.width * 0.8
                     height:                     videoRecLabel.height
@@ -777,10 +780,13 @@ QGCView {
                         }
                     }
                 }
+                */
 
 
                 //-----------------------------------------------------------------
                 //-- Custom Brand Image
+                /*
+
                 Item {
                     width:                      _qgcView.width * 0.8
                     height:                     userBrandImageLabel.height
@@ -884,11 +890,13 @@ QGCView {
                         }
                     }
                 }
+                */
 
+                /*
                 QGCLabel {
                     anchors.horizontalCenter:   parent.horizontalCenter
                     text:                       qsTr("%1 Version: %2").arg(QGroundControl.appName).arg(QGroundControl.qgcVersion)
-                }
+                }*/
             } // settingsColumn
         } // QGCFlickable
     } // QGCViewPanel

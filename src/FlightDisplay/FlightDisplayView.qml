@@ -329,7 +329,7 @@ QGCView {
                 State {
                     name:   "fullMode"
                     PropertyChanges {
-                        target: _flightVideo
+                        target: _flightVideo009ee0
                         anchors.margins:    0
                     }
                 }
@@ -452,14 +452,14 @@ QGCView {
         }
         ///////////////////////////////////////////////////////////////
 
-
+        // CheckBox single/multi-vechicle
         Row {
             id:                     singleMultiSelector
             anchors.topMargin:      ScreenTools.toolbarHeight + _margins
-            anchors.rightMargin:    _margins
+            anchors.rightMargin:    _margins + 10
             anchors.right:          parent.right
             anchors.top:            parent.top
-            spacing:                ScreenTools.defaultFontPixelWidth
+            spacing:                ScreenTools.defaultFontPixelWidth + 10
             z:                      _panel.z + 4
             visible:                QGroundControl.multiVehicleManager.vehicles.count > 1
 
@@ -564,17 +564,18 @@ QGCView {
             }
         }
 
-        MultiVehicleList {
+        MultiVehicleList {    // zmiana parametrów okienek w liscie multivechicle
             anchors.margins:    _margins
             anchors.top:        singleMultiSelector.bottom
             anchors.right:      parent.right
             anchors.bottom:     parent.bottom
-            width:              ScreenTools.defaultFontPixelWidth * 30
+            width:              ScreenTools.defaultFontPixelWidth * 36//30
             visible:            !singleVehicleView.checked && !QGroundControl.videoManager.fullScreen
             z:                  _panel.z + 4
         }
 
         //-- Virtual Joystick
+        /*
         Loader {
             id:                         virtualJoystickMultiTouch
             z:                          _panel.z + 5
@@ -590,14 +591,14 @@ QGCView {
             property bool useLightColors: isBackgroundDark
 
             property Fact _virtualJoystick: QGroundControl.settingsManager.appSettings.virtualJoystick
-        }
+        } */
 
         ToolStrip {
             visible:            (_activeVehicle ? _activeVehicle.guidedModeSupported : true) && !QGroundControl.videoManager.fullScreen
             id:                 toolStrip
-            anchors.leftMargin: ScreenTools.defaultFontPixelWidth
+            anchors.leftMargin: ScreenTools.defaultFontPixelWidth + 20
             anchors.left:       _panel.left
-            anchors.topMargin:  ScreenTools.toolbarHeight + (_margins * 2)
+            anchors.topMargin:  ScreenTools.toolbarHeight + (_margins * 2) + 20
             anchors.top:        _panel.top
             z:                  _panel.z + 4
             title:              qsTr("Fly")

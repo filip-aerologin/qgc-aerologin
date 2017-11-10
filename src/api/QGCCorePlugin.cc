@@ -125,7 +125,7 @@ QVariantList &QGCCorePlugin::settingsPages()
                                            QUrl::fromUserInput("qrc:/qml/OfflineMap.qml"),
                                            QUrl::fromUserInput("qrc:/res/waves.svg"));
         _p->settingsList.append(QVariant::fromValue((QmlComponentInfo*)_p->pOfflineMaps));
-    /*    _p->pMAVLink = new QmlComponentInfo(tr("MAVLink"),
+    /*  _p->pMAVLink = new QmlComponentInfo(tr("MAVLink"),
                                        QUrl::fromUserInput("qrc:/qml/MavlinkSettings.qml"),
                                        QUrl::fromUserInput("qrc:/res/waves.svg"));
         _p->settingsList.append(QVariant::fromValue((QmlComponentInfo*)_p->pMAVLink));

@@ -493,13 +493,13 @@ Item {
                 width:      parent.calDisplayAreaWidth
                 height:     parent.height
                 visible:    controller.showOrientationCalArea
-                color:      qgcPal.windowShade
+                color:      qgcPal.windowShade ////////////////////////////////////////////////////
 
                 QGCLabel {
                     id:                 orientationCalAreaHelpText
                     anchors.margins:    ScreenTools.defaultFontPixelWidth
                     anchors.top:        orientationCalArea.top
-                    anchors.left:       orientationCalArea.left
+                    anchors.left:       40//orientationCalArea.left
                     width:              parent.width
                     wrapMode:           Text.WordWrap
                     font.pointSize:     ScreenTools.mediumFontPointSize
@@ -511,7 +511,7 @@ Item {
                     anchors.bottom:     parent.bottom
                     anchors.left:       parent.left
                     anchors.right:      parent.right
-                    spacing:            ScreenTools.defaultFontPixelWidth / 2
+                    spacing:            ScreenTools.defaultFontPixelWidth * 10
 
                     property real indicatorWidth:   (width / 3) - (spacing * 2)
                     property real indicatorHeight:  (height / 2) - spacing

@@ -23,7 +23,7 @@ MapItemView {
 
     delegate: MapPolyline {
         line.width: 3
-        line.color: "#be781c"                           // Hack, can't get palette to work in here
+        line.color: "#009EE0"                           // Hack, can't get palette to work in here
         z:          QGroundControl.zOrderWaypointLines
 
         path: [

@@ -1773,9 +1773,9 @@ QStringList MissionController::complexMissionItemNames(void) const
     if (_controllerVehicle->fixedWing()) {
         complexItems.append(_fwLandingMissionItemName);
     }
-    if (_controllerVehicle->multiRotor() || _controllerVehicle->vtol()) {
+   /* if (_controllerVehicle->multiRotor() || _controllerVehicle->vtol()) {
         complexItems.append(_structureScanMissionItemName);
-    }
+    } */
 
     return complexItems;
 }

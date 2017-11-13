@@ -95,9 +95,27 @@ Rectangle {
             id:             viewRow
             anchors.top:    parent.top
             anchors.bottom: parent.bottom
-            spacing:        ScreenTools.defaultFontPixelWidth * 7 // odstępy pomiędzy ikonami na toolbarze (defaultowo dzielone przez 2)
+            spacing:        ScreenTools.defaultFontPixelWidth * 7 // Icons separator (default: divided by 2)
 
             ExclusiveGroup { id: mainActionGroup }
+
+            QGCToolBarButton {
+                id:                 flyButton
+                anchors.top:        parent.top
+                anchors.bottom:     parent.bottom
+                exclusiveGroup:     mainActionGroup
+                source:             "/qmlimages/Quadnew.svg"    //"/qmlimages/PaperPlane.svg"
+                onClicked:          toolBar.showFlyView()
+            }
+
+            QGCToolBarButton {
+                id:                 planButton
+                anchors.top:        parent.top
+                anchors.bottom:     parent.bottom
+                exclusiveGroup:     mainActionGroup
+                source:             "/qmlimages/Map.svg"
+                onClicked:          toolBar.showPlanView()
+            }
 
             QGCToolBarButton {
                 id:                 settingsButton
@@ -120,23 +138,7 @@ Rectangle {
                 onClicked:          toolBar.showSetupView()
             }
 
-            QGCToolBarButton {
-                id:                 planButton
-                anchors.top:        parent.top
-                anchors.bottom:     parent.bottom
-                exclusiveGroup:     mainActionGroup
-                source:             "/qmlimages/Map.svg"
-                onClicked:          toolBar.showPlanView()
-            }
 
-            QGCToolBarButton {
-                id:                 flyButton
-                anchors.top:        parent.top
-                anchors.bottom:     parent.bottom
-                exclusiveGroup:     mainActionGroup
-                source:             "/qmlimages/Quadnew.svg"    //"/qmlimages/PaperPlane.svg"
-                onClicked:          toolBar.showFlyView()
-            }
 
             QGCToolBarButton {
                 id:                 analyzeButton

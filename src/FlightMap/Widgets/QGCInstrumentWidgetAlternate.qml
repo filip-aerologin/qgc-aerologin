@@ -21,8 +21,7 @@ import QGroundControl.Palette       1.0
 Rectangle {
     id:             root
     width:          ScreenTools.isTinyScreen ? getPreferredInstrumentWidth() * 1.5 : getPreferredInstrumentWidth()
-    height:         _outerRadius * 2
-    radius:         _outerRadius
+    height:         width * 1.3
     color:          qgcPal.window
     border.width:   1
     border.color:   _isSatellite ? qgcPal.mapWidgetBorderLight : qgcPal.mapWidgetBorderDark
@@ -44,25 +43,31 @@ Rectangle {
 
     QGCAttitudeWidget {
         id:                 attitude
-        anchors.leftMargin: _topBottomMargin
-        anchors.left:       parent.left
-        size:               _innerRadius * 2
-        vehicle:            _activeVehicle
-        anchors.verticalCenter: parent.verticalCenter
+
+        anchors.topMargin:        _topBottomMargin
+        anchors.leftMargin:       _topBottomMargin
+        size:                     _innerRadius * 4
+        vehicle:                  _activeVehicle
+        anchors.top:              parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 
     QGCCompassWidget {
         id:                 compass
-        anchors.leftMargin: _spacing
-        anchors.left:       attitude.right
-        size:               _innerRadius * 2
+        anchors.topMargin: _topBottomMargin
+        anchors.leftMargin: _topBottomMargin
+      //  anchors.left:       parent.left
+        anchors.top:       attitude.bottom
+        size:               _innerRadius * 4
         vehicle:            _activeVehicle
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        //anchors.verticalCenter: parent.verticalCenter
     }
 
     Item {
         id:                 _valuesItem
-        anchors.topMargin:  ScreenTools.defaultFontPixelHeight / 4
+        anchors.topMargin:  ScreenTools.defaultFontPixelHeight
         anchors.top:        parent.bottom
         width:              parent.width
         height:             _valuesWidget.height

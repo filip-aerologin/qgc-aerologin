@@ -706,7 +706,7 @@ QGCView {
 
             QGCLabel { text: qsTr("Create complex pattern:") }
 
-            Repeater {
+           Repeater {
                 model: _missionController.complexMissionItemNames
 
                 QGCButton {

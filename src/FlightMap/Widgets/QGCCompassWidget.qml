@@ -32,13 +32,31 @@ Item {
     property int  _fontSize:    ScreenTools.defaultFontPointSize * _sizeRatio
     property real _heading:     vehicle ? vehicle.heading.rawValue : 0
 
+    property bool showPitch:    true
+    property bool showHeading:  true
+
+    property real _rollAngle:   vehicle ? vehicle.roll.rawValue  : 0
+    property real _pitchAngle:  vehicle ? vehicle.pitch.rawValue : 0
+
+    property string _north: "N"
+    property string _south: "S"
+    property string _east: "E"
+    property string _west: "W"
+
+
+    property string _headingString: vehicle ? _heading.toFixed(0) : "OFF"
+    property string _headingString2: _headingString.length === 1 ? "0" + _headingString : _headingString
+    property string _headingString3: _headingString2.length === 2 ? "0" + _headingString2 : _headingString2
+
     width:                  size
-    height:                 size
+    height:                 size * 0.3
+   // anchors.bottom: bottom
+
 
     Rectangle {
         id:             borderRect
         anchors.fill:   parent
-        radius:         width / 2
+      //  radius:         width
         color:          "black"
     }
 
@@ -46,8 +64,30 @@ Item {
         id:             instrument
         anchors.fill:   parent
         visible:        false
+/*
+        QGCCompassIndicator {
+            id:                 pitchWidget
+            visible:            root.showHeading
+            size:               root.size * 0.5
+            anchors.verticalCenter: parent.verticalCenter
+            pitchAngle:         _pitchAngle
+            rollAngle:          _rollAngle
+            heading:            _heading
+            color:              Qt.rgba(0,0,0,0)
+        }
+*/
+        QGCCompassIndicator {
+            id:                 pitchIndicator
+            anchors.verticalCenter: parent.verticalCenter
+            visible:            showHeading
+            pitchAngle:         _pitchAngle
+            rollAngle:          _rollAngle
+            heading:            _heading
+            color:              Qt.rgba(0,0,0,0)
+            size:               ScreenTools.defaultFontPixelHeight * (10)
+        }
 
-        Image {
+    /*    Image {
             id:                 pointer
             source:             vehicle ? vehicle.vehicleImageCompass : ""
             mipmap:             true
@@ -61,15 +101,15 @@ Item {
                 angle:          _heading
             }
         }
-
-        Image {
+*/
+     /*   Image {
             id:                 compassDial
             source:             "/qmlimages/compassInstrumentDial.svg"
             mipmap:             true
             fillMode:           Image.PreserveAspectFit
             anchors.fill:       parent
             sourceSize.height:  parent.height
-        }
+        }*/
 
         Rectangle {
             anchors.centerIn:   parent
@@ -79,23 +119,101 @@ Item {
             color:              Qt.rgba(0,0,0,0.65)
 
             QGCLabel {
-                text:           _headingString3
+                text:           if(_headingString3 == "000" || _headingString3 == "360") {
+                                _north
+                                }
+                                else if (_headingString3 == "180"){
+                                _south
+                                }
+                                else if (_headingString3 == "090"){
+                                    _east
+                                }
+                                else if (_headingString3 == "270"){
+                                    _west
+                                }
+                                else {
+                                    _headingString3
+                                }
                 font.family:    vehicle ? ScreenTools.demiboldFontFamily : ScreenTools.normalFontFamily
                 font.pointSize: _fontSize < 8 ? 8 : _fontSize;
                 color:          "white"
                 anchors.centerIn: parent
 
-                property string _headingString: vehicle ? _heading.toFixed(0) : "OFF"
-                property string _headingString2: _headingString.length === 1 ? "0" + _headingString : _headingString
-                property string _headingString3: _headingString2.length === 2 ? "0" + _headingString2 : _headingString2
+
             }
         }
+        Rectangle {
+            anchors.left: parent.left
+            anchors.leftMargin: ScreenTools.defaultFontPixelHeight / 2
+            anchors.verticalCenter: parent.verticalCenter
+            width:              size * 0.1
+            height:             size * 0.1
+            border.color:       Qt.rgba(1,1,1,0.15)
+            color:              Qt.rgba(0,0,0,0.65)
+
+            QGCLabel {
+                text:               if(_headingString3 >= "000" && _headingString3 < "090") {
+                                    _west
+                                    }
+                                    else if (_headingString3 >= "090" && _headingString3 < "180"){
+                                    _north
+                                    }
+                                    else if (_headingString3 >= "180" && _headingString3 < "270"){
+                                    _east
+                                    }
+                                    else if (_headingString3 >= "270" && _headingString3 < "360"){
+                                    _south
+                                    }
+                                    else {
+                                    "W"
+                                    }
+
+                font.family:    vehicle ? ScreenTools.demiboldFontFamily : ScreenTools.normalFontFamily
+                font.pointSize: _fontSize < 8 ? 8 : _fontSize;
+                color:          "white"
+                anchors.centerIn: parent
+            }
+        }
+
+        Rectangle {
+            anchors.right: parent.right
+            anchors.rightMargin: ScreenTools.defaultFontPixelHeight / 2
+            anchors.verticalCenter: parent.verticalCenter
+            width:              size * 0.1
+            height:             size * 0.1
+            border.color:       Qt.rgba(1,1,1,0.15)
+            color:              Qt.rgba(0,0,0,0.65)
+
+            QGCLabel {
+                text:               if(_headingString3 >= "000" && _headingString3 < "090") {
+                                    _east
+                                    }
+                                    else if (_headingString3 >= "090" && _headingString3 < "180"){
+                                    _south
+                                    }
+                                    else if (_headingString3 >= "180" && _headingString3 < "270"){
+                                    _west
+                                    }
+                                    else if (_headingString3 >= "270" && _headingString3 < "360"){
+                                    _north
+                                    }
+                                    else {
+                                    "E"
+                                    }
+
+                font.family:    vehicle ? ScreenTools.demiboldFontFamily : ScreenTools.normalFontFamily
+                font.pointSize: _fontSize < 8 ? 8 : _fontSize;
+                color:          "white"
+                anchors.centerIn: parent
+            }
+        }
+
     }
 
     Rectangle {
         id:             mask
         anchors.fill:   instrument
-        radius:         width / 2
+        //radius:         width / 2
         color:          "black"
         visible:        false
     }
@@ -107,3 +225,4 @@ Item {
     }
 
 }
+

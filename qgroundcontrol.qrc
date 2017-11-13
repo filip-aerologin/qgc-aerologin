@@ -89,7 +89,7 @@
         <file alias="QGroundControl/Controls/QGCMouseArea.qml">src/QmlControls/QGCMouseArea.qml</file>
         <file alias="QGroundControl/Controls/QGCMovableItem.qml">src/QmlControls/QGCMovableItem.qml</file>
         <file alias="QGroundControl/Controls/QGCPipable.qml">src/QmlControls/QGCPipable.qml</file>
-		<file alias="QGroundControl/Controls/QGCPipableinv.qml">src/QmlControls/QGCPipableinv.qml</file>
+        <file alias="QGroundControl/Controls/QGCPipableinv.qml">src/QmlControls/QGCPipableinv.qml</file>
         <file alias="QGroundControl/Controls/QGCRadioButton.qml">src/QmlControls/QGCRadioButton.qml</file>
         <file alias="QGroundControl/Controls/QGCSlider.qml">src/QmlControls/QGCSlider.qml</file>
         <file alias="QGroundControl/Controls/QGCTextField.qml">src/QmlControls/QGCTextField.qml</file>
@@ -184,6 +184,7 @@
         <file alias="HealthPageWidget.qml">src/FlightMap/Widgets/HealthPageWidget.qml</file>
         <file alias="VibrationPageWidget.qml">src/FlightMap/Widgets/VibrationPageWidget.qml</file>
         <file>src/FlightDisplay/FlightDisplayViewVideo2.qml</file>
+        <file alias="QGroundControl/FlightMap/QGCCompassIndicator.qml">src/FlightMap/Widgets/QGCCompassIndicator.qml</file>
     </qresource>
     <qresource prefix="/json">
         <file alias="MavCmdInfoCommon.json">src/MissionManager/MavCmdInfoCommon.json</file>

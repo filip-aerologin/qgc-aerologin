@@ -64,7 +64,7 @@ Item {
         text:                   qsTr("Waiting For Vehicle Connection")
         font.pointSize:         20//ScreenTools.largeFontPointSize // ScreenTools.mediumFontPointSize  // small
         font.family:            ScreenTools.semiboldFontFamily
-        color:                  qgcPal.colorBlue // qgcPal.colorRed
+        color:                  "#009EE0" // qgcPal.colorRed
         visible:                !_activeVehicle
     }
 

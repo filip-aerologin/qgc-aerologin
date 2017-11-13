@@ -51,8 +51,8 @@ Item {
             smooth: true
             antialiasing: true
             gradient: Gradient {
-                GradientStop { position: 0.0;  color: Qt.hsla(0.25,  0.5, 0.45) }
-                GradientStop { position: 0.25; color: Qt.hsla(0.25, 0.75, 0.25) }
+                GradientStop { position: 0.0;  color: Qt.hsla(0.08,  0.42, 0.28) }
+                GradientStop { position: 0.0;  color: Qt.hsla(0.08,  0.42, 0.10) }
             }
         }
         transform: [

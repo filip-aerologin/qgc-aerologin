@@ -31,13 +31,15 @@ Item {
     Rectangle {
         id:             noVideo2
         anchors.fill:   parent
-        color:          Qt.rgba(0,0,0,0.75)
+        color:          qgcPal.globalTheme === QGCPalette.Light ? Qt.rgba(255,255,255,0.75) : Qt.rgba(0,0,0,0.75)
+        border.width:   ScreenTools.defaultFontPixelHeight * 0.0625
+        border.color:    qgcPal.globalTheme === QGCPalette.Light ? Qt.rgba(0,0,0,0.75) : Qt.rgba(255,255,255,0.75)
         visible:        !(_videoReceiver && _videoReceiver.videoRunning)
         QGCLabel {
             text:               qsTr("WAITING FOR VIDEO")
             font.family:        ScreenTools.demiboldFontFamily
-            color:              "white"
-            font.pointSize:     _mainIsMap ? ScreenTools.smallFontPointSize : ScreenTools.largeFontPointSize
+            color:              qgcPal.globalTheme === QGCPalette.Light ? "black" : "white"
+            font.pointSize:     ScreenTools.smallFontPointSize
             anchors.centerIn:   parent
         }
       /*  MouseArea {

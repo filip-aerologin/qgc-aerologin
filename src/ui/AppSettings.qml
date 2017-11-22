@@ -16,6 +16,7 @@ import QGroundControl               1.0
 import QGroundControl.Palette       1.0
 import QGroundControl.Controls      1.0
 import QGroundControl.ScreenTools   1.0
+import QtQuick.Window 2.2
 
 Rectangle {
     id:     settingsView
@@ -36,92 +37,62 @@ Rectangle {
         //-- Default Settings
         __rightPanel.source = QGroundControl.corePlugin.settingsPages[QGroundControl.corePlugin.defaultSettings].url
     }
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+        }
+            states: State {
+                name: "down"
+                //when: mouseArea.containsMouse === false
+                when: mouseArea.mouseY > 10
+                PropertyChanges {
+                    target: _settingstxt
+                    y: parent.height / 2
+                    rotation: -90
+                    font.pointSize: 28 * 2
+                    //anchors.topMargin: _verticalMargin * 30
 
-    QGCFlickable {
-        id:                 buttonList
-        width:              buttonColumn.width
-        anchors.topMargin:  _verticalMargin * 3
-        anchors.top:        parent.top
-        anchors.bottom:     parent.bottom
-        anchors.leftMargin: _horizontalMargin * 20
-        anchors.left:       parent.left
-        anchors.rightMargin: _horizontalMargin
-        anchors.right:      parent.right
-        contentHeight:      buttonColumn.height + _verticalMargin
-        flickableDirection: Flickable.VerticalFlick
-        clip:               true
-
-        ExclusiveGroup { id: panelActionGroup }
-
-        RowLayout {                                      // ColumnLayout
-            id:         buttonColumn
-            spacing:    _verticalMargin * 7
-
-            property real _maxButtonWidth: 0
-
-            QGCLabel {
-                anchors.left:           parent.left
-                anchors.right:          parent.right
-                font.pointSize:         28 //////////////////////////////////////
-                text:                   qsTr("Application Settings      ")
-                wrapMode:               Text.WordWrap
-                horizontalAlignment:    Text.left//Text.AlignHCenter
-                visible:                !ScreenTools.isShortScreen
+                }
             }
-
-            Repeater {
-                model:  QGroundControl.corePlugin.settingsPages
-                QGCButton {
-                    height:             _buttonHeight
-                    anchors.bottom:     anchors.bottom
-                    text:               modelData.title
-                    exclusiveGroup:     panelActionGroup
-                    Layout.fillWidth:   true
-
-                    onClicked: {
-                        if(__rightPanel.source !== modelData.url) {
-                            __rightPanel.source = modelData.url
+             transitions: Transition {
+             from: ""
+             to: "down"
+             reversible: true
+                ParallelAnimation {
+                     NumberAnimation {
+                        id: _slidetext
+                        properties: "y,rotation,font.pointSize"
+                        duration: 500
+                        easing.type: Easing.InOutQuad
+                        alwaysRunToEnd: true
                         }
-                        checked = true
-                    }
-
-                    Component.onCompleted: {
-                        if(_first) {
-                            _first = false
-                            checked = true
-                        }
-                    }
                 }
             }
 
-        }
-
+    QGCLabel {
+        id: _settingstxt
+        anchors.left:           parent.left
+        //anchors.right:          parent.right
+        //anchors.top:            parent.top
+        anchors.leftMargin:     _horizontalMargin * 30
+        anchors.topMargin:      _verticalMargin * 3
+        font.pointSize:         28 //
+        text:                   qsTr("Application Settings")
+        wrapMode:               Text.WordWrap
+        horizontalAlignment:    Text.left//Text.AlignHCenter
+        visible:                !ScreenTools.isShortScreen
     }
-
-    /*Rectangle {
-        id:                     divider
-        anchors.topMargin:      _verticalMargin
-        anchors.bottomMargin:   _verticalMargin
-        anchors.leftMargin:     _horizontalMargin
-        anchors.left:           buttonList.right
-        anchors.top:            parent.top
-        anchors.bottom:         parent.bottom
-        width:                  1
-        color:                  qgcPal.windowShade
-    }*/
-
     //-- Panel Contents
     Loader {
-        id:                     __rightPanel
-        anchors.leftMargin:     _horizontalMargin
-        anchors.rightMargin:    _horizontalMargin
-        anchors.topMargin:      _verticalMargin * 12
-        anchors.bottomMargin:   _verticalMargin
-        anchors.left:           parent.left //divider.right
-        anchors.right:          parent.right
-        anchors.top:            parent.top
-        anchors.bottom:         parent.bottom
+        id:                       __rightPanel
+        anchors.leftMargin:       _horizontalMargin
+        anchors.rightMargin:      _horizontalMargin
+        anchors.topMargin:        _verticalMargin
+        anchors.bottomMargin:     _verticalMargin
+        anchors.left:             parent.left //divider.right
+        anchors.top:              parent.top
+        anchors.bottom:           parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
     }
 }
-

@@ -196,10 +196,10 @@ Rectangle {
     QGCFlickable {
         id:                 buttonScroll
         width:              buttonScroll.width
-        anchors.topMargin:  _verticalMargin * 3
+        //anchors.topMargin:  _verticalMargin * 3
         anchors.top:        parent.top
         anchors.bottom:     parent.bottom
-        anchors.leftMargin: _horizontalMargin * 20
+        anchors.leftMargin: _horizontalMargin * 30
         anchors.left:       parent.left
         anchors.rightMargin: _horizontalMargin
         anchors.right:      parent.right
@@ -331,7 +331,7 @@ Rectangle {
         anchors.topMargin:      _verticalMargin * 15
         anchors.bottomMargin:   _verticalMargin
         anchors.left:           parent.left //divider.right
-        anchors.right:          parent.right
+        //anchors.right:          parent.right
         anchors.top:            parent.top
         anchors.bottom:         parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter

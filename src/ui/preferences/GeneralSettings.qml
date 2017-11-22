@@ -242,6 +242,9 @@ QGCView {
                                 }
                             }
                         }
+
+
+
                         //-----------------------------------------------------------------
                         /*-- Audio preferences
                         FactCheckBox {
@@ -365,20 +368,20 @@ QGCView {
                             visible:    _savePath.visible && !ScreenTools.isMobile
 
                             QGCLabel {
-                                anchors.baseline:   savePathBrowse.baseline
+                                anchors.baseline:   savePathBrowse1.baseline
                                 text:               qsTr("File Save Path:")
                             }
                             QGCLabel {
-                                anchors.baseline:   savePathBrowse.baseline
+                                anchors.baseline:   savePathBrowse1.baseline
                                 text:               _savePath.rawValue === "" ? qsTr("<not set>") : _savePath.value
                             }
                             QGCButton {
-                                id:         savePathBrowse
+                                id:         savePathBrowse1
                                 text:       "Browse"
                                 onClicked:  savePathBrowseDialog.openForLoad()
 
                                 QGCFileDialog {
-                                    id:             savePathBrowseDialog
+                                    id:             savePathBrowseDialog1
                                     qgcView:        _qgcView
                                     title:          qsTr("Choose the location to save files:")
                                     folder:         _savePath.rawValue
@@ -435,6 +438,53 @@ QGCView {
                         }
                     }
                 }
+
+
+                //-----------------------------------------------------------------
+                //-- Offline Maps
+                Item {
+                    width:                      _qgcView.width * 0.3
+                    height:                     unitLabel.height
+                    anchors.margins:            ScreenTools.defaultFontPixelWidth
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                    visible:                    QGroundControl.settingsManager.rtkSettings.visible
+                    QGCLabel {
+                        id:             rtkLabel1
+                        text:           qsTr("Offline Maps")
+                        font.family:    ScreenTools.demiboldFontFamily
+                    }
+                }
+                Rectangle {
+                    height:                     500
+                    width:                      _qgcView.width * 0.3
+                    color:                      qgcPal.windowShade
+                    anchors.margins:            ScreenTools.defaultFontPixelWidth
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                    visible:                    QGroundControl.settingsManager.rtkSettings.visible
+
+
+
+                    Loader
+                     {
+                       id: loader
+                       anchors.fill: parent
+                       source: "qrc:/qml/OfflineMap.qml"
+                     }
+             /*       GridLayout {
+                        id:                 rtkGrid1
+                        anchors.centerIn:   parent
+                        columns:            2
+                        rowSpacing:         ScreenTools.defaultFontPixelWidth
+                        columnSpacing:      ScreenTools.defaultFontPixelWidth
+                        QGCButton {
+                            id:         savePathBrowse
+                            text:       "Browse"
+                            onClicked:     loader.source =""
+
+                        }
+                    }*/
+                }
+
 
                 //-----------------------------------------------------------------
                 /*-- Autoconnect settings

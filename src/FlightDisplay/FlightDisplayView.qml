@@ -101,6 +101,8 @@ QGCView {
             _savedZoomLevel = _flightMap2.zoomLevel
             _flightMap.zoomLevel = _savedZoomLevel - 3
             _flightMap2.zoomLevel = _savedZoomLevel - 3
+          //  _flightMap.zoomLevel = _savedZoomLevel - 3
+          //  _flightMap2.zoomLevel = _savedZoomLevel - 3
 
             if (_mainIsVideo1) {
                 _flightVideo.state        = "fullMode"
@@ -329,7 +331,7 @@ QGCView {
                 State {
                     name:   "fullMode"
                     PropertyChanges {
-                        target: _flightVideo009ee0
+                        target: _flightVideo
                         anchors.margins:    0
                     }
                 }

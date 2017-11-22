@@ -24,7 +24,10 @@ Rectangle {
     height:         width * 1.3
     color:          qgcPal.window
     border.width:   1
-    border.color:   _isSatellite ? qgcPal.mapWidgetBorderLight : qgcPal.mapWidgetBorderDark
+    anchors.top:    parent.top
+    anchors.right:  parent.right
+    anchors.margins: ScreenTools.defaultFontPixelHeight / 2
+   // border.color:   _isSatellite ? qgcPal.mapWidgetBorderLight : qgcPal.mapWidgetBorderDark
 
     property var    _qgcView:           qgcView
     property real   _innerRadius:       (width - (_topBottomMargin * 3)) / 4

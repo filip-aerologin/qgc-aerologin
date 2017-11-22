@@ -46,6 +46,7 @@ SetupPage {
             ColumnLayout {
                 id:                         innerColumn
                 anchors.horizontalCenter:   parent.horizontalCenter
+                //anchors.left:               parent.left    //////////////////////////////////////////////////////////////////////////////////////////////
                 spacing:                    ScreenTools.defaultFontPixelHeight
 
                 function getBatteryImage()
@@ -375,6 +376,70 @@ SetupPage {
                         }
                     }
                 }
+                //-----------------------------------------------------------------------------------------------------------------------------
+                QGCGroupBox {
+                    anchors.left:   batteryGroup.left
+                    anchors.right:  batteryGroup.right
+                    title:          qsTr("Intelligent Batteries")
+
+                    ColumnLayout {
+                        anchors.left:   parent.left
+                        anchors.right:  parent.right
+                        spacing:        ScreenTools.defaultFontPixelWidth
+
+                            Row {
+                              spacing: 200
+                                GridLayout {
+                                    columnSpacing:      ScreenTools.defaultFontPixelWidth
+                                    columns: 3
+
+                                    QGCLabel {text: qsTr("Cell 1: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 2: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 3: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 4: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 5: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 6: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                }
+
+                                GridLayout {
+                                    columnSpacing:      ScreenTools.defaultFontPixelWidth
+                                    columns: 3
+
+                                    QGCLabel {text: qsTr("Cell 7: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 8: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 9: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 10: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 11: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                    QGCLabel {text: qsTr("Cell 12: ")}
+                                    QGCLabel {text: activeVehicle ? activeVehicle.gps.count.valueString : qsTr("N/A", "No data to display") }
+                                    QGCLabel {text: ("V")}
+                                }
+                            }
+                    }
+                }
+                //-----------------------------------------------------------------------------------------------------------------------------
 
                 QGCCheckBox {
                     id:         showUAVCAN

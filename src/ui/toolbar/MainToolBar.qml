@@ -150,14 +150,14 @@ Rectangle {
                 onClicked:          toolBar.showAnalyzeView()
             }
 
-            Rectangle {
+           /* Rectangle {     //pionowy pasek po ustawieniach
                 anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 width:              1
                 color:              qgcPal.text
                 visible:            _activeVehicle
-            }
+            } */
         }
 
         //-------------------------------------------------------------------------
@@ -224,8 +224,8 @@ Rectangle {
         Rectangle {
         id:             progressBar
         anchors.top:    parent.top
-        height:         toolBar.height * 0.15
+        height:         toolBar.height * 0.10
         width:          _activeVehicle ? _activeVehicle.parameterManager.loadProgress * parent.width : 0
-        color:          qgcPal.colorBlue
+        color:          qgcPal.alertBackground
     }
 }

@@ -21,6 +21,7 @@ Item {
     id:     serialLinkSettings
     width:  parent ? parent.width : 0
     height: serialColumn.height
+    anchors.horizontalCenter: parent.horizontalCenter
 
     function saveSettings() {
         // No Need
@@ -32,19 +33,17 @@ Item {
         spacing:    ScreenTools.defaultFontPixelHeight / 2
         QGCLabel {
             id:     serialLabel
+            anchors.horizontalCenter: parent.horizontalCenter
             text:   qsTr("Serial Link Settings")
         }
-        Rectangle {
-            height: 1
-            width:  serialLabel.width
-            color:  qgcPal.button
-        }
+
         Item {
             height: ScreenTools.defaultFontPixelHeight / 2
             width:  parent.width
         }
         Row {
             spacing:    ScreenTools.defaultFontPixelWidth
+            anchors.horizontalCenter: parent.horizontalCenter
             QGCLabel {
                 text:   qsTr("Serial Port:")
                 width:  _firstColumn
@@ -84,6 +83,7 @@ Item {
         }
         Row {
             spacing:    ScreenTools.defaultFontPixelWidth
+            anchors.horizontalCenter: parent.horizontalCenter
             QGCLabel {
                 text:   qsTr("Baud Rate:")
                 width:  _firstColumn
@@ -121,6 +121,7 @@ Item {
         //-- Advanced Serial Settings
         QGCCheckBox {
             id:     showAdvanced
+            anchors.horizontalCenter: parent.horizontalCenter
             text:   qsTr("Show Advanced Serial Settings")
         }
         Item {
@@ -131,6 +132,7 @@ Item {
         QGCCheckBox {
             text:       qsTr("Enable Flow Control")
             checked:    subEditConfig ? subEditConfig.flowControl !== 0 : false
+            anchors.horizontalCenter: parent.horizontalCenter
             visible:    showAdvanced.checked
             onCheckedChanged: {
                 if(subEditConfig) {
@@ -142,6 +144,7 @@ Item {
         Row {
             spacing:    ScreenTools.defaultFontPixelWidth
             visible:    showAdvanced.checked
+            anchors.horizontalCenter: parent.horizontalCenter
             QGCLabel {
                 text:   qsTr("Parity:")
                 width:  _firstColumn
@@ -179,6 +182,7 @@ Item {
         Row {
             spacing:    ScreenTools.defaultFontPixelWidth
             visible:    showAdvanced.checked
+            anchors.horizontalCenter: parent.horizontalCenter
             QGCLabel {
                 text:   "Data Bits:"
                 width:  _firstColumn
@@ -209,6 +213,7 @@ Item {
         Row {
             spacing:    ScreenTools.defaultFontPixelWidth
             visible:    showAdvanced.checked
+            anchors.horizontalCenter: parent.horizontalCenter
             QGCLabel {
                 text:   qsTr("Stop Bits:")
                 width:  _firstColumn

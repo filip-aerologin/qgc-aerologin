@@ -138,8 +138,8 @@ Rectangle {
     Component {
         id: disconnectedVehicleSummaryComponent
 
-        Rectangle {
-            color: qgcPal.windowShade
+        //Rectangle {                                        // szare tło
+           // color: qgcPal.windowShade
 
             QGCLabel {
                 anchors.margins:        _defaultTextWidth * 2
@@ -153,7 +153,7 @@ Rectangle {
 
                 onLinkActivated: Qt.openUrlExternally(link)
             }
-        }
+        //}
     }
 
     Component {
@@ -195,26 +195,29 @@ Rectangle {
 
     QGCFlickable {
         id:                 buttonScroll
-        width:              buttonColumn.width
-        anchors.topMargin:  _defaultTextHeight / 2
+        width:              buttonScroll.width
+        anchors.topMargin:  _verticalMargin * 3
         anchors.top:        parent.top
         anchors.bottom:     parent.bottom
-        anchors.leftMargin: _horizontalMargin
+        anchors.leftMargin: _horizontalMargin * 20
         anchors.left:       parent.left
-        contentHeight:      buttonColumn.height
+        anchors.rightMargin: _horizontalMargin
+        anchors.right:      parent.right
+        contentHeight:      buttonScroll.height + _verticalMargin
         flickableDirection: Flickable.VerticalFlick
         clip:               true
 
-        ColumnLayout {
+        RowLayout {
             id:         buttonColumn
-            spacing:    _defaultTextHeight / 2
+            spacing:    _defaultTextHeight * 2
 
             QGCLabel {
                 anchors.left:           parent.left
                 anchors.right:          parent.right
-                text:                   qsTr("Vehicle Setup")
+                font.pointSize:         28 //////////////////////////////////////
+                text:                   qsTr("Vehicle Setup  ")
                 wrapMode:               Text.WordWrap
-                horizontalAlignment:    Text.AlignHCenter
+                horizontalAlignment:    Text.left//Text.AlignHCenter
                 visible:                !ScreenTools.isShortScreen
             }
 
@@ -234,7 +237,7 @@ Rectangle {
 
             SubMenuButton {
                 id:                 summaryButton
-                imageResource:      "/qmlimages/VehicleSummaryIcon.png"
+                imageResource:      "/qmlimages/PaperPlane.svg"
                 setupIndicator:     false
                 checked:            true
                 exclusiveGroup:     setupButtonGroup
@@ -246,7 +249,7 @@ Rectangle {
 
             SubMenuButton {
                 id:                 firmwareButton
-                imageResource:      "/qmlimages/FirmwareUpgradeIcon.png"
+                imageResource:      "/qmlimages/FirmwareUpgradeIcon.svg"
                 setupIndicator:     false
                 exclusiveGroup:     setupButtonGroup
                 visible:            !ScreenTools.isMobile && _corePlugin.options.showFirmwareUpgrade
@@ -309,7 +312,7 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    /*Rectangle {
         id:                     divider
         anchors.topMargin:      _verticalMargin
         anchors.bottomMargin:   _verticalMargin
@@ -319,18 +322,19 @@ Rectangle {
         anchors.bottom:         parent.bottom
         width:                  1
         color:                  qgcPal.windowShade
-    }
+    }*/
 
     Loader {
         id:                     panelLoader
-        anchors.topMargin:      _verticalMargin
+        anchors.leftMargin:     _horizontalMargin + 30
+        anchors.rightMargin:    _horizontalMargin + 30
+        anchors.topMargin:      _verticalMargin * 15
         anchors.bottomMargin:   _verticalMargin
-        anchors.leftMargin:     _horizontalMargin
-        anchors.rightMargin:    _horizontalMargin
-        anchors.left:           divider.right
+        anchors.left:           parent.left //divider.right
         anchors.right:          parent.right
         anchors.top:            parent.top
         anchors.bottom:         parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
 
         function setSource(source, vehicleComponent) {
             panelLoader.vehicleComponent = vehicleComponent

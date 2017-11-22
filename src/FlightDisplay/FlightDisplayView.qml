@@ -508,7 +508,7 @@ QGCView {
         }
 
         // Button to start/stop video recording
-        Item {
+        /*Item {
             z:                  _flightVideoPipControl.z + 1
             anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
             anchors.bottom:     _flightVideo.bottom
@@ -562,7 +562,7 @@ QGCView {
                     }
                 }
             }
-        }
+        }*/
 
         MultiVehicleList {    // zmiana parametrów okienek w liscie multivechicle
             anchors.margins:    _margins
@@ -593,7 +593,7 @@ QGCView {
             property Fact _virtualJoystick: QGroundControl.settingsManager.appSettings.virtualJoystick
         } */
 
-        ToolStrip {
+        ToolStrip { ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             visible:            (_activeVehicle ? _activeVehicle.guidedModeSupported : true) && !QGroundControl.videoManager.fullScreen
             id:                 toolStrip
             anchors.leftMargin: ScreenTools.defaultFontPixelWidth + 20
@@ -665,7 +665,7 @@ QGCView {
                     iconSource: "/res/rtl.svg",
                     action:     _guidedController.actionRTL
                 },
-                {
+                {///////////////////////////////////////////////////////////////////////////////
                     name:       _guidedController.pauseTitle,
                     iconSource: "/res/pause-mission.svg",
                     action:     _guidedController.actionPause

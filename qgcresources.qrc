@@ -51,7 +51,9 @@
         <file alias="camera_video.svg">src/Camera/images/camera_video.svg</file>
         <file alias="check.png">src/QmlControls/check.png</file>
         <file alias="FirmwareUpgradeIcon.png">src/VehicleSetup/FirmwareUpgradeIcon.png</file>
+		<file alias="FirmwareUpgradeIcon.svg">src/VehicleSetup/FirmwareUpgradeIcon.svg</file>
         <file alias="FlightModesComponentIcon.png">src/AutoPilotPlugins/PX4/Images/FlightModesComponentIcon.png</file>
+		<file alias="FlightModesComponentIcon.svg">src/AutoPilotPlugins/PX4/Images/FlightModesComponentIcon.svg</file>
         <file alias="CameraTrigger.svg">src/AutoPilotPlugins/PX4/Images/CameraTrigger.svg</file>
         <file alias="CameraComponentIcon.png">src/AutoPilotPlugins/PX4/Images/CameraComponentIcon.png</file>
         <file alias="DatalinkLoss.svg">src/AutoPilotPlugins/PX4/Images/DatalinkLoss.svg</file>
@@ -87,6 +89,7 @@
         <file alias="ReturnToHomeAltitudeCopter.svg">src/AutoPilotPlugins/PX4/Images/ReturnToHomeAltitudeCopter.svg</file>
         <file alias="SafetyComponentIcon.png">src/AutoPilotPlugins/PX4/Images/SafetyComponentIcon.png</file>
         <file alias="SensorsComponentIcon.png">src/AutoPilotPlugins/PX4/Images/SensorsComponentIcon.png</file>
+        <file alias="SensorsComponentIcon.svg">src/AutoPilotPlugins/PX4/Images/SensorsComponentIcon.svg</file>
         <file alias="TuningComponentIcon.png">src/AutoPilotPlugins/PX4/Images/TuningComponentIcon.png</file>
         <file alias="subMenuButtonImage.png">resources/CogWheels.png</file>
         <file alias="VehicleDown.png">src/AutoPilotPlugins/PX4/Images/VehicleDown.png</file>

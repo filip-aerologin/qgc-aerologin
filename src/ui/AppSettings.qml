@@ -40,29 +40,32 @@ Rectangle {
     QGCFlickable {
         id:                 buttonList
         width:              buttonColumn.width
-        anchors.topMargin:  _verticalMargin
+        anchors.topMargin:  _verticalMargin * 3
         anchors.top:        parent.top
         anchors.bottom:     parent.bottom
-        anchors.leftMargin: _horizontalMargin
+        anchors.leftMargin: _horizontalMargin * 20
         anchors.left:       parent.left
+        anchors.rightMargin: _horizontalMargin
+        anchors.right:      parent.right
         contentHeight:      buttonColumn.height + _verticalMargin
         flickableDirection: Flickable.VerticalFlick
         clip:               true
 
         ExclusiveGroup { id: panelActionGroup }
 
-        ColumnLayout {
+        RowLayout {                                      // ColumnLayout
             id:         buttonColumn
-            spacing:    _verticalMargin
+            spacing:    _verticalMargin * 7
 
             property real _maxButtonWidth: 0
 
             QGCLabel {
                 anchors.left:           parent.left
                 anchors.right:          parent.right
-                text:                   qsTr("Application Settings")
+                font.pointSize:         28 //////////////////////////////////////
+                text:                   qsTr("Application Settings      ")
                 wrapMode:               Text.WordWrap
-                horizontalAlignment:    Text.AlignHCenter
+                horizontalAlignment:    Text.left//Text.AlignHCenter
                 visible:                !ScreenTools.isShortScreen
             }
 
@@ -70,6 +73,7 @@ Rectangle {
                 model:  QGroundControl.corePlugin.settingsPages
                 QGCButton {
                     height:             _buttonHeight
+                    anchors.bottom:     anchors.bottom
                     text:               modelData.title
                     exclusiveGroup:     panelActionGroup
                     Layout.fillWidth:   true
@@ -89,10 +93,12 @@ Rectangle {
                     }
                 }
             }
+
         }
+
     }
 
-    Rectangle {
+    /*Rectangle {
         id:                     divider
         anchors.topMargin:      _verticalMargin
         anchors.bottomMargin:   _verticalMargin
@@ -102,19 +108,20 @@ Rectangle {
         anchors.bottom:         parent.bottom
         width:                  1
         color:                  qgcPal.windowShade
-    }
+    }*/
 
     //-- Panel Contents
     Loader {
         id:                     __rightPanel
         anchors.leftMargin:     _horizontalMargin
         anchors.rightMargin:    _horizontalMargin
-        anchors.topMargin:      _verticalMargin
+        anchors.topMargin:      _verticalMargin * 12
         anchors.bottomMargin:   _verticalMargin
-        anchors.left:           divider.right
+        anchors.left:           parent.left //divider.right
         anchors.right:          parent.right
         anchors.top:            parent.top
         anchors.bottom:         parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 }
 

@@ -97,7 +97,7 @@ Rectangle {
                 icon:       StandardIcon.Warning
                 standardButtons: StandardButton.Yes | StandardButton.No
                 title:      qsTr("Remove Link Configuration")
-                text:       _currentSelection ? qsTr("Remove %1. Is this really what you want?").arg(_currentSelection.name) : ""
+                text:       _currentSelection ? qsTr("Remove %. Is this really what you want?").arg(_currentSelection.name) : ""
                 onYes: {
                     if(_currentSelection)
                         QGroundControl.linkManager.removeConfiguration(_currentSelection)
@@ -187,19 +187,16 @@ Rectangle {
                     anchors.margins:    ScreenTools.defaultFontPixelWidth
                     spacing:            ScreenTools.defaultFontPixelHeight / 2
                     QGCLabel {
+                        anchors.horizontalCenter: parent.horizontalCenter
                         text:   linkConfig ? qsTr("Edit Link Configuration Settings (WIP)") : qsTr("Create New Link Configuration (WIP)")
                         font.pointSize: ScreenTools.mediumFontPointSize
-                    }
-                    Rectangle {
-                        height: 1
-                        width:  parent.width
-                        color:  qgcPal.button
                     }
                     Item {
                         height: ScreenTools.defaultFontPixelHeight / 2
                         width:  parent.width
                     }
                     Row {
+                        anchors.horizontalCenter: parent.horizontalCenter
                         spacing:    ScreenTools.defaultFontPixelWidth
                         QGCLabel {
                             text:   qsTr("Name:")
@@ -214,6 +211,7 @@ Rectangle {
                         }
                     }
                     Row {
+                        anchors.horizontalCenter: parent.horizontalCenter
                         spacing:        ScreenTools.defaultFontPixelWidth
                         QGCLabel {
                             text:       qsTr("Type:")
@@ -227,6 +225,7 @@ Rectangle {
                             visible:    linkConfig != null
                             width:      _secondColumn
                             anchors.verticalCenter: parent.verticalCenter
+
                             Component.onCompleted: {
                                 if(linkConfig != null) {
                                     linkSettingLoader.source  = linkConfig.settingsURL

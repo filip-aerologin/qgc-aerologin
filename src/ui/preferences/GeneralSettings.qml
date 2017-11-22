@@ -63,8 +63,9 @@ QGCView {
                 //-----------------------------------------------------------------
                 //-- Units
                 Item {
-                    width:                      _qgcView.width * 0.8
+                    width:                      _qgcView.width * 0.3
                     height:                     unitLabel.height
+                    anchors.topMargin:          100
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
                     visible:                    QGroundControl.settingsManager.unitsSettings.visible
@@ -76,7 +77,7 @@ QGCView {
                 }
                 Rectangle {
                     height:                     unitsCol.height + (ScreenTools.defaultFontPixelHeight * 2)
-                    width:                      _qgcView.width * 0.8
+                    width:                      _qgcView.width * 0.3   //0.8
                     color:                      qgcPal.windowShade
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -115,7 +116,7 @@ QGCView {
                 //-----------------------------------------------------------------
                 //-- Miscellaneous
                 Item {
-                    width:                      _qgcView.width * 0.8
+                    width:                      _qgcView.width * 0.3
                     height:                     miscLabel.height
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -128,7 +129,7 @@ QGCView {
                 }
                 Rectangle {
                     height:                     miscCol.height + (ScreenTools.defaultFontPixelHeight * 2)
-                    width:                      _qgcView.width * 0.8
+                    width:                      _qgcView.width * 0.3
                     color:                      qgcPal.windowShade
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -394,7 +395,7 @@ QGCView {
                 //-----------------------------------------------------------------
                 //-- RTK GPS
                 Item {
-                    width:                      _qgcView.width * 0.8
+                    width:                      _qgcView.width * 0.3
                     height:                     unitLabel.height
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -407,7 +408,7 @@ QGCView {
                 }
                 Rectangle {
                     height:                     rtkGrid.height + (ScreenTools.defaultFontPixelHeight * 2)
-                    width:                      _qgcView.width * 0.8
+                    width:                      _qgcView.width * 0.3
                     color:                      qgcPal.windowShade
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter

@@ -61,10 +61,10 @@ Item {
     QGCLabel {
         id:                     waitForVehicle       
         anchors.verticalCenter: parent.verticalCenter
-        text:                   qsTr("Waiting For Vehicle Connection")
-        font.pointSize:         20//ScreenTools.largeFontPointSize // ScreenTools.mediumFontPointSize  // small
-        font.family:            ScreenTools.semiboldFontFamily
-        color:                  "#009EE0" // qgcPal.colorRed
+        text:                   ("Oczekiwanie na DC-01 Mucha")  //qsTr("Waiting For Vehicle Connection")
+        font.pointSize:         ScreenTools.largeFontPointSize // ScreenTools.mediumFontPointSize  // small
+        font.family:            ScreenTools.demiboldFontFamily
+        color:                  qgcPal.alertBackground //qgcPal.colorRed
         visible:                !_activeVehicle
     }
 
@@ -123,6 +123,7 @@ Item {
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     Row {
         anchors.fill:       parent
+        anchors.rightMargin:    115
         layoutDirection:    Qt.RightToLeft
         spacing:            ScreenTools.defaultFontPixelWidth
         visible:            _communicationLost

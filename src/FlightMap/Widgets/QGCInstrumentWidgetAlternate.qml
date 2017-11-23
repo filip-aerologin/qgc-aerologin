@@ -68,7 +68,7 @@ Rectangle {
         //anchors.verticalCenter: parent.verticalCenter
     }
 
-    Item {
+    /*Item {
         id:                 _valuesItem
         anchors.topMargin:  ScreenTools.defaultFontPixelHeight
         anchors.top:        parent.bottom
@@ -88,5 +88,5 @@ Rectangle {
             qgcView:            root._qgcView
             maxHeight:          _availableValueHeight
         }
-    }
+    }*/
 }

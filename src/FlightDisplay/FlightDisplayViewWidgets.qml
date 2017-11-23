@@ -67,6 +67,8 @@ Item {
                 var useAlternateInstruments = true//QGroundControl.settingsManager.appSettings.virtualJoystick.value || ScreenTools.isTinyScreen
                 if(useAlternateInstruments) {
                     instrumentsLoader.source = "qrc:/qml/QGCInstrumentWidgetAlternate.qml"
+                    instrumentsLoader2.source = "qrc:/qml/QGCInstrumentWidget.qml"
+
                     instrumentsLoader.state  = "topMode"
                 } else {
                     instrumentsLoader.source = "qrc:/qml/QGCInstrumentWidget.qml"
@@ -134,6 +136,44 @@ Item {
         id:                     instrumentsLoader
         anchors.margins:        ScreenTools.defaultFontPixelHeight / 2
         anchors.right:          parent.right
+        z:                      QGroundControl.zOrderWidgets
+        property var  qgcView:  _root.qgcView
+        property real maxHeight:parent.height - (anchors.margins * 2)
+        states: [
+            State {
+                name:   "topMode"
+                AnchorChanges {
+                    target:                 instrumentsLoader
+                    anchors.verticalCenter: undefined
+                    anchors.bottom:         undefined
+                    anchors.top:            _root ? _root.top : undefined
+                }
+            },
+            State {
+                name:   "centerMode"
+                AnchorChanges {
+                    target:                 instrumentsLoader
+                    anchors.top:            undefined
+                    anchors.bottom:         undefined
+                    anchors.verticalCenter: _root ? _root.verticalCenter : undefined
+                }
+            },
+            State {
+                name:   "bottomMode"
+                AnchorChanges {
+                    target:                 instrumentsLoader
+                    anchors.top:            undefined
+                    anchors.verticalCenter: undefined
+                    anchors.bottom:         _root ? _root.bottom : undefined
+                }
+            }
+        ]
+    }
+
+    Loader {
+        id:                     instrumentsLoader2
+        anchors.margins:        ScreenTools.defaultFontPixelHeight / 2
+        anchors.left:          parent.left
         z:                      QGroundControl.zOrderWidgets
         property var  qgcView:  _root.qgcView
         property real maxHeight:parent.height - (anchors.margins * 2)

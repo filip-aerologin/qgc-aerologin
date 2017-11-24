@@ -73,7 +73,7 @@ Column {
     } // Flow
 
     Component {
-        id: largeValue
+        id: largeValue//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Column {
             width:  _largeColumn.width
@@ -83,21 +83,25 @@ Column {
                 width:                  parent.width
                 horizontalAlignment:    Text.AlignHCenter
                 fontSizeMode:           Text.HorizontalFit
+                font.pointSize:         15
                 text:                   fact.shortDescription + (fact.units ? " (" + fact.units + ")" : "")
             }
             QGCLabel {
                 width:                  parent.width
                 horizontalAlignment:    Text.AlignHCenter
-                font.pointSize:         ScreenTools.mediumFontPointSize * (largeValue ? 1.3 : 1.0)
+                font.pointSize:         (ScreenTools.mediumFontPointSize * (largeValue ? 1.3 : 1.0))+ 25
                 font.family:            largeValue ? ScreenTools.demiboldFontFamily : ScreenTools.normalFontFamily
                 fontSizeMode:           Text.HorizontalFit
                 text:                   fact.enumOrValueString
+            }
+            QGCLabel {
+                width:                  10
             }
         }
     }
 
     Component {
-        id: smallValue
+        id: smallValue //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Column {
             width:  (pageWidth / 2) - (_margins / 2) - 0.1
@@ -106,7 +110,7 @@ Column {
             QGCLabel {
                 width:                  parent.width
                 horizontalAlignment:    Text.AlignHCenter
-                font.pointSize:         ScreenTools.isTinyScreen ? ScreenTools.smallFontPointSize * 0.75 : ScreenTools.smallFontPointSize
+                font.pointSize:         (ScreenTools.isTinyScreen ? ScreenTools.smallFontPointSize * 0.75 : ScreenTools.smallFontPointSize) +3
                 fontSizeMode:           Text.HorizontalFit
                 text:                   fact.shortDescription
             }
@@ -114,14 +118,11 @@ Column {
                 width:                  parent.width
                 horizontalAlignment:    Text.AlignHCenter
                 fontSizeMode:           Text.HorizontalFit
-                text:                   fact.enumOrValueString
+                font.pointSize:         16//ScreenTools.isTinyScreen ? ScreenTools.smallFontPointSize * 0.75 : ScreenTools.smallFontPointSize
+                text:                   fact.enumOrValueString + " " + fact.units
             }
             QGCLabel {
-                width:                  parent.width
-                horizontalAlignment:    Text.AlignHCenter
-                font.pointSize:         ScreenTools.isTinyScreen ? ScreenTools.smallFontPointSize * 0.75 : ScreenTools.smallFontPointSize
-                fontSizeMode:           Text.HorizontalFit
-                text:                   fact.units
+                width:                    20
             }
         }
     }
@@ -144,18 +145,13 @@ Column {
                     anchors.right:  parent.right
                     spacing:        _margins
 
-                    FactCheckBox {
+                    /*FactCheckBox {
                         text:       qsTr("Show large compass")
                         fact:       _showLargeCompass
                         visible:    _showLargeCompass.visible
 
                         property Fact _showLargeCompass: QGroundControl.settingsManager.appSettings.showLargeCompass
-                    }
-
-                    Item {
-                        width:  1
-                        height: _margins
-                    }
+                    }*/
 
                     QGCLabel {
                         id:     _label
@@ -164,6 +160,11 @@ Column {
                         wrapMode:       Text.WordWrap
                         text:   qsTr("Select the values you want to display:")
                     }
+
+                     Item {
+                         width:  1
+                         height: _margins
+                     }
 
                     Loader {
                         id:                 _loader

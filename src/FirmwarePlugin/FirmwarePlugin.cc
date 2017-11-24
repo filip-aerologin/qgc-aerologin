@@ -309,7 +309,7 @@ QString FirmwarePlugin::vehicleImageOpaque(const Vehicle* vehicle) const
 {
     Q_UNUSED(vehicle);
     //return QStringLiteral("/qmlimages/vehicleArrowOpaque.svg");
-    return QStringLiteral("/qmlimages/Drone.svg"); //-------------------------------------------------------------------------------------
+    return QStringLiteral("/qmlimages/PaperPlaneWhite.svg"); //-------------------------------------------------------------------------------------
 }
 
 QString FirmwarePlugin::vehicleImageOutline(const Vehicle* vehicle) const

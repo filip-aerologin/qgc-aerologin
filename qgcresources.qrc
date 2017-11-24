@@ -158,6 +158,9 @@
         <file alias="Megaphone.svg">src/ui/toolbar/Images/Megaphone.svg</file>
         <file alias="PaperPlane.svg">src/ui/toolbar/Images/PaperPlane.svg</file>
 
+		<file alias="PaperPlaneBlack.svg">src/ui/toolbar/Images/PaperPlaneBlack.svg</file>
+		<file alias="PaperPlaneWhite.svg">src/ui/toolbar/Images/PaperPlaneWhite.svg</file>
+
 		<file alias="DroneSettings.svg">src/ui/toolbar/Images/DroneSettings.svg</file>
 		<file alias="Map.svg">src/ui/toolbar/Images/Map.svg</file>
 		<file alias="Quadnew.svg">src/ui/toolbar/Images/Quadnew.svg</file>

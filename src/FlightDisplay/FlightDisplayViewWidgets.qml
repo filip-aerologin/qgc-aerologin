@@ -68,7 +68,7 @@ Item {
                 if(useAlternateInstruments) {
                     instrumentsLoader.source = "qrc:/qml/QGCInstrumentWidgetAlternate.qml"
                     instrumentsLoader2.source = "qrc:/qml/QGCInstrumentWidget.qml"
-
+                    instrumentsLoader2.state  = "topMode"
                     instrumentsLoader.state  = "topMode"
                 } else {
                     instrumentsLoader.source = "qrc:/qml/QGCInstrumentWidget.qml"
@@ -181,7 +181,7 @@ Item {
             State {
                 name:   "topMode"
                 AnchorChanges {
-                    target:                 instrumentsLoader
+                    target:                 instrumentsLoader2
                     anchors.verticalCenter: undefined
                     anchors.bottom:         undefined
                     anchors.top:            _root ? _root.top : undefined

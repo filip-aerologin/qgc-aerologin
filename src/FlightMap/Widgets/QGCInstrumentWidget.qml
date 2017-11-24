@@ -25,9 +25,8 @@ Rectangle {
     color:          qgcPal.window
     border.width:   1
     anchors.top:    parent.top
-    anchors.right:  parent.right
+    anchors.left:  parent.left
     anchors.margins: ScreenTools.defaultFontPixelHeight / 2
-   // border.color:   _isSatellite ? qgcPal.mapWidgetBorderLight : qgcPal.mapWidgetBorderDark
 
     property var    _qgcView:           qgcView
     property real   _innerRadius:       (width - (_topBottomMargin * 3)) / 4
@@ -39,7 +38,6 @@ Rectangle {
     property real   _labelFontSize:     ScreenTools.defaultFontPointSize * 0.75 * _sizeRatio
     property real   _spacing:           ScreenTools.defaultFontPixelHeight * 0.33
     property real   _topBottomMargin:   (width * 0.05) / 2
-    property real   _availableValueHeight: maxHeight - (root.height + _valuesItem.anchors.topMargin)
     property var    _activeVehicle:     QGroundControl.multiVehicleManager.activeVehicle
 
     QGCPalette { id: qgcPal }
@@ -59,34 +57,9 @@ Rectangle {
         id:                 compass
         anchors.topMargin: _topBottomMargin
         anchors.leftMargin: _topBottomMargin
-      //  anchors.left:       parent.left
         anchors.top:       attitude.bottom
         size:               _innerRadius * 4
         vehicle:            _activeVehicle
         anchors.horizontalCenter: parent.horizontalCenter
-
-        //anchors.verticalCenter: parent.verticalCenter
-    }
-
-    Item {
-        id:                 _valuesItem
-        anchors.topMargin:  ScreenTools.defaultFontPixelHeight
-        anchors.top:        parent.bottom
-        width:              parent.width
-        height:             _valuesWidget.height
-
-        Rectangle {
-            anchors.fill:   _valuesWidget
-            color:          qgcPal.window
-        }
-
-        PageView {
-            id:                 _valuesWidget
-            anchors.margins:    1
-            anchors.left:       parent.left
-            anchors.right:      parent.right
-            qgcView:            root._qgcView
-            maxHeight:          _availableValueHeight
-        }
     }
 }

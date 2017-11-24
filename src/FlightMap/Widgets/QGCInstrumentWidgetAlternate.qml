@@ -21,7 +21,6 @@ import QGroundControl.Palette       1.0
 Rectangle {
     id:             root
     width:          ScreenTools.isTinyScreen ? getPreferredInstrumentWidth() * 1.5 : getPreferredInstrumentWidth()
-    height:         width * 1.3
     color:          qgcPal.window
     border.width:   1
     anchors.top:    parent.top
@@ -43,30 +42,9 @@ Rectangle {
 
     QGCPalette { id: qgcPal }
 
-    QGCAttitudeWidget {
-        id:                       attitude
-        anchors.topMargin:        _topBottomMargin
-        anchors.leftMargin:       _topBottomMargin
-        size:                     _innerRadius * 4
-        vehicle:                  _activeVehicle
-        anchors.top:              parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    QGCCompassWidget {
-        id:                 compass
-        anchors.topMargin: _topBottomMargin
-        anchors.leftMargin: _topBottomMargin
-        anchors.top:        attitude.bottom
-        size:               _innerRadius * 4
-        vehicle:            _activeVehicle
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    /*Item {
+    Item {
         id:                 _valuesItem
-        anchors.topMargin:  ScreenTools.defaultFontPixelHeight
-        anchors.top:        parent.bottom
+        anchors.top:        parent.top
         width:              parent.width
         height:             _valuesWidget.height
 
@@ -83,5 +61,5 @@ Rectangle {
             qgcView:            root._qgcView
             maxHeight:          _availableValueHeight
         }
-    }*/
+    }
 }

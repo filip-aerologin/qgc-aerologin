@@ -153,16 +153,16 @@ Item {
 
             QGCLabel {
                 text:               if(_headingString3 >= "000" && _headingString3 < "090") {
-                                    _west
-                                    }
-                                    else if (_headingString3 >= "090" && _headingString3 < "180"){
                                     _north
                                     }
-                                    else if (_headingString3 >= "180" && _headingString3 < "270"){
+                                    else if (_headingString3 >= "090" && _headingString3 < "180"){
                                     _east
                                     }
-                                    else if (_headingString3 >= "270" && _headingString3 < "360"){
+                                    else if (_headingString3 >= "180" && _headingString3 < "270"){
                                     _south
+                                    }
+                                    else if (_headingString3 >= "270" && _headingString3 < "360"){
+                                    _west
                                     }
                                     else {
                                     "W"

@@ -595,7 +595,7 @@ QGCView {
             property Fact _virtualJoystick: QGroundControl.settingsManager.appSettings.virtualJoystick
         } */
 
-        /*ToolStrip { ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ToolStrip { ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             visible:            (_activeVehicle ? _activeVehicle.guidedModeSupported : true) && !QGroundControl.videoManager.fullScreen
             id:                 toolStrip
             anchors.leftMargin: ScreenTools.defaultFontPixelWidth + 20
@@ -678,12 +678,12 @@ QGCView {
                     action:     -1
                 },
 
-                  No firmware support any smart shots yet
+                /* No firmware support any smart shots yet
                 {
                     name:       qsTr("Smart"),
                     iconSource: "/qmlimages/MapCenter.svg",
                     action:     -1
-                },
+                },*/
 
             ]
 
@@ -702,7 +702,7 @@ QGCView {
                     _guidedController.confirmAction(action)
                 }
             }
-        }*/
+        }
 
         GuidedActionsController {
             id:                 guidedActionsController

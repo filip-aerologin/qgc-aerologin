@@ -28,7 +28,7 @@ Rectangle {
     property var    animateImage                        ///< List of bool values, one for each button in strip - true: animate image, false: static image
     property var    buttonEnabled                       ///< List of bool values, one for each button in strip - true: button enabled, false: button disabled
     property var    buttonVisible                       ///< List of bool values, one for each button in strip - true: button visible, false: button invisible
-    property real   maxWidth
+    property real   maxHeight
 
     signal clicked(int index, bool checked)
 

@@ -50,7 +50,7 @@ Rectangle {
                     target: _settingstxt
                     y: parent.height / 2
                     rotation: -90
-                    font.pointSize: 28 * 2
+                    font.pointSize: 26 * 2
                     //anchors.topMargin: _verticalMargin * 30
 
                 }

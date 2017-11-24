@@ -598,13 +598,14 @@ QGCView {
         ToolStrip { ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             visible:            (_activeVehicle ? _activeVehicle.guidedModeSupported : true) && !QGroundControl.videoManager.fullScreen
             id:                 toolStrip
-            anchors.leftMargin: ScreenTools.defaultFontPixelWidth + 20
+            anchors.leftMargin: ScreenTools.defaultFontPixelHeight
             anchors.left:       _panel.left
-            anchors.topMargin:  ScreenTools.toolbarHeight + (_margins * 2) + 20
-            anchors.top:        _panel.top
+            //anchors.bottomMargin:  ScreenTools.toolbarHeight + (_margins * 2) + 20
+            anchors.topMargin: ScreenTools.toolbarHeight + ScreenTools.defaultFontPixelWidth * 30 + ScreenTools.defaultFontPixelHeight * 18 * 0.3
+            anchors.top:     _panel.top
             z:                  _panel.z + 4
             title:              qsTr("Fly")
-            maxHeight:          (_flightVideo.visible ? _flightVideo.y : parent.height) - toolStrip.y
+            maxWidth:          (_flightVideo.visible ? _flightVideo.y : parent.width) - toolStrip.x
             buttonVisible:      [ _guidedController.showTakeoff || !_guidedController.showLand, _guidedController.showLand && !_guidedController.showTakeoff, true, true, true, _guidedController.smartShotsAvailable ]
             buttonEnabled:      [ _guidedController.showTakeoff, _guidedController.showLand, _guidedController.showRTL, _guidedController.showPause, _anyActionAvailable, _anySmartShotAvailable ]
 
@@ -662,12 +663,12 @@ QGCView {
                     iconSource: "/res/land.svg",
                     action:     _guidedController.actionLand
                 },
-                {
+             {
                     name:       _guidedController.rtlTitle,
                     iconSource: "/res/rtl.svg",
                     action:     _guidedController.actionRTL
                 },
-                {///////////////////////////////////////////////////////////////////////////////
+                   {///////////////////////////////////////////////////////////////////////////////
                     name:       _guidedController.pauseTitle,
                     iconSource: "/res/pause-mission.svg",
                     action:     _guidedController.actionPause

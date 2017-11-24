@@ -25,7 +25,7 @@ Rectangle {
     color:          qgcPal.window
     border.width:   1
     anchors.top:    parent.top
-    anchors.left:  parent.left
+    anchors.left:   parent.left
     anchors.margins: ScreenTools.defaultFontPixelHeight / 2
 
     property var    _qgcView:           qgcView

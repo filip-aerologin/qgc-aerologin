@@ -9,15 +9,14 @@
 
 import QtQuick          2.3
 import QtQuick.Controls 1.2
-
 import QGroundControl.ScreenTools   1.0
 import QGroundControl.Palette       1.0
 
 Rectangle {
     id:         _root
     color:      qgcPal.window
-    width:      ScreenTools.isMobile ? ScreenTools.minTouchPixels : ScreenTools.defaultFontPixelWidth * 6
-    height:     buttonStripColumn.height + (buttonStripColumn.anchors.margins * 2)
+    width:      buttonStripColumn.width + (buttonStripColumn.anchors.margins * 2)
+    height:     ScreenTools.isMobile ? ScreenTools.minTouchPixels : ScreenTools.defaultFontPixelWidth * 8
     radius:     _radius
     border.width:   1
     border.color:   qgcPal.globalTheme === QGCPalette.Light ? Qt.rgba(0,0,0,0.35) : Qt.rgba(1,1,1,0.35)
@@ -29,7 +28,7 @@ Rectangle {
     property var    animateImage                        ///< List of bool values, one for each button in strip - true: animate image, false: static image
     property var    buttonEnabled                       ///< List of bool values, one for each button in strip - true: button enabled, false: button disabled
     property var    buttonVisible                       ///< List of bool values, one for each button in strip - true: button visible, false: button invisible
-    property real   maxHeight                           ///< Maximum height for control, determines whether text is hidden to make control shorter
+    property real   maxWidth
 
     signal clicked(int index, bool checked)
 
@@ -52,35 +51,21 @@ Rectangle {
         }
     }
 
-    Column {
+    Row {
         id:                 buttonStripColumn
         anchors.margins:    ScreenTools.defaultFontPixelWidth  / 2
         anchors.top:        parent.top
         anchors.left:       parent.left
-        anchors.right:      parent.right
-
-        QGCLabel {
-            anchors.horizontalCenter:   parent.horizontalCenter
-            text:                       title
-            visible:                    _showOptionalElements
-        }
+        anchors.bottom:     parent.bottom
 
         Item { width: 1; height: _buttonSpacing; visible: _showOptionalElements }
-
-        Rectangle {
-            anchors.left:       parent.left
-            anchors.right:      parent.right
-            height:             1
-            color:              qgcPal.text
-            visible:            _showOptionalElements
-        }
 
         Repeater {
             id: repeater
 
-            delegate: Column {
+            delegate: Row {
                 id:         buttonColumn
-                width:      buttonStripColumn.width
+                height:      buttonStripColumn.height
                 visible:    _root.buttonVisible ? _root.buttonVisible[index] : true
 
                 property bool checked: false
@@ -120,30 +105,39 @@ Rectangle {
                 }
 
                 Item {
-                    width:      1
-                    height:     _buttonSpacing
+                    width:      _buttonSpacing / 2
+                    height:     1
                     visible:    index == 0 ? _showOptionalElements : true
                 }
 
+
+
+
                 FocusScope {
                     id:             scope
-                    anchors.left:   parent.left
-                    anchors.right:  parent.right
-                    height:         width
+                    anchors.top:    parent.top
+                    anchors.bottom: parent.bottom
+                    //anchors.left:   parent.left
+                    //anchors.right:  parent.right
+                    width:          height
 
-                    Rectangle {
+
+
+                   Rectangle {
                         anchors.fill:   parent
                         color:          checked ? _repeaterPal.buttonHighlight : _repeaterPal.button
 
                         QGCColoredImage {
                             id:                 button
                             anchors.fill:       parent
+                            anchors.bottomMargin:  ScreenTools.defaultFontPixelWidth
                             source:             _source
                             sourceSize.height:  parent.height
                             fillMode:           Image.PreserveAspectFit
                             mipmap:             true
                             smooth:             true
                             color:              checked ? _repeaterPal.buttonHighlightText : _repeaterPal.buttonText
+
 
                             RotationAnimation on rotation {
                                 id:             imageRotation
@@ -164,6 +158,16 @@ Rectangle {
                             }
                         }
 
+                        QGCLabel {
+                            id:                         buttonLabel
+                            anchors.top: button.bottom
+                            anchors.horizontalCenter:     button.horizontalCenter
+                            anchors.topMargin:  -ScreenTools.defaultFontPixelWidth
+                            font.pointSize:             ScreenTools.smallFontPointSize
+                            text:                       modelData.name
+                            visible:                    _showOptionalElements
+                            enabled:                    _buttonEnabled
+                        }
                         QGCMouseArea {
                             // Size of mouse area is expanded to make touch easier
                             anchors.leftMargin:     -buttonStripColumn.anchors.margins
@@ -201,20 +205,10 @@ Rectangle {
                         }
                     }
                 }
-
                 Item {
-                    width:      1
-                    height:     ScreenTools.defaultFontPixelHeight * 0.25
-                    visible:    _showOptionalElements
-                }
-
-                QGCLabel {
-                    id:                         buttonLabel
-                    anchors.horizontalCenter:   parent.horizontalCenter
-                    font.pointSize:             ScreenTools.smallFontPointSize
-                    text:                       modelData.name
-                    visible:                    _showOptionalElements
-                    enabled:                    _buttonEnabled
+                    width:      _buttonSpacing / 2
+                    height:     1
+                    visible:    index == 0 ? _showOptionalElements : true
                 }
             }
         }

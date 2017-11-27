@@ -695,12 +695,56 @@ QGCView {
                     if (index == 4) {
                         guidedActionList.model   = _actionModel
                         guidedActionList.visible = true
-                    } else if (index == 5) {
-                        guidedActionList.model   = _smartShotModel
-                        guidedActionList.visible = true
                     }
+
                 } else {
                     _guidedController.confirmAction(action)
+                }
+            }
+        }
+
+
+
+
+        ToolStrip {
+            id:                 toolStripZoom
+            anchors.leftMargin: ScreenTools.defaultFontPixelHeight
+            anchors.left:       _panel.left
+            anchors.topMargin:  ScreenTools.defaultFontPixelHeight
+            anchors.top:        toolStrip.bottom
+            color:              qgcPal.window
+            title:              qsTr("Plan")
+            z:                  QGroundControl.zOrderWidgets
+            showAlternateIcon:  [ false, false, masterController.dirty, false, false, false ]
+            rotateImage:        [ false, false, masterController.syncInProgress, false, false, false ]
+            animateImage:       [ false, false, masterController.dirty, false, false, false ]
+            buttonEnabled:      [ true, true, !masterController.syncInProgress, true, true, true ]
+            buttonVisible:      [ true, true, true, true, _showZoom, _showZoom ]
+            //maxHeight:          mapScale.y - toolStripZoom.y
+
+            property bool _showZoom: !ScreenTools.isMobile
+
+            model: [
+                {
+                    name:               "In",
+                    iconSource:         "/qmlimages/ZoomPlus.svg"
+                },
+                {
+                    name:               "Out",
+                    iconSource:         "/qmlimages/ZoomMinus.svg"
+                }
+            ]
+
+            onClicked: {
+                switch (index) {
+                case 0:
+                    _flightMap.zoomLevel += 0.5
+                    _flightMap2.zoomLevel += 0.5
+                    break
+                case 1:
+                    _flightMap.zoomLevel -= 0.5
+                    _flightMap2.zoomLevel -= 0.5
+                    break
                 }
             }
         }

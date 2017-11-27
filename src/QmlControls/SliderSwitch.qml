@@ -12,6 +12,7 @@ Rectangle {
     implicitHeight: label.height * 2.5
     radius:         height /2
     color:          qgcPal.text
+    rotation:       90
 
     signal accept   ///< Action confirmed
     signal reject   ///< Action rejected
@@ -30,6 +31,7 @@ Rectangle {
         anchors.verticalCenter:     parent.verticalCenter
         text:                       confirmText
         color:                      qgcPal.window
+        rotation:                   -180
     }
 
     Rectangle {
@@ -41,6 +43,7 @@ Rectangle {
         radius:     _diameter / 2
         color:      qgcPal.windowShade
         opacity:    0.8
+
 
         QGCColoredImage {
             anchors.centerIn:       parent

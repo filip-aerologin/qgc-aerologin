@@ -27,6 +27,8 @@ NoMouseThroughRectangle {
     opacity:        0.9
     z:              guidedController.z
     visible:        false
+  //  anchors.bottom: parent.bottom
+   // anchors.bottomMargin: 80
 
     property var    guidedController
     property var    altitudeSlider
@@ -52,31 +54,25 @@ NoMouseThroughRectangle {
         id:                 confirmColumn
         anchors.margins:    _margins
         anchors.centerIn:   parent
-        spacing:            _margins
+        spacing:            _margins * 14
 
         QGCLabel {
             id:                     titleText
             color:                  qgcPal.alertText
-            anchors.left:           slider.left
-            anchors.right:          slider.right
+            //anchors.left:           slider.left
+            //anchors.right:          slider.right
+            anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment:    Text.AlignHCenter
             font.pointSize:         ScreenTools.largeFontPointSize
         }
 
-        QGCLabel {
-            id:                     messageText
-            color:                  qgcPal.alertText
-            anchors.left:           slider.left
-            anchors.right:          slider.right
-            horizontalAlignment:    Text.AlignHCenter
-            wrapMode:               Text.WordWrap
-        }
-
-        // Action confirmation control
         SliderSwitch {
             id:             slider
             confirmText:    qsTr("Slide to confirm")
             width:          Math.max(implicitWidth, ScreenTools.defaultFontPixelWidth * 30)
+            anchors.horizontalCenter: parent.horizontalCenter
+            //anchors.left:   confirmColumn.right
+            //anchors.leftMargin: _margins
 
             onAccept: {
                 _root.visible = false
@@ -94,7 +90,21 @@ NoMouseThroughRectangle {
                 hideTrigger = false
             }
         }
+
+
+        QGCLabel {
+            id:                     messageText
+            color:                  qgcPal.alertText
+            //anchors.left:           slider.left
+            //anchors.right:          slider.right
+            horizontalAlignment:    Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            wrapMode:               Text.WordWrap
+        }
+
+
     }
+    // Action confirmation control
 
     QGCColoredImage {
         anchors.margins:    _margins

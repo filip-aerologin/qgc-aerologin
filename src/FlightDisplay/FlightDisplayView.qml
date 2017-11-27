@@ -598,10 +598,10 @@ QGCView {
         ToolStrip { ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             visible:            (_activeVehicle ? _activeVehicle.guidedModeSupported : true) && !QGroundControl.videoManager.fullScreen
             id:                 toolStrip
-            anchors.leftMargin: ScreenTools.defaultFontPixelHeight
-            anchors.left:       _panel.left
+            anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 30 + ScreenTools.defaultFontPixelHeight * 2
+            anchors.right:       _panel.right
             //anchors.bottomMargin:  ScreenTools.toolbarHeight + (_margins * 2) + 20
-            anchors.topMargin: ScreenTools.toolbarHeight + ScreenTools.defaultFontPixelWidth * 30 + ScreenTools.defaultFontPixelHeight * 18 * 0.3
+            anchors.topMargin: ScreenTools.toolbarHeight + ScreenTools.defaultFontPixelHeight
             anchors.top:     _panel.top
             z:                  _panel.z + 4
             title:              qsTr("Fly")
@@ -668,6 +668,72 @@ QGCView {
                     iconSource: "/res/rtl.svg",
                     action:     _guidedController.actionRTL
                 },
+            ]
+
+            onClicked: {
+                guidedActionsController.closeAll()
+                var action = model[index].action
+                _guidedController.confirmAction(action)
+            }
+        }
+
+        ToolStrip { ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            visible:            (_activeVehicle ? _activeVehicle.guidedModeSupported : true) && !QGroundControl.videoManager.fullScreen
+            id:                 toolStrip2
+            anchors.left:       toolStrip.left
+            anchors.topMargin: ScreenTools.defaultFontPixelHeight
+            anchors.top:     toolStrip.bottom
+            z:                  _panel.z + 4
+            title:              qsTr("Fly")
+            maxHeight:          (_flightVideo.visible ? _flightVideo.y : parent.width) - toolStrip2.x
+            buttonVisible:      [ true, true, _guidedController.smartShotsAvailable ]
+            buttonEnabled:      [ _guidedController.showPause, _anyActionAvailable, _anySmartShotAvailable ]
+
+            property bool _anyActionAvailable: _guidedController.showStartMission || _guidedController.showResumeMission || _guidedController.showChangeAlt || _guidedController.showLandAbort
+            property bool _anySmartShotAvailable: _guidedController.showOrbit
+            property var _actionModel: [
+                {
+                    title:      _guidedController.startMissionTitle,
+                    text:       _guidedController.startMissionMessage,
+                    action:     _guidedController.actionStartMission,
+                    visible:    _guidedController.showStartMission
+                },
+                {
+                    title:      _guidedController.continueMissionTitle,
+                    text:       _guidedController.continueMissionMessage,
+                    action:     _guidedController.actionContinueMission,
+                    visible:    _guidedController.showContinueMission
+                },
+                {
+                    title:      _guidedController.resumeMissionTitle,
+                    text:       _guidedController.resumeMissionMessage,
+                    action:     _guidedController.actionResumeMission,
+                    visible:    _guidedController.showResumeMission
+                },
+                {
+                    title:      _guidedController.changeAltTitle,
+                    text:       _guidedController.changeAltMessage,
+                    action:     _guidedController.actionChangeAlt,
+                    visible:    _guidedController.showChangeAlt
+                },
+                {
+                    title:      _guidedController.landAbortTitle,
+                    text:       _guidedController.landAbortMessage,
+                    action:     _guidedController.actionLandAbort,
+                    visible:    _guidedController.showLandAbort
+                }
+            ]
+            property var _smartShotModel: [
+                {
+                    title:      _guidedController.orbitTitle,
+                    text:       _guidedController.orbitMessage,
+                    action:     _guidedController.actionOrbit,
+                    visible:    _guidedController.showOrbit
+                }
+            ]
+
+            model: [
+
                    {///////////////////////////////////////////////////////////////////////////////
                     name:       _guidedController.pauseTitle,
                     iconSource: "/res/pause-mission.svg",
@@ -692,7 +758,7 @@ QGCView {
                 guidedActionsController.closeAll()
                 var action = model[index].action
                 if (action === -1) {
-                    if (index == 4) {
+                    if (index == 1) {
                         guidedActionList.model   = _actionModel
                         guidedActionList.visible = true
                     }
@@ -705,13 +771,11 @@ QGCView {
 
 
 
-
         ToolStrip {
             id:                 toolStripZoom
-            anchors.leftMargin: ScreenTools.defaultFontPixelHeight
-            anchors.left:       _panel.left
+            anchors.left:       toolStrip.left
             anchors.topMargin:  ScreenTools.defaultFontPixelHeight
-            anchors.top:        toolStrip.bottom
+            anchors.top:        toolStrip2.bottom
             color:              qgcPal.window
             title:              qsTr("Plan")
             z:                  QGroundControl.zOrderWidgets

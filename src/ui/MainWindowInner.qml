@@ -494,7 +494,7 @@ Item {
         radius:                     ScreenTools.defaultFontPixelHeight * 0.5
         anchors.horizontalCenter:   parent.horizontalCenter
         anchors.top:                parent.top
-        anchors.topMargin:          toolBar.height + ScreenTools.defaultFontPixelHeight / 2
+        anchors.topMargin:          toolBar.height + ScreenTools.defaultFontPixelHeight
         border.color:               qgcPal.alertBorder
         border.width:               2
 

@@ -87,7 +87,7 @@ Rectangle {
         anchors.rightMargin:    ScreenTools.defaultFontPixelWidth / 2
         anchors.leftMargin:     20   ////////////////////////////////////////////////////////////////////////////////////////////////
         anchors.fill:           parent
-        spacing:                ScreenTools.defaultFontPixelWidth * 2
+        spacing:                ScreenTools.defaultFontPixelWidth * 7
 
         //---------------------------------------------
         // Toolbar Row

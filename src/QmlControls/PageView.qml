@@ -20,11 +20,11 @@ Rectangle {
 
     QGCPalette { id:qgcPal; colorGroupEnabled: parent.enabled }
 
-    QGCComboBox {
+   /* QGCComboBox {
         id:             pageCombo
         anchors.left:   parent.left
         anchors.right:  parent.right
-        model:          _instrumentPages
+        //model:          _instrumentPages
         textRole:       "title"
         centeredLabel:  true
         pointSize:      ScreenTools.smallFontPointSize
@@ -45,6 +45,34 @@ Rectangle {
                 onClicked:  pageWidgetLoader.item.showSettings()
             }
         }
+    }*/
+
+    Rectangle
+    {
+        id: pageCombo
+        anchors.left: parent.left
+        anchors.right: parent.right
+        color:          qgcPal.window
+        implicitWidth:  ScreenTools.implicitComboBoxWidth
+        implicitHeight: ScreenTools.implicitComboBoxHeight
+
+        Image {
+            anchors.rightMargin:     _margins
+            anchors.right:           parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            source:                 qgcPal.globalTheme == QGCPalette.Light ? "/res/gear-black.svg" : "/res/gear-white.svg"
+            mipmap:                 true
+            width:                  parent.height -(_margins * 2)
+            sourceSize.width:       width
+            fillMode:               Image.PreserveAspectFit
+            visible:                pageWidgetLoader.item.showSettingsIcon
+
+            QGCMouseArea {
+                fillItem:   parent
+                onClicked:  pageWidgetLoader.item.showSettings()
+            }
+        }
+
     }
 
     QGCFlickable {
@@ -62,7 +90,7 @@ Rectangle {
 
         Loader {
             id:     pageWidgetLoader
-            source: _instrumentPages[pageCombo.currentIndex].url
+            source: _instrumentPages[0].url
 
             property var    qgcView:    _root.qgcView
             property real   pageWidth:  parent.width

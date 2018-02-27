@@ -17,6 +17,7 @@
 #include "QGCApplication.h"
 #include "SimpleMissionItem.h"
 #include "SurveyMissionItem.h"
+#include "SearchMissionItem.h"
 #include "FixedWingLandingComplexItem.h"
 #include "StructureScanComplexItem.h"
 #include "JsonHelper.h"
@@ -60,6 +61,7 @@ MissionController::MissionController(PlanMasterController* masterController, QOb
     , _firstItemsFromVehicle(false)
     , _itemsRequested(false)
     , _surveyMissionItemName(tr("Survey"))
+    , _searchMissionItemName(tr("Search"))
     , _fwLandingMissionItemName(tr("Fixed Wing Landing"))
     , _structureScanMissionItemName(tr("Structure Scan"))
     , _appSettings(qgcApp()->toolbox()->settingsManager()->appSettings())
@@ -352,6 +354,37 @@ int MissionController::insertSimpleMissionItem(QGeoCoordinate coordinate, int i)
     return newItem->sequenceNumber();
 }
 
+
+int MissionController::insertSimpleMissionItemTest(QGeoCoordinate coordinate, int i, Vehicle* vehicle)
+{
+    int sequenceNumber = _nextSequenceNumber();
+    SimpleMissionItem * newItem = new SimpleMissionItem(vehicle, this);
+    newItem->setSequenceNumber(sequenceNumber);
+    newItem->setCoordinate(coordinate);
+    newItem->setCommand(MavlinkQmlSingleton::MAV_CMD_NAV_WAYPOINT);
+    _initVisualItem(newItem);
+    if (_visualItems->count() == 1) {
+        newItem->setCommand(vehicle->vtol() ? MavlinkQmlSingleton::MAV_CMD_NAV_VTOL_TAKEOFF : MavlinkQmlSingleton::MAV_CMD_NAV_TAKEOFF);
+    }
+    newItem->setDefaultsForCommand();
+    if ((MAV_CMD)newItem->command() == MAV_CMD_NAV_WAYPOINT) {
+        double      prevAltitude;
+        MAV_FRAME   prevFrame;
+
+        if (_findPreviousAltitude(i, &prevAltitude, &prevFrame)) {
+            newItem->missionItem().setFrame(prevFrame);
+            newItem->missionItem().setParam7(prevAltitude);
+        }
+    }
+    _visualItems->insert(i, newItem);
+
+    qDebug() << "MOJ WAYPOINT" << newItem->missionItem().param5() << endl;
+
+    _recalcAll();
+
+    return newItem->sequenceNumber();
+}
+
 int MissionController::insertComplexMissionItem(QString itemName, QGeoCoordinate mapCenterCoordinate, int i)
 {
     ComplexMissionItem* newItem;
@@ -379,7 +412,14 @@ int MissionController::insertComplexMissionItem(QString itemName, QGeoCoordinate
                 cameraSection->gimbalPitch()->setRawValue(-90.0);
             }
         }
-    } else if (itemName == _fwLandingMissionItemName) {
+    }
+    else if (itemName == _searchMissionItemName) {
+         newItem = new SearchMissionItem(_controllerVehicle, _visualItems);
+
+    }
+
+
+    else if (itemName == _fwLandingMissionItemName) {
         newItem = new FixedWingLandingComplexItem(_controllerVehicle, _visualItems);
     } else if (itemName == _structureScanMissionItemName) {
         newItem = new StructureScanComplexItem(_controllerVehicle, _visualItems);
@@ -1770,6 +1810,7 @@ QStringList MissionController::complexMissionItemNames(void) const
     QStringList complexItems;
 
     complexItems.append(_surveyMissionItemName);
+    complexItems.append(_searchMissionItemName);
     if (_controllerVehicle->fixedWing()) {
         complexItems.append(_fwLandingMissionItemName);
     }
@@ -1860,4 +1901,24 @@ void MissionController::_managerRemoveAllComplete(bool error)
         // Remove all from vehicle so we always update
         showPlanFromManagerVehicle();
     }
+}
+
+void MissionController::sendVisualItems(Vehicle* vehicle)
+{
+
+    QGeoCoordinate coordinate(37.803784, -122.462276);
+   // QGeoCoordinate test = {10,10,50};
+    //_masterController->start(true);
+   // start(true);
+    insertSimpleMissionItem(coordinate,this->visualItems()->count());
+   // insertSimpleMissionItemTest(QGeoCoordinate(37.8037, -122.4622),1,vehicle);
+
+   // qDebug() << _visualItems-> << endl;
+   // sendToVehicle();
+   // sendItemsToVehicle(vehicle, _visualItems);
+    //setDirty(true);
+    //sendToVehicle();
+    //visualItems = _visualItems;
+    //qDebug() << _visualItems << endl;
+
 }

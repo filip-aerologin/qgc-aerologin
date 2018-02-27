@@ -35,6 +35,7 @@ class UASMessage;
 class SettingsManager;
 class ADSBVehicle;
 class QGCCameraManager;
+class MissionController;
 
 Q_DECLARE_LOGGING_CATEGORY(VehicleLog)
 
@@ -343,6 +344,9 @@ public:
     Q_PROPERTY(Fact* altitudeAMSL       READ altitudeAMSL       CONSTANT)
     Q_PROPERTY(Fact* flightDistance     READ flightDistance     CONSTANT)
     Q_PROPERTY(Fact* distanceToHome     READ distanceToHome     CONSTANT)
+    Q_PROPERTY(Fact* wifiStrength       READ wifiStrength       CONSTANT)
+
+
 
     Q_PROPERTY(FactGroup* gps         READ gpsFactGroup         CONSTANT)
     Q_PROPERTY(FactGroup* battery     READ batteryFactGroup     CONSTANT)
@@ -498,6 +502,7 @@ public:
     MissionManager*     missionManager(void)    { return _missionManager; }
     GeoFenceManager*    geoFenceManager(void)   { return _geoFenceManager; }
     RallyPointManager*  rallyPointManager(void) { return _rallyPointManager; }
+    MissionController*  missionController(void) {return _missionController; }
 
     QGeoCoordinate homePosition(void);
 
@@ -551,6 +556,7 @@ public:
         MessageWarning,
         MessageError
     } MessageType_t;
+
 
     bool            messageTypeNone         () { return _currentMessageType == MessageNone; }
     bool            messageTypeNormal       () { return _currentMessageType == MessageNormal; }
@@ -613,6 +619,7 @@ public:
     Fact* altitudeAMSL      (void) { return &_altitudeAMSLFact; }
     Fact* flightDistance    (void) { return &_flightDistanceFact; }
     Fact* distanceToHome    (void) { return &_distanceToHomeFact; }
+    Fact* wifiStrength      (void) { return &_wifiStrengthFact; }
 
     FactGroup* gpsFactGroup         (void) { return &_gpsFactGroup; }
     FactGroup* batteryFactGroup     (void) { return &_batteryFactGroup; }
@@ -704,6 +711,7 @@ public:
     void _setFlying(bool flying);
     void _setLanding(bool landing);
     void _setHomePosition(QGeoCoordinate& homeCoord);
+    void _getHomePosition(QGeoCoordinate& homePosition);
     void _setMaxProtoVersion (unsigned version);
 
     /// Vehicle is about to be deleted
@@ -739,6 +747,7 @@ signals:
     void capabilitiesKnownChanged(bool capabilitiesKnown);
     void initialPlanRequestCompleteChanged(bool initialPlanRequestComplete);
     void capabilityBitsChanged(uint64_t capabilityBits);
+    void wifiSignalDropped(QList<QVector<double>> wifiLocatedList);
 
     void messagesReceivedChanged    ();
     void messagesSentChanged        ();
@@ -884,6 +893,7 @@ private:
     void _startPlanRequest(void);
     void _setupAutoDisarmSignalling(void);
     void _setCapabilities(uint64_t capabilityBits);
+    void _handleWifi(mavlink_message_t& message);
 
     int     _id;                    ///< Mavlink system id
     int     _defaultComponentId;
@@ -943,6 +953,9 @@ private:
     unsigned        _maxProtoVersion;
     bool            _vehicleCapabilitiesKnown;
     uint64_t        _capabilityBits;
+    QVector<double> _wifiLocated;
+    QList<QVector<double>> _wifiLocatedList;
+    int              _testStrength;
 
     QGCCameraManager* _cameras;
 
@@ -970,6 +983,8 @@ private:
     QTimer              _connectionLostTimer;
 
     bool                _initialPlanRequestComplete;
+
+    MissionController*  _missionController;
 
     MissionManager*     _missionManager;
     bool                _missionManagerInitialRequestSent;
@@ -1055,6 +1070,7 @@ private:
     Fact _flightDistanceFact;
     Fact _flightTimeFact;
     Fact _distanceToHomeFact;
+    Fact _wifiStrengthFact;
 
     VehicleGPSFactGroup         _gpsFactGroup;
     VehicleBatteryFactGroup     _batteryFactGroup;
@@ -1073,6 +1089,7 @@ private:
     static const char* _flightDistanceFactName;
     static const char* _flightTimeFactName;
     static const char* _distanceToHomeFactName;
+    static const char* _wifiStrengthFactName;
 
     static const char* _gpsFactGroupName;
     static const char* _batteryFactGroupName;

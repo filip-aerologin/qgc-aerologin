@@ -44,7 +44,6 @@ Rectangle {
 
     QGCAttitudeWidget {
         id:                 attitude
-
         anchors.topMargin:        _topBottomMargin
         anchors.leftMargin:       _topBottomMargin
         size:                     _innerRadius * 4

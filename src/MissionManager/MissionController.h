@@ -91,6 +91,7 @@ public:
     ///     @param i: index to insert at
     /// @return Sequence number for new item
     Q_INVOKABLE int insertSimpleMissionItem(QGeoCoordinate coordinate, int i);
+    Q_INVOKABLE int insertSimpleMissionItemTest(QGeoCoordinate coordinate, int i, Vehicle* vehicle);
 
     /// Add a new complex mission item to the list
     ///     @param itemName: Name of complex item to create (from complexMissionItemNames)
@@ -103,6 +104,8 @@ public:
 
     /// Updates the altitudes of the items in the current mission to the new default altitude
     Q_INVOKABLE void applyDefaultMissionAltitude(void);
+
+    void sendVisualItems(Vehicle *vehicle);
 
     /// Sends the mission items to the specified vehicle
     static void sendItemsToVehicle(Vehicle* vehicle, QmlObjectListModel* visualMissionItems);
@@ -150,6 +153,9 @@ public:
 
     int  batteryChangePoint         (void) const { return _missionFlightStatus.batteryChangePoint; }    ///< -1 for not supported, 0 for not needed
     int  batteriesRequired          (void) const { return _missionFlightStatus.batteriesRequired; }     ///< -1 for not supported
+
+
+
 
 signals:
     void visualItemsChanged(void);
@@ -230,6 +236,7 @@ private:
     bool                    _itemsRequested;
     MissionFlightStatus_t   _missionFlightStatus;
     QString                 _surveyMissionItemName;
+    QString                 _searchMissionItemName;
     QString                 _fwLandingMissionItemName;
     QString                 _structureScanMissionItemName;
     AppSettings*            _appSettings;

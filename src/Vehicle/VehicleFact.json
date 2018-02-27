@@ -74,5 +74,13 @@
     "shortDescription": "Flight Time",
     "type":             "elapsedSeconds",
     "decimalPlaces":    1
+},
+{
+    "name":             "wifiStrength",
+    "shortDescription": "Wifi Strength",
+    "type":             "int16",
+    "decimalPlaces":    0,
+    "units":            "dBm"
 }
+
 ]

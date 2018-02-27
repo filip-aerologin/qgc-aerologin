@@ -8,8 +8,8 @@ import QGroundControl.Palette       1.0
 /// control on an iPhone.
 Rectangle {
     id:             _root
-    implicitWidth:  label.contentWidth + (_diameter * 2.5) + (_border * 4)
-    implicitHeight: label.height * 2.5
+    implicitWidth:  (label.contentWidth + (_diameter * 2.5) + (_border * 4) )
+    implicitHeight: label.height * 2.5 * 1.5
     radius:         height /2
     color:          qgcPal.text
     rotation:       90

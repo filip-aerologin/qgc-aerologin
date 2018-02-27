@@ -533,6 +533,7 @@ HEADERS += \
     src/MissionManager/SpeedSection.h \
     src/MissionManager/StructureScanComplexItem.h \
     src/MissionManager/SurveyMissionItem.h \
+    src/MissionManager/SearchMissionItem.h \
     src/MissionManager/VisualMissionItem.h \
     src/PositionManager/PositionManager.h \
     src/PositionManager/SimulatedPosition.h \
@@ -720,6 +721,7 @@ SOURCES += \
     src/MissionManager/SpeedSection.cc \
     src/MissionManager/StructureScanComplexItem.cc \
     src/MissionManager/SurveyMissionItem.cc \
+    src/MissionManager/SearchMissionItem.cc \
     src/MissionManager/VisualMissionItem.cc \
     src/PositionManager/PositionManager.cpp \
     src/PositionManager/SimulatedPosition.cc \

@@ -40,8 +40,8 @@ Item {
 
     property string _north: "N"
     property string _south: "S"
-    property string _east: "E"
-    property string _west: "W"
+    property string _east:  "E"
+    property string _west:  "W"
 
 
     property string _headingString: vehicle ? _heading.toFixed(0) : "OFF"
@@ -50,13 +50,10 @@ Item {
 
     width:                  size
     height:                 size * 0.3
-   // anchors.bottom: bottom
-
 
     Rectangle {
         id:             borderRect
         anchors.fill:   parent
-      //  radius:         width
         color:          "black"
     }
 
@@ -213,7 +210,6 @@ Item {
     Rectangle {
         id:             mask
         anchors.fill:   instrument
-        //radius:         width / 2
         color:          "black"
         visible:        false
     }

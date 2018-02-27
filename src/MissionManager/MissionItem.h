@@ -27,6 +27,7 @@
 #include "QmlObjectListModel.h"
 
 class SurveyMissionItem;
+class SearchMissionItem;
 class SimpleMissionItem;
 class MissionController;
 #ifdef UNITTEST_BUILD
@@ -148,6 +149,7 @@ private:
     static const char*  _jsonParam4Key;
 
     friend class SurveyMissionItem;
+    friend class SearchMissionItem;
     friend class SimpleMissionItem;
     friend class MissionController;
 #ifdef UNITTEST_BUILD

@@ -139,7 +139,7 @@ QGCView {
                         spacing:    ScreenTools.defaultFontPixelWidth
                         anchors.centerIn: parent
                         //-----------------------------------------------------------------
-                        //-- Base UI Font Point Size
+                       /* //-- Base UI Font Point Size
                         Row {
                             visible: _appFontPointSize ? _appFontPointSize.visible : false
                             spacing: ScreenTools.defaultFontPixelWidth
@@ -183,7 +183,7 @@ QGCView {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text:                   _requiresRestart
                             }
-                        }
+                        } */
                         //-----------------------------------------------------------------
                         //-- Palette Styles
                         Row {

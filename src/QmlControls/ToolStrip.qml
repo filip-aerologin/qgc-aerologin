@@ -17,7 +17,7 @@ Rectangle {
     color:      qgcPal.window
     width:      buttonStripColumn.width + (buttonStripColumn.anchors.margins * 2)
     height:     ScreenTools.isMobile ? ScreenTools.minTouchPixels : ScreenTools.defaultFontPixelWidth * 8
-    radius:     _radius
+    //radius:     _radius
     border.width:   1
     border.color:   qgcPal.globalTheme === QGCPalette.Light ? Qt.rgba(0,0,0,0.35) : Qt.rgba(1,1,1,0.35)
 

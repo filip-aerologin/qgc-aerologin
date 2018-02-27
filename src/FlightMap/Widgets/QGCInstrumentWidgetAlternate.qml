@@ -59,7 +59,7 @@ Rectangle {
             anchors.left:       parent.left
             anchors.right:      parent.right
             qgcView:            root._qgcView
-            maxHeight:          _availableValueHeight
+            maxHeight:          _availableValueHeight         
         }
     }
 }

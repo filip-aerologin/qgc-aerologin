@@ -50,8 +50,8 @@ Rectangle {
     Rectangle
     {
         id: pageCombo
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.left:   parent.left
+        anchors.right:  parent.right
         color:          qgcPal.window
         implicitWidth:  ScreenTools.implicitComboBoxWidth
         implicitHeight: ScreenTools.implicitComboBoxHeight

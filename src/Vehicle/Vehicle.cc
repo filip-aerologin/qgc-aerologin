@@ -7,7 +7,6 @@
  *
  ****************************************************************************/
 
-
 #include "Vehicle.h"
 #include "MAVLinkProtocol.h"
 #include "FirmwarePluginManager.h"
@@ -33,6 +32,7 @@
 #include "QGCCorePlugin.h"
 #include "ADSBVehicle.h"
 #include "QGCCameraManager.h"
+#include "SearchMissionItem.h"
 
 QGC_LOGGING_CATEGORY(VehicleLog, "VehicleLog")
 
@@ -57,6 +57,7 @@ const char* Vehicle::_altitudeAMSLFactName =        "altitudeAMSL";
 const char* Vehicle::_flightDistanceFactName =      "flightDistance";
 const char* Vehicle::_flightTimeFactName =          "flightTime";
 const char* Vehicle::_distanceToHomeFactName =      "distanceToHome";
+const char* Vehicle::_wifiStrengthFactName =        "wifiStrength";
 
 const char* Vehicle::_gpsFactGroupName =        "gps";
 const char* Vehicle::_batteryFactGroupName =    "battery";
@@ -123,6 +124,7 @@ Vehicle::Vehicle(LinkInterface*             link,
     , _connectionLost(false)
     , _connectionLostEnabled(true)
     , _initialPlanRequestComplete(false)
+    , _missionController(NULL)
     , _missionManager(NULL)
     , _missionManagerInitialRequestSent(false)
     , _geoFenceManager(NULL)
@@ -165,6 +167,7 @@ Vehicle::Vehicle(LinkInterface*             link,
     , _flightDistanceFact   (0, _flightDistanceFactName,    FactMetaData::valueTypeDouble)
     , _flightTimeFact       (0, _flightTimeFactName,        FactMetaData::valueTypeElapsedTimeInSeconds)
     , _distanceToHomeFact   (0, _distanceToHomeFactName,    FactMetaData::valueTypeDouble)
+    , _wifiStrengthFact     (0, _wifiStrengthFactName,      FactMetaData::valueTypeInt16)
     , _gpsFactGroup(this)
     , _batteryFactGroup(this)
     , _windFactGroup(this)
@@ -337,6 +340,7 @@ Vehicle::Vehicle(MAV_AUTOPILOT              firmwareType,
     , _flightDistanceFact   (0, _flightDistanceFactName,    FactMetaData::valueTypeDouble)
     , _flightTimeFact       (0, _flightTimeFactName,        FactMetaData::valueTypeElapsedTimeInSeconds)
     , _distanceToHomeFact   (0, _distanceToHomeFactName,    FactMetaData::valueTypeDouble)
+    , _wifiStrengthFact     (0, _wifiStrengthFactName,      FactMetaData::valueTypeInt16)
     , _gpsFactGroup(this)
     , _batteryFactGroup(this)
     , _windFactGroup(this)
@@ -392,6 +396,7 @@ void Vehicle::_commonInit(void)
     _addFact(&_flightDistanceFact,      _flightDistanceFactName);
     _addFact(&_flightTimeFact,          _flightTimeFactName);
     _addFact(&_distanceToHomeFact,      _distanceToHomeFactName);
+    _addFact(&_wifiStrengthFact,        _wifiStrengthFactName);
 
     _addFactGroup(&_gpsFactGroup,       _gpsFactGroupName);
     _addFactGroup(&_batteryFactGroup,   _batteryFactGroupName);
@@ -662,6 +667,9 @@ void Vehicle::_mavlinkMessageReceived(LinkInterface* link, mavlink_message_t mes
         break;
     case MAVLINK_MSG_ID_ADSB_VEHICLE:
         _handleADSBVehicle(message);
+        break;
+    case MAVLINK_MSG_ID_DISTANCE_SENSOR:
+        _handleWifi(message);
         break;
 
     case MAVLINK_MSG_ID_SERIAL_CONTROL:
@@ -1077,6 +1085,11 @@ void Vehicle::_setHomePosition(QGeoCoordinate& homeCoord)
     }
 }
 
+void Vehicle::_getHomePosition(QGeoCoordinate& homePosition)
+{
+    homePosition = _homePosition;
+}
+
 void Vehicle::_handleHomePosition(mavlink_message_t& message)
 {
     mavlink_home_position_t homePos;
@@ -1398,9 +1411,55 @@ void Vehicle::_updatePriorityLink(void)
         _priorityLink = _toolbox->linkManager()->sharedLinkInterfacePointerForLink(newPriorityLink);
     }
 }
-
+bool flag = true;
+bool flag2 = true;
+bool flag3 = true;
+QList<QPointF> polygonPoints, centroidPoints, pointsInPolygon;
+    SearchMissionItem* lol;
+        QGeoCoordinate tangentOrigin;
+         QList<QGeoCoordinate> transectCoords;
 void Vehicle::_updateAttitude(UASInterface*, double roll, double pitch, double yaw, quint64)
 {
+
+    //lol = new SearchMissionItem();
+
+   // PlanMasterController* qwerty;
+   // qwerty = new PlanMasterController();
+    //_missionController = new MissionController();
+   // qwerty->start(true);
+   // _missionController->start(true);
+    //_missionController->sendVisualItems(this);
+   // _missionController->sendToVehicle();
+
+        lol->test(polygonPoints, centroidPoints,pointsInPolygon,tangentOrigin,transectCoords);
+        qDebug() << transectCoords << endl;
+       QGeoCoordinate temp(-35.3625717,149.1666564, 20);
+       QGeoCoordinate coordinate2(-35.3625717,146.1666564, 20);
+qDebug() << this->coordinate() << endl;
+    if (this->armed() && this->flying() && flag)
+    {
+
+this->guidedModeGotoLocation(temp);
+       //_missionManager->writeArduPilotGuidedMissionItem(temp,false);
+       flag = false;
+
+}
+    if(this->coordinate().longitude() == temp.longitude() && flag2)
+    {
+//QGeoCoordinate coordinate1(37.803784, -122.462276, 594.0);
+
+_missionManager->writeArduPilotGuidedMissionItem(coordinate2,false);
+flag2 = false;
+    }
+    if(this->coordinate().latitude() == coordinate2.latitude() && flag3)
+    {
+    this->guidedModeRTL();
+        flag3 = false;
+}
+
+
+
+
     if (qIsInf(roll)) {
         _rollFact.setRawValue(0);
     } else {
@@ -2873,6 +2932,110 @@ void Vehicle::sendPlan(QString planFile)
     PlanMasterController::sendPlanToVehicle(this, planFile);
 }
 
+//SearchMissionItem* lol;
+//QList<QPointF> polygonPoints, centroidPoints, pointsInPolygon;
+double gridSize=50.0;
+double entryLocation=1;
+QList<QGeoCoordinate> lol1;
+//QGeoCoordinate tangentOrigin;
+bool teest = true;
+void Vehicle::_handleWifi(mavlink_message_t& message)
+{
+    mavlink_distance_sensor_t wifi;
+    mavlink_msg_distance_sensor_decode(&message, &wifi);
+    QVector<double> wifiLocated;
+
+    _wifiStrengthFact.setRawValue(wifi.min_distance);
+
+    if (_wifiLocatedList.size() > 10 || _wifiLocatedList.size() == 0)
+    {
+        _wifiLocatedList.clear();
+
+        wifiLocated.append(_coordinate.latitude());
+        wifiLocated.append(_coordinate.longitude());
+        wifiLocated.append(wifi.min_distance);
+        _wifiLocatedList.append(wifiLocated);
+        wifiLocated.clear();
+    }
+    wifiLocated.append(_coordinate.latitude());
+    wifiLocated.append(_coordinate.longitude());
+    wifiLocated.append(wifi.min_distance);
+    _wifiLocatedList.append(wifiLocated);
+    wifiLocated.clear();
+    //QGeoCoordinate vertex = lol->_mapPolygon.pathModel().value<QGCQGeoCoordinate*>(0)->coordinate();
+    //qDebug() << vertex << endl;
+
+    lol->test(polygonPoints, centroidPoints,pointsInPolygon,tangentOrigin,transectCoords);
+    //emit lastSequenceNumberChanged(lastSequenceNumber());
+/*
+    QList<MissionItem*> rgMissionItems;
+
+
+
+
+    QObject* abcd;
+    abcd = new QObject();
+    QGeoCoordinate test22 = {10,10};
+    QString test12 = "Search";
+*/
+
+    PlanMasterController* qwerty;
+    qwerty = new PlanMasterController();
+    _missionController = new MissionController(qwerty);
+
+    _missionController->start(true);
+
+
+   // _missionController->insertSimpleMissionItem(test22,0);
+    //QmlObjectListModel* abc;
+    //abc = new QmlObjectListModel();
+    _missionController->sendVisualItems(this);
+
+   // rgMissionItems.append();
+   // abc->append();
+
+
+
+ /*   missionManager()->writeMissionItems(rgMissionItems);
+
+            for (int i=0; i<rgMissionItems.count(); i++) {
+                rgMissionItems[i]->deleteLater();
+            }
+
+*/
+
+   // _missionController->sendItemsToVehicle(this,abc);
+  //  //int test123 = _missionController->currentMissionIndex();
+    //qDebug() << test123 << endl;
+    //_missionController->removeMissionItem(1);
+   // _missionController->sendToVehicle();
+    //_missionController->insertComplexMissionItem(test12,test22,2);
+   // _missionController->sendItemsToVehicle(this,abc);
+
+    //qDebug() << polygonPoints << endl;
+    //lol->tessten.clear();
+    //emit wifiSignalDropped(_wifiLocatedList);
+    if (_testStrength)
+    {
+        if (_wifiLocatedList.rbegin()[0][2] > _testStrength + 5)
+        {
+            qDebug() << "SIGNAL DROPPED AAAAAAAAAAAAAAA!" << endl;
+        }
+        _testStrength = 0;
+    }
+    qDebug() << _wifiLocatedList<< endl;
+    qDebug() << _wifiLocatedList.rbegin()[1][2]<< endl;
+    qDebug() << _wifiLocatedList.rbegin()[0][2]<< endl;
+
+
+    if (_wifiLocatedList.rbegin()[0][2] > _wifiLocatedList.rbegin()[1][2] + 5)
+    {
+        qDebug() << "WARNING SIGNALS DROPPING!" << endl;
+        _testStrength = _wifiLocatedList.rbegin()[1][2];
+
+    }
+
+ }
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

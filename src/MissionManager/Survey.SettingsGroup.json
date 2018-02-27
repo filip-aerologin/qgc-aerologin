@@ -39,6 +39,15 @@
     "defaultValue":     30
 },
 {
+    "name":             "GridSize",
+    "shortDescription": "Amount of spacing in between parallel grid lines. The smaller the value, the more accurate the search",
+    "type":             "double",
+    "decimalPlaces":    2,
+    "min":              0.1,
+    "units":            "m",
+    "defaultValue":     51
+},
+{
     "name":             "TurnaroundDist",
     "shortDescription": "Amount of additional distance to add outside the grid area for vehicle turnaround.",
     "type":             "double",
@@ -162,7 +171,7 @@
     "name":             "GridEntryLocation",
     "shortDescription": "Location for entry point into survey area",
     "type":             "uint32",
-    "enumStrings":      "Position 1, Position 2, Position 3, Position 4",
+    "enumStrings":      "South-West,North-East,South-East,North-West",
     "enumValues":       "0,1,2,3",
     "defaultValue":     0
 }

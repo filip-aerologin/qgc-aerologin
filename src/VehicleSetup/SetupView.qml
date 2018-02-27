@@ -199,7 +199,7 @@ Rectangle {
         //anchors.topMargin:  _verticalMargin * 3
         anchors.top:        parent.top
         anchors.bottom:     parent.bottom
-        anchors.leftMargin: _horizontalMargin * 30
+        anchors.leftMargin: _horizontalMargin * 10
         anchors.left:       parent.left
         anchors.rightMargin: _horizontalMargin
         anchors.right:      parent.right
@@ -209,11 +209,11 @@ Rectangle {
 
         RowLayout {
             id:         buttonColumn
-            spacing:    _defaultTextHeight * 2
+            spacing:    _defaultTextHeight
 
             QGCLabel {
                 anchors.left:           parent.left
-                anchors.right:          parent.right
+                //anchors.right:          parent.right
                 font.pointSize:         28 //////////////////////////////////////
                 text:                   qsTr("Vehicle Setup  ")
                 wrapMode:               Text.WordWrap

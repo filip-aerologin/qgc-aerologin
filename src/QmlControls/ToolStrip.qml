@@ -123,8 +123,8 @@ Rectangle {
 
                    Rectangle {
                         anchors.fill:   parent
-                        color:          checked ? _repeaterPal.buttonHighlight : _repeaterPal.button
-
+                        //color:          checked ? _repeaterPal.buttonHighlight : _repeaterPal.button
+                        color:          checked ? _repeaterPal.window : _repeaterPal.window
                         QGCColoredImage {
                             id:                 button
                             anchors.fill:       parent
@@ -134,7 +134,7 @@ Rectangle {
                             fillMode:           Image.PreserveAspectFit
                             mipmap:             true
                             smooth:             true
-                            color:              checked ? _repeaterPal.buttonHighlightText : _repeaterPal.buttonText
+                            color:              checked ? _repeaterPal.buttonHighlightText : _repeaterPal.text
 
 
                             RotationAnimation on rotation {

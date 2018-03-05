@@ -23,7 +23,7 @@ Item {
     property bool isDark:    false
 
     // As a percentage of the window width
-    property real maxSize: 0.75
+    property real maxSize: 0.47
     property real minSize: 0.10
 
     signal  activated()

@@ -61,7 +61,8 @@ Item {
     QGCLabel {
         id:                     waitForVehicle       
         anchors.verticalCenter: parent.verticalCenter
-        text:                   ("Oczekiwanie na DC-01 Mucha")  //qsTr("Waiting For Vehicle Connection")
+        //text:                   ("Oczekiwanie na DC-01 Mucha")  //qsTr("Waiting For Vehicle Connection")
+        text:                   qsTr("Waiting For DC-01 Mucha...")
         font.pointSize:         ScreenTools.largeFontPointSize // ScreenTools.mediumFontPointSize  // small
         font.family:            ScreenTools.demiboldFontFamily
         color:                  qgcPal.alertBackground //qgcPal.colorRed

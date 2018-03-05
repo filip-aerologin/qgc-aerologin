@@ -11,7 +11,7 @@ Rectangle {
     implicitWidth:  (label.contentWidth + (_diameter * 2.5) + (_border * 4) )
     implicitHeight: label.height * 2.5 * 1.5
     radius:         height /2
-    color:          qgcPal.text
+    color:          "#000000"
     rotation:       90
 
     signal accept   ///< Action confirmed
@@ -30,7 +30,7 @@ Rectangle {
         anchors.horizontalCenter:   parent.horizontalCenter
         anchors.verticalCenter:     parent.verticalCenter
         text:                       confirmText
-        color:                      qgcPal.window
+        color:                      "#ffffff"
         rotation:                   -180
     }
 
@@ -41,7 +41,7 @@ Rectangle {
         height:     _diameter
         width:      _diameter
         radius:     _diameter / 2
-        color:      qgcPal.windowShade
+        color:      "#d9d9d9"
         opacity:    0.8
 
 
@@ -53,7 +53,7 @@ Rectangle {
             fillMode:               Image.PreserveAspectFit
             smooth:                 false
             mipmap:                 false
-            color:                  qgcPal.text
+            color:                  "#000000"
             cache:                  false
             source:                 "/res/ArrowRight.svg"
         }

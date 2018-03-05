@@ -23,7 +23,7 @@ Item {
     property bool isDark:    false
 
     // As a percentage of the window width
-    property real maxSize: 0.75
+    property real maxSize: 0.47
     property real minSize: 0.10
 
     signal  activated()
@@ -74,7 +74,7 @@ Item {
         onPositionChanged: {
             if (pipResize.pressed) {
                 var parentW = pip.parent.width // flightView
-                var newW = pipResize.initialWidth - mouse.y + pipResize.initialY ///////////////////////////////////////////////////////
+                var newW = pipResize.initialWidth - mouse.x + pipResize.initialX ///////////////////////////////////////////////////////
                 if (newW < parentW * maxSize && newW > parentW * minSize) {
                     newWidth(newW)
                     //console.warn()

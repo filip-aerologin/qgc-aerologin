@@ -1432,10 +1432,11 @@ void Vehicle::_updateAttitude(UASInterface*, double roll, double pitch, double y
    // _missionController->sendToVehicle();
 
         lol->test(polygonPoints, centroidPoints,pointsInPolygon,tangentOrigin,transectCoords);
-        qDebug() << transectCoords << endl;
-       QGeoCoordinate temp(-35.3625717,149.1666564, 20);
+
+
+        QGeoCoordinate temp(-35.3625717,149.1666564, 20);
        QGeoCoordinate coordinate2(-35.3625717,146.1666564, 20);
-qDebug() << this->coordinate() << endl;
+//qDebug() << this->coordinate() << endl;
     if (this->armed() && this->flying() && flag)
     {
 

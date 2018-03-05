@@ -239,7 +239,8 @@ QGCView {
                     name:   "pipMode"
                     PropertyChanges {
                         target:             _flightMapContainer
-                        anchors.margins:    ScreenTools.defaultFontPixelHeight
+                        anchors.bottomMargin:     ScreenTools.defaultFontPixelHeight * 2.5
+                        anchors.leftMargin:     ScreenTools.defaultFontPixelHeight
                     }
                 },
                 State {
@@ -282,7 +283,8 @@ QGCView {
                     name:   "pipMode"
                     PropertyChanges {
                         target:             _flightMapContainer2
-                        anchors.margins:    ScreenTools.defaultFontPixelHeight
+                        anchors.bottomMargin:     ScreenTools.defaultFontPixelHeight * 2.5
+                        anchors.rightMargin:     ScreenTools.defaultFontPixelHeight
                     }
                 },
                 State {
@@ -325,7 +327,8 @@ QGCView {
                     name:   "pipMode"
                     PropertyChanges {
                         target: _flightVideo
-                        anchors.margins:    ScreenTools.defaultFontPixelHeight
+                        anchors.bottomMargin:     ScreenTools.defaultFontPixelHeight * 2.5
+                        anchors.leftMargin:       ScreenTools.defaultFontPixelHeight
                     }
                 },
                 State {
@@ -356,7 +359,8 @@ QGCView {
             height:             _pipSize * (9/16)
             anchors.left:       _panel.left
             anchors.bottom:     _panel.bottom
-            anchors.margins:    ScreenTools.defaultFontPixelHeight
+            anchors.bottomMargin:     ScreenTools.defaultFontPixelHeight * 2.5
+            anchors.leftMargin:     ScreenTools.defaultFontPixelHeight
             visible:            QGroundControl.videoManager.hasVideo && !QGroundControl.videoManager.fullScreen
             isHidden:           !_isPipVisible
             isDark:             isBackgroundDark
@@ -370,7 +374,7 @@ QGCView {
                     _mainIsMap = false
                     _mainIsVideo1 = true
                     _mainIsVideo2 = false
-                    setStates()
+                    setStates()// zmiana parametrów okienek w liscie multivechicle
                 }
 
             }
@@ -397,7 +401,8 @@ QGCView {
                     name:   "pipMode"
                     PropertyChanges {
                         target: _flightVideo2
-                        anchors.margins:    ScreenTools.defaultFontPixelHeight
+                        anchors.bottomMargin:     ScreenTools.defaultFontPixelHeight * 2.5
+                        anchors.rightMargin:     ScreenTools.defaultFontPixelHeight
                     }
                 },
                 State {
@@ -428,7 +433,8 @@ QGCView {
             height:             _pipSize2 * (9/16)
             anchors.right:      _panel.right
             anchors.bottom:     _panel.bottom
-            anchors.margins:    ScreenTools.defaultFontPixelHeight
+            anchors.bottomMargin:     ScreenTools.defaultFontPixelHeight * 2.5
+            anchors.rightMargin:     ScreenTools.defaultFontPixelHeight
             visible:            QGroundControl.videoManager2.hasVideo && !QGroundControl.videoManager2.fullScreen
             isHidden:           !_isPipVisible2
             isDark:             isBackgroundDark
@@ -566,7 +572,7 @@ QGCView {
             }
         }*/
 
-        MultiVehicleList {    // zmiana parametrów okienek w liscie multivechicle
+        MultiVehicleList {
             anchors.margins:    _margins
             anchors.top:        singleMultiSelector.bottom
             anchors.right:      parent.right

@@ -36,7 +36,7 @@ Item {
         border.color:    qgcPal.globalTheme === QGCPalette.Light ? Qt.rgba(0,0,0,0.75) : Qt.rgba(255,255,255,0.75)
         visible:        !(_videoReceiver && _videoReceiver.videoRunning)
         QGCLabel {
-            text:               qsTr("WAITING FOR VIDEO")
+            text:               qsTr("VIDEO 2")
             font.family:        ScreenTools.demiboldFontFamily
             color:              qgcPal.globalTheme === QGCPalette.Light ? "black" : "white"
             font.pointSize:     ScreenTools.smallFontPointSize

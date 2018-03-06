@@ -52,20 +52,24 @@ QGCView {
         QGCFlickable {
             clip:               true
             anchors.fill:       parent
-            contentHeight:      settingsColumn.height
-            contentWidth:       settingsColumn.width
+            contentHeight:      settingsColumn.height > settingsColumn2.height ? settingsColumn.height : settingsColumn2.height
+            contentWidth:       settingsColumn.width + settingsColumn2.width
             Column {
                 id:                 settingsColumn
-                width:              _qgcView.width
+                width:              _qgcView.width * 0.3
                 spacing:            ScreenTools.defaultFontPixelHeight * 0.5
-                anchors.margins:    ScreenTools.defaultFontPixelWidth
+                anchors.left:       parent.left
+                anchors.leftMargin: _qgcView.width/2 - settingsColumn.width + ScreenTools.defaultFontPixelWidth * 2
+                //anchors.horizontalCenterOffset: 20
+                //anchors.margins:    ScreenTools.defaultFontPixelWidth
+
 
                 //-----------------------------------------------------------------
                 //-- Units
                 Item {
-                    width:                      _qgcView.width * 0.3
+                    width:                      parent.width
                     height:                     unitLabel.height
-                    anchors.topMargin:          100
+                    //anchors.topMargin:          100
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
                     visible:                    QGroundControl.settingsManager.unitsSettings.visible
@@ -77,7 +81,7 @@ QGCView {
                 }
                 Rectangle {
                     height:                     unitsCol.height + (ScreenTools.defaultFontPixelHeight * 2)
-                    width:                      _qgcView.width * 0.3   //0.8
+                    width:                      parent.width   //0.8
                     color:                      qgcPal.windowShade
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -116,7 +120,7 @@ QGCView {
                 //-----------------------------------------------------------------
                 //-- Miscellaneous
                 Item {
-                    width:                      _qgcView.width * 0.3
+                    width:                      parent.width
                     height:                     miscLabel.height
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -129,7 +133,7 @@ QGCView {
                 }
                 Rectangle {
                     height:                     miscCol.height + (ScreenTools.defaultFontPixelHeight * 2)
-                    width:                      _qgcView.width * 0.3
+                    width:                      parent.width
                     color:                      qgcPal.windowShade
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -394,11 +398,20 @@ QGCView {
                         }
                     }
                 }
-
+            }
                 //-----------------------------------------------------------------
                 //-- RTK GPS
+
+            Column {
+                id:                 settingsColumn2
+                anchors.left:      settingsColumn.right
+                width:              _qgcView.width * 0.3
+                spacing:            ScreenTools.defaultFontPixelHeight * 0.5
+                anchors.margins:    ScreenTools.defaultFontPixelWidth * 2
+                //anchors.horizontalCenter: parent.horizontalCenter
+                //anchors.horizontalCenterOffset: -20
                 Item {
-                    width:                      _qgcView.width * 0.3
+                    width:                      parent.width
                     height:                     unitLabel.height
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -411,7 +424,7 @@ QGCView {
                 }
                 Rectangle {
                     height:                     rtkGrid.height + (ScreenTools.defaultFontPixelHeight * 2)
-                    width:                      _qgcView.width * 0.3
+                    width:                      parent.width
                     color:                      qgcPal.windowShade
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -443,7 +456,7 @@ QGCView {
                 //-----------------------------------------------------------------
                 //-- Offline Maps
                 Item {
-                    width:                      _qgcView.width * 0.3
+                    width:                      parent.width
                     height:                     unitLabel.height
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter
@@ -455,8 +468,8 @@ QGCView {
                     }
                 }
                 Rectangle {
-                    height:                     500
-                    width:                      _qgcView.width * 0.3
+                    height:                     480
+                    width:                      parent.width
                     color:                      qgcPal.windowShade
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
                     anchors.horizontalCenter:   parent.horizontalCenter

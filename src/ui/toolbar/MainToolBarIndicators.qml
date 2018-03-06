@@ -87,15 +87,16 @@ Item {
     }
     // Brand image --------------------------------------------------------------------------------------------------------------------------------------------------------------
     Image {
+        id:                     brandImage
         anchors.right:          parent.right
-        anchors.rightMargin:    10
+        anchors.rightMargin:    ScreenTools.defaultFontPixelWidth * 2
         anchors.top:            parent.top
         anchors.topMargin:      -3
         anchors.bottom:         parent.bottom
         anchors.bottomMargin:   -3
         visible:                true //x > indicatorRow.width && !_communicationLost
         fillMode:               Image.PreserveAspectFit
-        source:                 _outdoorPalette ? "/qmlimages/UAVS/BrandOutdoor" : "/qmlimages/UAVS/BrandIndoor" ////////////////////////////////////////////////////////
+        source:                 _outdoorPalette ? "/qmlimages/UAVS/BrandOutdoor" : "/qmlimages/UAVS/BrandIndoor"
         mipmap:                 true
 
         property bool   _outdoorPalette:        qgcPal.globalTheme === QGCPalette.Light
@@ -123,11 +124,12 @@ Item {
     }
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     Row {
-        anchors.fill:       parent
-        anchors.rightMargin:    115
-        layoutDirection:    Qt.RightToLeft
-        spacing:            ScreenTools.defaultFontPixelWidth
-        visible:            _communicationLost
+        anchors.right:       brandImage.left
+        anchors.fill:        parent
+        anchors.rightMargin: ScreenTools.defaultFontPixelWidth * 18
+        layoutDirection:     Qt.RightToLeft
+        spacing:             ScreenTools.defaultFontPixelWidth * 2
+        visible:             _communicationLost
 
         QGCButton {
             id:                     disconnectButton
@@ -140,10 +142,10 @@ Item {
         QGCLabel {
             id:                     connectionLost
             anchors.verticalCenter: parent.verticalCenter
-            text:                   qsTr("COMMUNICATION LOST")
+            text:                   qsTr("Communication Lost")
             font.pointSize:         ScreenTools.largeFontPointSize
             font.family:            ScreenTools.demiboldFontFamily
-            color:                  qgcPal.colorRed
+            color:                  "#009EE0"
         }
     }
 }

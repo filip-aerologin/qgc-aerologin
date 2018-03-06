@@ -37,7 +37,7 @@ Rectangle {
         //-- Default Settings
         __rightPanel.source = QGroundControl.corePlugin.settingsPages[QGroundControl.corePlugin.defaultSettings].url
     }
-        MouseArea {
+    /*   MouseArea {
             id: mouseArea
             anchors.fill: parent
             hoverEnabled: true
@@ -69,14 +69,14 @@ Rectangle {
                         }
                 }
             }
-
+*/
     QGCLabel {
         id: _settingstxt
         anchors.left:           parent.left
         //anchors.right:          parent.right
         //anchors.top:            parent.top
-        anchors.leftMargin:     _horizontalMargin * 30
-        anchors.topMargin:      _verticalMargin * 3
+        anchors.leftMargin:     ScreenTools.defaultFontPixelHeight * 2
+        anchors.topMargin:      ScreenTools.defaultFontPixelHeight * 2
         font.pointSize:         28 //
         text:                   qsTr("Application Settings")
         wrapMode:               Text.WordWrap

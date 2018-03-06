@@ -56,7 +56,7 @@ QGCView {
             contentWidth:       settingsColumn.width + settingsColumn2.width
             Column {
                 id:                 settingsColumn
-                width:              _qgcView.width * 0.4
+                width:              _qgcView.width * 0.5
                 spacing:            ScreenTools.defaultFontPixelHeight * 0.5
                 //anchors.left:       parent.left
                 //anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 2
@@ -406,7 +406,7 @@ QGCView {
             Column {
                 id:                 settingsColumn2
                 anchors.left:      settingsColumn.right
-                width:              _qgcView.width * 0.4
+                width:              _qgcView.width * 0.5
                 spacing:            ScreenTools.defaultFontPixelHeight * 0.5
                 anchors.margins:    ScreenTools.defaultFontPixelWidth * 2
                 //anchors.horizontalCenter: parent.horizontalCenter

@@ -201,12 +201,11 @@ Rectangle {
         anchors.bottom:     parent.bottom
         anchors.leftMargin: _horizontalMargin * 10
         anchors.left:       parent.left
-        anchors.rightMargin: _horizontalMargin
+        anchors.rightMargin: ScreenTools.defaultFontPixelWidth / 2
         anchors.right:      parent.right
         contentHeight:      buttonScroll.height + _verticalMargin
         flickableDirection: Flickable.VerticalFlick
         clip:               true
-        anchors.topMargin:      ScreenTools.defaultPixelHeight
 
         RowLayout {
             id:         buttonColumn
@@ -214,7 +213,7 @@ Rectangle {
 
             QGCLabel {
                 anchors.left:           parent.left
-                anchors.top:            parent.top
+                //anchors.right:          parent.right
                 font.pointSize:         20 //////////////////////////////////////
                 text:                   qsTr("Vehicle Setup  ")
                 wrapMode:               Text.WordWrap
@@ -234,7 +233,6 @@ Rectangle {
                     visible:            _corePlugin && _corePlugin.options.combineSettingsAndSetup
                     onClicked:          panelLoader.setSource(modelData.url)
                     Layout.fillWidth:   true
-
                 }
             }
 

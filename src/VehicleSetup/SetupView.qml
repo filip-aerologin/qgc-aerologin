@@ -138,7 +138,7 @@ Rectangle {
     Component {
         id: disconnectedVehicleSummaryComponent
 
-        //Rectangle {                                        // szare tło
+        //Rectangle {
            // color: qgcPal.windowShade
 
             QGCLabel {
@@ -206,6 +206,7 @@ Rectangle {
         contentHeight:      buttonScroll.height + _verticalMargin
         flickableDirection: Flickable.VerticalFlick
         clip:               true
+        anchors.topMargin:      ScreenTools.defaultPixelHeight
 
         RowLayout {
             id:         buttonColumn
@@ -213,8 +214,8 @@ Rectangle {
 
             QGCLabel {
                 anchors.left:           parent.left
-                //anchors.right:          parent.right
-                font.pointSize:         28 //////////////////////////////////////
+                anchors.top:            parent.top
+                font.pointSize:         20 //////////////////////////////////////
                 text:                   qsTr("Vehicle Setup  ")
                 wrapMode:               Text.WordWrap
                 horizontalAlignment:    Text.left//Text.AlignHCenter
@@ -224,6 +225,7 @@ Rectangle {
             Repeater {
                 model:                  _corePlugin ? _corePlugin.settingsPages : []
                 visible:                _corePlugin && _corePlugin.options.combineSettingsAndSetup
+
                 SubMenuButton {
                     imageResource:      modelData.icon
                     setupIndicator:     false
@@ -232,6 +234,7 @@ Rectangle {
                     visible:            _corePlugin && _corePlugin.options.combineSettingsAndSetup
                     onClicked:          panelLoader.setSource(modelData.url)
                     Layout.fillWidth:   true
+
                 }
             }
 
@@ -247,7 +250,7 @@ Rectangle {
                 onClicked: showSummaryPanel()
             }
 
-            SubMenuButton {
+            /*SubMenuButton {
                 id:                 firmwareButton
                 imageResource:      "/qmlimages/FirmwareUpgradeIcon.svg"
                 setupIndicator:     false
@@ -257,7 +260,7 @@ Rectangle {
                 Layout.fillWidth:   true
 
                 onClicked: showFirmwarePanel()
-            }
+            }*/
 
             SubMenuButton {
                 id:                 px4FlowButton
@@ -299,7 +302,7 @@ Rectangle {
                 }
             }
 
-            SubMenuButton {
+           /* SubMenuButton {
                 setupIndicator:     false
                 exclusiveGroup:     setupButtonGroup
                 visible:            QGroundControl.multiVehicleManager && QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable && _corePlugin.showAdvancedUI
@@ -307,7 +310,7 @@ Rectangle {
                 Layout.fillWidth:   true
 
                 onClicked: showParametersPanel()
-            }
+            } */
 
         }
     }

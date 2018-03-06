@@ -74,10 +74,10 @@ Rectangle {
         id: _settingstxt
         anchors.left:           parent.left
         //anchors.right:          parent.right
-        //anchors.top:            parent.top
+        anchors.top:            parent.top
         anchors.leftMargin:     ScreenTools.defaultFontPixelHeight * 2
-        anchors.topMargin:      ScreenTools.defaultFontPixelHeight * 2
-        font.pointSize:         28 //
+        anchors.topMargin:      ScreenTools.defaultFontPixelWidth
+        font.pointSize:         20 //
         text:                   qsTr("Application Settings")
         wrapMode:               Text.WordWrap
         horizontalAlignment:    Text.left//Text.AlignHCenter
@@ -90,7 +90,7 @@ Rectangle {
         anchors.rightMargin:      _horizontalMargin
         anchors.topMargin:        _verticalMargin
         anchors.bottomMargin:     _verticalMargin
-        anchors.left:             parent.left //divider.right
+        anchors.left:             _settingstxt.right //divider.right
         anchors.top:              parent.top
         anchors.bottom:           parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter

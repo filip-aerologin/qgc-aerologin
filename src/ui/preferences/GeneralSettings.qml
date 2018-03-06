@@ -56,10 +56,11 @@ QGCView {
             contentWidth:       settingsColumn.width + settingsColumn2.width
             Column {
                 id:                 settingsColumn
-                width:              _qgcView.width * 0.3
+                width:              _qgcView.width * 0.4
                 spacing:            ScreenTools.defaultFontPixelHeight * 0.5
-                anchors.left:       parent.left
-                anchors.leftMargin: _qgcView.width/2 - settingsColumn.width + ScreenTools.defaultFontPixelWidth * 2
+                //anchors.left:       parent.left
+                //anchors.leftMargin: ScreenTools.defaultFontPixelWidth * 2
+                //anchors.leftMargin: _qgcView.width/2 - settingsColumn.width + ScreenTools.defaultFontPixelWidth * 2
                 //anchors.horizontalCenterOffset: 20
                 //anchors.margins:    ScreenTools.defaultFontPixelWidth
 
@@ -405,7 +406,7 @@ QGCView {
             Column {
                 id:                 settingsColumn2
                 anchors.left:      settingsColumn.right
-                width:              _qgcView.width * 0.3
+                width:              _qgcView.width * 0.4
                 spacing:            ScreenTools.defaultFontPixelHeight * 0.5
                 anchors.margins:    ScreenTools.defaultFontPixelWidth * 2
                 //anchors.horizontalCenter: parent.horizontalCenter
@@ -468,7 +469,7 @@ QGCView {
                     }
                 }
                 Rectangle {
-                    height:                     480
+                    height:                     settingsColumn.height - (rtkGrid.height + (ScreenTools.defaultFontPixelHeight * 2 ) + (unitLabel.height) + (ScreenTools.defaultFontPixelWidth * 6) )
                     width:                      parent.width
                     color:                      qgcPal.windowShade
                     anchors.margins:            ScreenTools.defaultFontPixelWidth

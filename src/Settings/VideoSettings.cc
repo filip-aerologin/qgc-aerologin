@@ -21,6 +21,7 @@ const char* VideoSettings::videoSettingsGroupName = "Video";
 
 const char* VideoSettings::videoSourceName =        "VideoSource";
 const char* VideoSettings::udpPortName =            "VideoUDPPort";
+const char* VideoSettings::udpPortName2 =            "VideoUDPPort2";
 const char* VideoSettings::rtspUrlName =            "VideoRTSPUrl";
 const char* VideoSettings::tcpUrlName =             "VideoTCPUrl";
 const char* VideoSettings::videoAspectRatioName =   "VideoAspectRatio";
@@ -41,6 +42,7 @@ VideoSettings::VideoSettings(QObject* parent)
     : SettingsGroup(videoSettingsGroupName, QString() /* root settings group */, parent)
     , _videoSourceFact(NULL)
     , _udpPortFact(NULL)
+    , _udpPortFact2(NULL)
     , _tcpUrlFact(NULL)
     , _rtspUrlFact(NULL)
     , _videoAspectRatioFact(NULL)
@@ -61,15 +63,15 @@ VideoSettings::VideoSettings(QObject* parent)
 #ifndef NO_UDP_VIDEO
     videoSourceList.append(videoSourceUDP);
 #endif
-    videoSourceList.append(videoSourceRTSP);
-    videoSourceList.append(videoSourceTCP);
+    //videoSourceList.append(videoSourceRTSP);                          // Disable TCP/RTSP
+    //videoSourceList.append(videoSourceTCP);
 #endif
-#ifndef QGC_DISABLE_UVC
+/*#ifndef QGC_DISABLE_UVC                                               // Disable Connected Cameras
     QList<QCameraInfo> cameras = QCameraInfo::availableCameras();
     foreach (const QCameraInfo &cameraInfo, cameras) {
         videoSourceList.append(cameraInfo.description());
     }
-#endif
+#endif*/
     if (videoSourceList.count() == 0) {
         noVideo = true;
         videoSourceList.append(videoSourceNoVideo);
@@ -107,6 +109,17 @@ Fact* VideoSettings::udpPort(void)
 
     return _udpPortFact;
 }
+
+
+Fact* VideoSettings::udpPort2(void)
+{
+    if (!_udpPortFact2) {
+        _udpPortFact2 = _createSettingsFact(udpPortName2);
+    }
+
+    return _udpPortFact2;
+}
+
 
 Fact* VideoSettings::rtspUrl(void)
 {

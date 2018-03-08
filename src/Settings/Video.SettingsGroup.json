@@ -12,7 +12,15 @@
     "longDescription":  "UDP port to bind to for video stream.",
     "type":             "uint16",
     "min":              1025,
-    "defaultValue":     5600
+    "defaultValue":     5000
+},
+{
+    "name":             "VideoUDPPort2",
+    "shortDescription": "Video UDP Port",
+    "longDescription":  "UDP port to bind to for video stream.",
+    "type":             "uint16",
+    "min":              1025,
+    "defaultValue":     5100
 },
 {
     "name":             "VideoRTSPUrl",

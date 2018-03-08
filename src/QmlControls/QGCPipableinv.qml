@@ -44,12 +44,12 @@ Item {
     MouseArea {
         id: pipResize
         anchors.top: parent.top
-        anchors.left: parent.left///////////////////////////////////////////////////////////////////////
+        anchors.left: parent.left
         height: ScreenTools.minTouchPixels
         width: height
         property var initialX: 0
-        property var initialY: 0////////////////////////////////////////////////////////////////////////
         property var initialWidth: 0
+        property var windowWidth: parent.width / 1.1
 
         onClicked: {
             // TODO propagate
@@ -58,27 +58,25 @@ Item {
         // When we push the mouse button down, we un-anchor the mouse area to prevent a resizing loop
         onPressed: {
             pipResize.anchors.top = undefined // Top doesn't seem to 'detach'
-            pipResize.anchors.left = undefined // This one works right, which is what we really need
+            pipResize.anchors.right = undefined // This one works right, which is what we really need
             pipResize.initialX = mouse.x
-            pipResize.initialY = mouse.y/////////////////////////////////////////////////////////////////////////////
             pipResize.initialWidth = pip.width
         }
 
         // When we let go of the mouse button, we re-anchor the mouse area in the correct position
         onReleased: {
             pipResize.anchors.top = pip.top
-            pipResize.anchors.left = pip.left ////////////////////////////////////////////////////////////////////////
+            pipResize.anchors.left = pip.left
         }
 
         // Drag
         onPositionChanged: {
             if (pipResize.pressed) {
                 var parentW = pip.parent.width // flightView
-                var newW = pipResize.initialWidth - mouse.x + pipResize.initialX ///////////////////////////////////////////////////////
+                var newW = pipResize.initialWidth - (mouse.x-parent.width + windowWidth) - pipResize.initialX
                 if (newW < parentW * maxSize && newW > parentW * minSize) {
                     newWidth(newW)
-                    //console.warn()
-
+                    console.warn(mouse.x)
                 }
             }
         }

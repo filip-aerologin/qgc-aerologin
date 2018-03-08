@@ -21,6 +21,7 @@ public:
 
     Q_PROPERTY(Fact* videoSource        READ videoSource        CONSTANT)
     Q_PROPERTY(Fact* udpPort            READ udpPort            CONSTANT)
+    Q_PROPERTY(Fact* udpPort2           READ udpPort2           CONSTANT)
     Q_PROPERTY(Fact* tcpUrl             READ tcpUrl             CONSTANT)
     Q_PROPERTY(Fact* rtspUrl            READ rtspUrl            CONSTANT)
     Q_PROPERTY(Fact* aspectRatio        READ aspectRatio        CONSTANT)
@@ -33,6 +34,7 @@ public:
 
     Fact* videoSource       (void);
     Fact* udpPort           (void);
+    Fact* udpPort2          (void);
     Fact* rtspUrl           (void);
     Fact* tcpUrl            (void);
     Fact* aspectRatio       (void);
@@ -47,6 +49,7 @@ public:
 
     static const char* videoSourceName;
     static const char* udpPortName;
+    static const char* udpPortName2;
     static const char* rtspUrlName;
     static const char* tcpUrlName;
     static const char* videoAspectRatioName;
@@ -66,6 +69,7 @@ public:
 private:
     SettingsFact* _videoSourceFact;
     SettingsFact* _udpPortFact;
+    SettingsFact* _udpPortFact2;
     SettingsFact* _tcpUrlFact;
     SettingsFact* _rtspUrlFact;
     SettingsFact* _videoAspectRatioFact;

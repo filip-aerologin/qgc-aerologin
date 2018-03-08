@@ -399,6 +399,241 @@ QGCView {
                         }
                     }
                 }
+
+
+                //-----------------------------------------------------------------
+                //-- Video Source1
+                Item {
+                    width:                      parent.width
+                    height:                     videoLabel.height
+                    anchors.margins:            ScreenTools.defaultFontPixelWidth
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                    visible:                    QGroundControl.settingsManager.videoSettings.visible
+                    QGCLabel {
+                        id:             videoLabel
+                        text:           qsTr("Video Source 1")
+                        font.family:    ScreenTools.demiboldFontFamily
+                    }
+                }
+                Rectangle {
+                    height:                     videoCol.height + (ScreenTools.defaultFontPixelHeight * 2)
+                    width:                      parent.width
+                    color:                      qgcPal.windowShade
+                    anchors.margins:            ScreenTools.defaultFontPixelWidth
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                    visible:                    QGroundControl.settingsManager.videoSettings.visible
+
+                    Column {
+                        id:         videoCol
+                        spacing:    ScreenTools.defaultFontPixelWidth
+                        anchors.centerIn: parent
+
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.settingsManager.videoSettings.videoSource.visible
+                            QGCLabel {
+                                text:               qsTr("Video Source:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactComboBox {
+                                id:         videoSource
+                                width:      _editFieldWidth
+                                indexModel: false
+                                fact:       QGroundControl.settingsManager.videoSettings.videoSource
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.settingsManager.videoSettings.udpPort.visible && QGroundControl.videoManager.isGStreamer && videoSource.currentIndex === 1
+                            QGCLabel {
+                                text:               qsTr("UDP Port:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactTextField {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings.udpPort
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.settingsManager.videoSettings.rtspUrl.visible && QGroundControl.videoManager.isGStreamer && videoSource.currentIndex === 2
+                            QGCLabel {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text:               qsTr("RTSP URL:")
+                                width:              _labelWidth
+                            }
+                            FactTextField {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings.rtspUrl
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.settingsManager.videoSettings.tcpUrl.visible && QGroundControl.videoManager.isGStreamer && videoSource.currentIndex === 3
+                            QGCLabel {
+                                text:               qsTr("TCP URL:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactTextField {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings.tcpUrl
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                       /* Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.videoManager.isGStreamer && videoSource.currentIndex && videoSource.currentIndex < 3 && QGroundControl.settingsManager.videoSettings.aspectRatio.visible
+                            QGCLabel {
+                                text:               qsTr("Aspect Ratio:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactTextField {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings.aspectRatio
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.videoManager.isGStreamer && videoSource.currentIndex && videoSource.currentIndex < 3 && QGroundControl.settingsManager.videoSettings.gridLines.visible
+                            QGCLabel {
+                                text:               qsTr("Grid Lines:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactComboBox {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings.gridLines
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        } */
+                    }
+                }
+
+
+                //-----------------------------------------------------------------
+                //-- Video Source 2
+                Item {
+                    width:                      parent.width
+                    height:                     videoLabel2.height
+                    anchors.margins:            ScreenTools.defaultFontPixelWidth
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                    visible:                    QGroundControl.settingsManager.videoSettings2.visible
+                    QGCLabel {
+                        id:             videoLabel2
+                        text:           qsTr("Video Source 2")
+                        font.family:    ScreenTools.demiboldFontFamily
+                    }
+                }
+                Rectangle {
+                    height:                     videoCol2.height + (ScreenTools.defaultFontPixelHeight * 2)
+                    width:                      parent.width
+                    color:                      qgcPal.windowShade
+                    anchors.margins:            ScreenTools.defaultFontPixelWidth
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                    visible:                    QGroundControl.settingsManager.videoSettings2.visible
+
+                    Column {
+                        id:         videoCol2
+                        spacing:    ScreenTools.defaultFontPixelWidth
+                        anchors.centerIn: parent
+
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.settingsManager.videoSettings2.videoSource.visible
+                            QGCLabel {
+                                text:               qsTr("Video Source:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactComboBox {
+                                id:         videoSource2
+                                width:      _editFieldWidth
+                                indexModel: false
+                                fact:       QGroundControl.settingsManager.videoSettings2.videoSource
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.settingsManager.videoSettings2.udpPort2.visible && QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex === 1
+                            QGCLabel {
+                                text:               qsTr("UDP Port:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactTextField {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings2.udpPort2
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.settingsManager.videoSettings2.rtspUrl.visible && QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex === 2
+                            QGCLabel {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text:               qsTr("RTSP URL:")
+                                width:              _labelWidth
+                            }
+                            FactTextField {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings2.rtspUrl
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.settingsManager.videoSettings2.tcpUrl.visible && QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex === 3
+                            QGCLabel {
+                                text:               qsTr("TCP URL:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactTextField {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings2.tcpUrl
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                        /*Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex && videoSource2.currentIndex < 3 && QGroundControl.settingsManager.videoSettings2.aspectRatio.visible
+                            QGCLabel {
+                                text:               qsTr("Aspect Ratio:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactTextField {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings2.aspectRatio
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                        Row {
+                            spacing:    ScreenTools.defaultFontPixelWidth
+                            visible:    QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex && videoSource2.currentIndex < 3 && QGroundControl.settingsManager.videoSettings2.gridLines.visible
+                            QGCLabel {
+                                text:               qsTr("Grid Lines:")
+                                width:              _labelWidth
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            FactComboBox {
+                                width:              _editFieldWidth
+                                fact:               QGroundControl.settingsManager.videoSettings2.gridLines
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }*/
+                    }
+                }
+
             }
                 //-----------------------------------------------------------------
                 //-- RTK GPS
@@ -553,239 +788,7 @@ QGCView {
                 }
                 */
 
-                /*-----------------------------------------------------------------
-                //-- Video Source1
-                Item {
-                    width:                      _qgcView.width * 0.8
-                    height:                     videoLabel.height
-                    anchors.margins:            ScreenTools.defaultFontPixelWidth
-                    anchors.horizontalCenter:   parent.horizontalCenter
-                    visible:                    QGroundControl.settingsManager.videoSettings.visible
-                    QGCLabel {
-                        id:             videoLabel
-                        text:           qsTr("Video")
-                        font.family:    ScreenTools.demiboldFontFamily
-                    }
-                }
-                Rectangle {
-                    height:                     videoCol.height + (ScreenTools.defaultFontPixelHeight * 2)
-                    width:                      _qgcView.width * 0.8
-                    color:                      qgcPal.windowShade
-                    anchors.margins:            ScreenTools.defaultFontPixelWidth
-                    anchors.horizontalCenter:   parent.horizontalCenter
-                    visible:                    QGroundControl.settingsManager.videoSettings.visible
 
-                    Column {
-                        id:         videoCol
-                        spacing:    ScreenTools.defaultFontPixelWidth
-                        anchors.centerIn: parent
-
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.settingsManager.videoSettings.videoSource.visible
-                            QGCLabel {
-                                text:               qsTr("Video Source:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactComboBox {
-                                id:         videoSource
-                                width:      _editFieldWidth
-                                indexModel: false
-                                fact:       QGroundControl.settingsManager.videoSettings.videoSource
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.settingsManager.videoSettings.udpPort.visible && QGroundControl.videoManager.isGStreamer && videoSource.currentIndex === 1
-                            QGCLabel {
-                                text:               qsTr("UDP Port:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactTextField {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings.udpPort
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.settingsManager.videoSettings.rtspUrl.visible && QGroundControl.videoManager.isGStreamer && videoSource.currentIndex === 2
-                            QGCLabel {
-                                anchors.verticalCenter: parent.verticalCenter
-                                text:               qsTr("RTSP URL:")
-                                width:              _labelWidth
-                            }
-                            FactTextField {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings.rtspUrl
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.settingsManager.videoSettings.tcpUrl.visible && QGroundControl.videoManager.isGStreamer && videoSource.currentIndex === 3
-                            QGCLabel {
-                                text:               qsTr("TCP URL:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactTextField {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings.tcpUrl
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.videoManager.isGStreamer && videoSource.currentIndex && videoSource.currentIndex < 3 && QGroundControl.settingsManager.videoSettings.aspectRatio.visible
-                            QGCLabel {
-                                text:               qsTr("Aspect Ratio:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactTextField {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings.aspectRatio
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.videoManager.isGStreamer && videoSource.currentIndex && videoSource.currentIndex < 3 && QGroundControl.settingsManager.videoSettings.gridLines.visible
-                            QGCLabel {
-                                text:               qsTr("Grid Lines:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactComboBox {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings.gridLines
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                    }
-                }
-                */
-
-                /*-----------------------------------------------------------------
-                //-- Video Source 2
-                Item {
-                    width:                      _qgcView.width * 0.8
-                    height:                     videoLabel2.height
-                    anchors.margins:            ScreenTools.defaultFontPixelWidth
-                    anchors.horizontalCenter:   parent.horizontalCenter
-                    visible:                    QGroundControl.settingsManager.videoSettings2.visible
-                    QGCLabel {
-                        id:             videoLabel2
-                        text:           qsTr("Video")
-                        font.family:    ScreenTools.demiboldFontFamily
-                    }
-                }
-                Rectangle {
-                    height:                     videoCol2.height + (ScreenTools.defaultFontPixelHeight * 2)
-                    width:                      _qgcView.width * 0.8
-                    color:                      qgcPal.windowShade
-                    anchors.margins:            ScreenTools.defaultFontPixelWidth
-                    anchors.horizontalCenter:   parent.horizontalCenter
-                    visible:                    QGroundControl.settingsManager.videoSettings2.visible
-
-                    Column {
-                        id:         videoCol2
-                        spacing:    ScreenTools.defaultFontPixelWidth
-                        anchors.centerIn: parent
-
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.settingsManager.videoSettings2.videoSource.visible
-                            QGCLabel {
-                                text:               qsTr("Video Source:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactComboBox {
-                                id:         videoSource2
-                                width:      _editFieldWidth
-                                indexModel: false
-                                fact:       QGroundControl.settingsManager.videoSettings2.videoSource
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.settingsManager.videoSettings2.udpPort.visible && QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex === 1
-                            QGCLabel {
-                                text:               qsTr("UDP Port:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactTextField {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings2.udpPort
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.settingsManager.videoSettings2.rtspUrl.visible && QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex === 2
-                            QGCLabel {
-                                anchors.verticalCenter: parent.verticalCenter
-                                text:               qsTr("RTSP URL:")
-                                width:              _labelWidth
-                            }
-                            FactTextField {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings2.rtspUrl
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.settingsManager.videoSettings2.tcpUrl.visible && QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex === 3
-                            QGCLabel {
-                                text:               qsTr("TCP URL:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactTextField {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings2.tcpUrl
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex && videoSource2.currentIndex < 3 && QGroundControl.settingsManager.videoSettings2.aspectRatio.visible
-                            QGCLabel {
-                                text:               qsTr("Aspect Ratio:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactTextField {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings2.aspectRatio
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                        Row {
-                            spacing:    ScreenTools.defaultFontPixelWidth
-                            visible:    QGroundControl.videoManager2.isGStreamer && videoSource2.currentIndex && videoSource2.currentIndex < 3 && QGroundControl.settingsManager.videoSettings2.gridLines.visible
-                            QGCLabel {
-                                text:               qsTr("Grid Lines:")
-                                width:              _labelWidth
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            FactComboBox {
-                                width:              _editFieldWidth
-                                fact:               QGroundControl.settingsManager.videoSettings2.gridLines
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-                    }
-                }
-                */
 
                 //-----------------------------------------------------------------------------------------------------------
                 // Video Source - Rectangle

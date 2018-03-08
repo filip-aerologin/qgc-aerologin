@@ -155,7 +155,7 @@ VideoManager::_updateSettings()
     if(!_videoSettings || !_videoReceiver)
         return;
     if (_videoSettings->videoSource()->rawValue().toString() == VideoSettings::videoSourceUDP)
-        _videoReceiver->setUri(QStringLiteral("udp://0.0.0.0:5000"));
+        _videoReceiver->setUri(QStringLiteral("udp://0.0.0.0:%1").arg(_videoSettings->udpPort()->rawValue().toInt()));
     else if (_videoSettings->videoSource()->rawValue().toString() == VideoSettings::videoSourceRTSP)
         _videoReceiver->setUri(_videoSettings->rtspUrl()->rawValue().toString());
     else if (_videoSettings->videoSource()->rawValue().toString() == VideoSettings::videoSourceTCP)
@@ -211,7 +211,7 @@ VideoManager2::setToolbox(QGCToolbox *toolbox)
    _videoSettings = toolbox->settingsManager()->videoSettings2();
    QString videoSource = _videoSettings->videoSource()->rawValue().toString();
    connect(_videoSettings->videoSource(),   &Fact::rawValueChanged, this, &VideoManager2::_videoSourceChanged);
-   connect(_videoSettings->udpPort(),       &Fact::rawValueChanged, this, &VideoManager2::_udpPortChanged);
+   connect(_videoSettings->udpPort2(),      &Fact::rawValueChanged, this, &VideoManager2::_udpPortChanged);
    connect(_videoSettings->rtspUrl(),       &Fact::rawValueChanged, this, &VideoManager2::_rtspUrlChanged);
    connect(_videoSettings->tcpUrl(),        &Fact::rawValueChanged, this, &VideoManager2::_tcpUrlChanged);
 
@@ -308,7 +308,9 @@ VideoManager2::_updateSettings()
     if(!_videoSettings || !_videoReceiver)
         return;
     if (_videoSettings->videoSource()->rawValue().toString() == VideoSettings::videoSourceUDP)
-      _videoReceiver->setUri(QStringLiteral("udp://0.0.0.0:5100"));
+      _videoReceiver->setUri(QStringLiteral("udp://0.0.0.0:%1").arg(_videoSettings->udpPort2()->rawValue().toInt()));
+
+
 
    // if (_videoSettings->videoSource()->rawValue().toString() == VideoSettings::videoSourceUDP)
     //       _videoReceiver->setUri(QStringLiteral("udp://0.0.0.0:5000"));

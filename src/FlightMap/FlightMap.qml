@@ -125,7 +125,7 @@ Map {
         coordinate:     gcsPosition
 
         sourceItem: Image {
-            source:         "/res/QGCLogoFull"
+            source:         "/res/AntennaT"
             mipmap:         true
             antialiasing:   true
             fillMode:       Image.PreserveAspectFit

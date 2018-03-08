@@ -148,8 +148,7 @@ Rectangle {
                 horizontalAlignment:    Text.AlignHCenter
                 wrapMode:               Text.WordWrap
                 font.pointSize:         ScreenTools.largeFontPointSize
-                text:                   qsTr("Vehicle settings and info will display after connecting your vehicle.") +
-                                        (ScreenTools.isMobile ? "" : " Click Firmware on the left to upgrade your vehicle.")
+                text:                   qsTr (ScreenTools.isMobile ? "" : " Connect your vehicle to display settings.")
 
                 onLinkActivated: Qt.openUrlExternally(link)
             }

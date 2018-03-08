@@ -76,7 +76,6 @@ Item {
                 var newW = pipResize.initialWidth - (mouse.x-parent.width + windowWidth) - pipResize.initialX
                 if (newW < parentW * maxSize && newW > parentW * minSize) {
                     newWidth(newW)
-                    console.warn(mouse.x)
                 }
             }
         }

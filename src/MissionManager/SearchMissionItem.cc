@@ -703,9 +703,9 @@ double entryLocation = 0.0;*/
  QList<QPointF>                  _extPolygonPoints;
  QGeoCoordinate _tangentOrigin;
  QList<QGeoCoordinate> transectCoordsTest;
-void SearchMissionItem::_trial(QList<QPointF> &         polygonPoints, QList<QPointF> &          centroidPoints, QList<QPointF>&     pointsInPolygon, QGeoCoordinate & tangentOrigin,  QList<QGeoCoordinate>& transectCoordsTest)
+void SearchMissionItem::_trial(QList<QPointF> & polygonPoints, QList<QPointF> & centroidPoints, QList<QPointF> & pointsInPolygon, QGeoCoordinate & tangentOrigin,  QList<QGeoCoordinate>& transectCoordsTest)
 {
-    double gridSize = 50.0;
+    double gridSize = 8.0;
     double entryLocation = 0;
     _generateLines(polygonPoints,centroidPoints,gridSize,entryLocation);
     _pointsInPolygon(polygonPoints,centroidPoints,pointsInPolygon);
@@ -715,8 +715,8 @@ void SearchMissionItem::_trial(QList<QPointF> &         polygonPoints, QList<QPo
 
 void SearchMissionItem::test(QList<QPointF> & polygonPoints, QList<QPointF> & centroidPoints, QList<QPointF>&     pointsInPolygon, QGeoCoordinate & tangentOrigin,  QList<QGeoCoordinate> & transectCoordsTest)
 {
-    polygonPoints = _extPolygonPoints;
-    tangentOrigin = _tangentOrigin;
+   // polygonPoints = _extPolygonPoints;
+   // tangentOrigin = _tangentOrigin;
     //qDebug() << _extPolygonPoints << endl;
     _trial(polygonPoints,centroidPoints,pointsInPolygon,tangentOrigin, transectCoordsTest);
     //test = tessten;
@@ -764,6 +764,8 @@ void SearchMissionItem::_generateGrid(void)
         qCDebug(SearchMissionItemLog) << "vertex:x:y" << vertex << polygonPoints.last().x() << polygonPoints.last().y();
     }
     _extPolygonPoints = polygonPoints;
+
+    qDebug() << polygonPoints << endl;
 
     double coveredArea = 0.0;
     for (int i=0; i<polygonPoints.count(); i++) {
@@ -887,7 +889,6 @@ void SearchMissionItem::_intersectLinesWithRect(const QList<QLineF>& lineList, c
             }
             foundCount++;
         }
-
         if (foundCount == 2) {
             resultLines += intersectLine;
         }

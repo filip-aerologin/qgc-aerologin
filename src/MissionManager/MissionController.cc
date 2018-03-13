@@ -362,10 +362,10 @@ int MissionController::insertSimpleMissionItemTest(QGeoCoordinate coordinate, in
     newItem->setSequenceNumber(sequenceNumber);
     newItem->setCoordinate(coordinate);
     newItem->setCommand(MavlinkQmlSingleton::MAV_CMD_NAV_WAYPOINT);
-    _initVisualItem(newItem);
-    if (_visualItems->count() == 1) {
-        newItem->setCommand(vehicle->vtol() ? MavlinkQmlSingleton::MAV_CMD_NAV_VTOL_TAKEOFF : MavlinkQmlSingleton::MAV_CMD_NAV_TAKEOFF);
-    }
+   // _initVisualItem(newItem);
+   // if (_visualItems->count() == 1) {
+   //     newItem->setCommand(vehicle->vtol() ? MavlinkQmlSingleton::MAV_CMD_NAV_VTOL_TAKEOFF : MavlinkQmlSingleton::MAV_CMD_NAV_TAKEOFF);
+   // }
     newItem->setDefaultsForCommand();
     if ((MAV_CMD)newItem->command() == MAV_CMD_NAV_WAYPOINT) {
         double      prevAltitude;
@@ -376,11 +376,11 @@ int MissionController::insertSimpleMissionItemTest(QGeoCoordinate coordinate, in
             newItem->missionItem().setParam7(prevAltitude);
         }
     }
-    _visualItems->insert(i, newItem);
+ //   _visualItems->insert(i, newItem);
 
-    qDebug() << "MOJ WAYPOINT" << newItem->missionItem().param5() << endl;
+    //qDebug() << "MOJ WAYPOINT" << newItem->missionItem().param5() << endl;
 
-    _recalcAll();
+    //_recalcAll();
 
     return newItem->sequenceNumber();
 }

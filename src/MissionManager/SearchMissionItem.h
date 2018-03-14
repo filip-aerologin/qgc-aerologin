@@ -94,6 +94,11 @@ public:
     bool            refly90Degrees          (void) const { return _refly90Degrees; }
     QGCMapPolygon*  mapPolygon              (void) { return &_mapPolygon; }
 
+    QGeoCoordinate        tangentOriginOutside;
+    QList<QPointF>        polygonPointsOutside;
+    QList<QGeoCoordinate> geoCentroidPoints;
+
+
     void setRefly90Degrees(bool refly90Degrees);
 
     // Overrides from ComplexMissionItem
@@ -134,7 +139,8 @@ public:
     void setSequenceNumber  (int sequenceNumber) final;
     void setTurnaroundDist  (double dist) { _turnaroundDistFact.setRawValue(dist); }
     void save               (QJsonArray&  missionItems) final;
-    void test (QList<QPointF> &polygonPoints, QList<QPointF> &centroidPoints, QList<QPointF> &pointsInPolygon, QGeoCoordinate &tangentOrigin, QList<QGeoCoordinate> &transectCoordsTest);
+    void generateGridRectangle (QList<QPointF> & polygonPoints, QList<QPointF> & centroidPoints, QGeoCoordinate & tangentOrigin,  QList<QGeoCoordinate> & geoCentroidPoints, double gridSize, double entryLocation);
+    void generateGridOutside   (QList<QPointF> & centroidPoints, QList<QPointF> & pointsInPolygon, QList<QGeoCoordinate> & geoCentroidPoints, double gridSize, int entryLocation);
 
 
     // Must match json spec for GridEntryLocation
@@ -197,7 +203,6 @@ private:
         CameraTriggerHoverAndCapture
     };
 
-    void _trial(QList<QPointF> &polygonPoints, QList<QPointF> &centroidPoints, QList<QPointF> &pointsInPolygon, QGeoCoordinate &tangentOrigin, QList<QGeoCoordinate> &transectCoordsTest);
     void _setExitCoordinate(const QGeoCoordinate& coordinate);
     void _generateGrid(void);
     void _updateCoordinateAltitude(void);
@@ -206,7 +211,7 @@ private:
     void _generateLines(const QList<QPointF>& polygonPoints, QList<QPointF>& centroidPoints, double gridSize, int entryLocation);
     void _pointsInPolygon (const QList<QPointF>& polygonPoints, const QList<QPointF>& centroidPoints, QList<QPointF>& pointsInPolygon);
     void _convertToGeo (const QList<QPointF>& pointsInPolygon, const QGeoCoordinate& tangentOrigin);
-    void _convertToGeoPoints (const QList<QPointF>& pointsInPolygon, const QGeoCoordinate& tangentOrigin, QList<QGeoCoordinate> &transectCoordsTest);
+    void _convertToGeoPoints (const QList<QPointF>& centroidPoints, const QGeoCoordinate& tangentOrigin, QList<QGeoCoordinate> &geoCentroidPoints);
     int _gridGenerator(const QList<QPointF>& polygonPoints, QList<QList<QPointF>>& transectSegments, bool refly);
     QPointF _rotatePoint(const QPointF& point, const QPointF& origin, double angle);
     void _intersectLinesWithRect(const QList<QLineF>& lineList, const QRectF& boundRect, QList<QLineF>& resultLines);

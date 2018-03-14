@@ -1903,22 +1903,3 @@ void MissionController::_managerRemoveAllComplete(bool error)
     }
 }
 
-void MissionController::sendVisualItems(Vehicle* vehicle)
-{
-
-    QGeoCoordinate coordinate(37.803784, -122.462276);
-   // QGeoCoordinate test = {10,10,50};
-    //_masterController->start(true);
-   // start(true);
-    insertSimpleMissionItem(coordinate,this->visualItems()->count());
-   // insertSimpleMissionItemTest(QGeoCoordinate(37.8037, -122.4622),1,vehicle);
-
-   // qDebug() << _visualItems-> << endl;
-   // sendToVehicle();
-   // sendItemsToVehicle(vehicle, _visualItems);
-    //setDirty(true);
-    //sendToVehicle();
-    //visualItems = _visualItems;
-    //qDebug() << _visualItems << endl;
-
-}

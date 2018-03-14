@@ -696,38 +696,23 @@ void SearchMissionItem::_adjustTransectsToEntryPointLocation(QList<QList<QGeoCoo
     }
     qCDebug(SearchMissionItemLog) << "Modified entry point" << transects.first().first();
 }
-QList<QGeoCoordinate> tessten;
-/*QList<QPointF>          polygonPoints;
-double gridSize = 50.0;
-double entryLocation = 0.0;*/
- QList<QPointF>                  _extPolygonPoints;
- QGeoCoordinate _tangentOrigin;
- QList<QGeoCoordinate> transectCoordsTest;
-void SearchMissionItem::_trial(QList<QPointF> & polygonPoints, QList<QPointF> & centroidPoints, QList<QPointF> & pointsInPolygon, QGeoCoordinate & tangentOrigin,  QList<QGeoCoordinate>& transectCoordsTest)
-{
-    double gridSize = 8.0;
-    double entryLocation = 0;
-    _generateLines(polygonPoints,centroidPoints,gridSize,entryLocation);
-    _pointsInPolygon(polygonPoints,centroidPoints,pointsInPolygon);
-   // QGeoCoordinate tangentOrigin;
-   _convertToGeoPoints(pointsInPolygon,tangentOrigin,transectCoordsTest);
-}
 
-void SearchMissionItem::test(QList<QPointF> & polygonPoints, QList<QPointF> & centroidPoints, QList<QPointF>&     pointsInPolygon, QGeoCoordinate & tangentOrigin,  QList<QGeoCoordinate> & transectCoordsTest)
+void SearchMissionItem::generateGridRectangle(QList<QPointF> & polygonPoints, QList<QPointF> & centroidPoints, QGeoCoordinate & tangentOrigin,  QList<QGeoCoordinate> & geoCentroidPoints, double gridSize, double entryLocation)
 {
-   // polygonPoints = _extPolygonPoints;
-   // tangentOrigin = _tangentOrigin;
-    //qDebug() << _extPolygonPoints << endl;
-    _trial(polygonPoints,centroidPoints,pointsInPolygon,tangentOrigin, transectCoordsTest);
-    //test = tessten;
-    //qDebug() << polygonPoints << endl;
-    //tessten.clear();
+    _generateLines(polygonPoints,centroidPoints,gridSize,entryLocation);
+    _convertToGeoPoints(centroidPoints,tangentOrigin,geoCentroidPoints);
+}
+void SearchMissionItem::generateGridOutside(QList<QPointF> & centroidPoints, QList<QPointF> & pointsInPolygon, QList<QGeoCoordinate> & geoCentroidPoints, double gridSize, int entryLocation)
+{
+    _generateLines(polygonPointsOutside,centroidPoints,gridSize,entryLocation);
+    _pointsInPolygon(polygonPointsOutside,centroidPoints,pointsInPolygon);
+    _convertToGeoPoints(pointsInPolygon,tangentOriginOutside,geoCentroidPoints);
 }
 
 void SearchMissionItem::_generateGrid(void)
 {
     //_tangentOrigin = 0;
-    _extPolygonPoints.clear();
+    polygonPointsOutside.clear();
     if (_ignoreRecalc) {
         return;
     }
@@ -749,8 +734,9 @@ void SearchMissionItem::_generateGrid(void)
     double entryLocation = _gridEntryLocationFact.rawValue().toDouble();
 
     // Convert polygon to NED
-    _tangentOrigin = _mapPolygon.pathModel().value<QGCQGeoCoordinate*>(0)->coordinate();
-    qCDebug(SearchMissionItemLog) << "Convert polygon to NED - tangentOrigin" << _tangentOrigin;
+    QGeoCoordinate tangentOrigin;
+    tangentOrigin = _mapPolygon.pathModel().value<QGCQGeoCoordinate*>(0)->coordinate();
+    qCDebug(SearchMissionItemLog) << "Convert polygon to NED - tangentOrigin" << tangentOrigin;
     for (int i=0; i<_mapPolygon.count(); i++) {
         double y, x, down;
         QGeoCoordinate vertex = _mapPolygon.pathModel().value<QGCQGeoCoordinate*>(i)->coordinate();
@@ -758,14 +744,13 @@ void SearchMissionItem::_generateGrid(void)
             // This avoids a nan calculation that comes out of convertGeoToNed
             x = y = 0;
         } else {
-            convertGeoToNed(vertex, _tangentOrigin, &y, &x, &down);
+            convertGeoToNed(vertex, tangentOrigin, &y, &x, &down);
         }
         polygonPoints += QPointF(x, y);
         qCDebug(SearchMissionItemLog) << "vertex:x:y" << vertex << polygonPoints.last().x() << polygonPoints.last().y();
     }
-    _extPolygonPoints = polygonPoints;
-
-    qDebug() << polygonPoints << endl;
+    tangentOriginOutside = tangentOrigin;
+    polygonPointsOutside = polygonPoints;
 
     double coveredArea = 0.0;
     for (int i=0; i<polygonPoints.count(); i++) {
@@ -778,10 +763,9 @@ void SearchMissionItem::_generateGrid(void)
     _setCoveredArea(0.5 * fabs(coveredArea));
 
 
-    //_trial(polygonPoints,centroidPoints,pointsInPolygon);
     _generateLines(polygonPoints,centroidPoints,gridSize,entryLocation);
     _pointsInPolygon(polygonPoints,centroidPoints,pointsInPolygon);
-    _convertToGeo(pointsInPolygon,_tangentOrigin);
+    _convertToGeo(pointsInPolygon,tangentOrigin);
     _appendGridPointsFromTransects(_transectSegments);
 
     // Calc survey distance
@@ -1085,16 +1069,16 @@ void SearchMissionItem::_pointsInPolygon (const QList<QPointF>& polygonPoints, c
 }
 
 
-void SearchMissionItem::_convertToGeoPoints (const QList<QPointF>& pointsInPolygon, const QGeoCoordinate& tangentOrigin, QList<QGeoCoordinate> &  transectCoordsTest)
+void SearchMissionItem::_convertToGeoPoints (const QList<QPointF>& centroidPoints, const QGeoCoordinate& tangentOrigin, QList<QGeoCoordinate> &  geoCentroidPoints)
 {
     QList<QPointF> tempPoints;
     QList<QList<QPointF>> pointSegments;
     int h = 0;
-    for (int i = 0; i < (pointsInPolygon.count()/2); i++)
+    for (int i = 0; i < (centroidPoints.count()/2); i++)
     {
         for ( int j = 0 + h; j <  2 + h; j++)
         {
-            tempPoints += pointsInPolygon[j];
+            tempPoints += centroidPoints[j];
         }
     h = h + 2;
     pointSegments.append(tempPoints);
@@ -1110,11 +1094,8 @@ void SearchMissionItem::_convertToGeoPoints (const QList<QPointF>& pointsInPolyg
             QGeoCoordinate coord;
             const QPointF& point = transectPoints[j];
             convertNedToGeo(point.y(), point.x(), 0, tangentOrigin, &coord);
-            transectCoordsTest.append(coord);
+            geoCentroidPoints.append(coord);
         }
-    //_transectSegments.append(transectCoords);
-
-       // qDebug() << transectCoordsTest << endl;
     }
 }
 

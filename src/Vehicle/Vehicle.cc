@@ -1414,10 +1414,20 @@ void Vehicle::_updatePriorityLink(void)
         _priorityLink = _toolbox->linkManager()->sharedLinkInterfacePointerForLink(newPriorityLink);
     }
 }
+// WARTOSCI ------------
+bool flag = true;
+bool flag2 = true;
+bool flag3 = true;
+QList<QPointF>  polygonPoints, centroidPoints, pointsInPolygon;
+    SearchMissionItem* searchMissionSmall;
+        QGeoCoordinate tangentOrigin;
+         QList<QGeoCoordinate> transectCoords;
+         float distance;
+         int i = 1;
+
 
 void Vehicle::_updateAttitude(UASInterface*, double roll, double pitch, double yaw, quint64)
 {
-
     if (qIsInf(roll)) {
         _rollFact.setRawValue(0);
     } else {
@@ -2896,26 +2906,19 @@ void Vehicle::sendPlan(QString planFile)
 
 
 
-bool flag = true;
-bool flag2 = true;
-bool flag3 = true;
-QList<QPointF>  polygonPoints, centroidPoints, pointsInPolygon;
-    SearchMissionItem* lol;
-        QGeoCoordinate tangentOrigin;
-         QList<QGeoCoordinate> transectCoords;
-         float distance;
-         int i = 1;
+
 
 
 void Vehicle::_handleWifi(mavlink_message_t& message)
 {
     mavlink_distance_sensor_t wifi;
     mavlink_msg_distance_sensor_decode(&message, &wifi);
+
     QVector<double> wifiLocated;
 
     _wifiStrengthFact.setRawValue(wifi.min_distance);
 
-    if (_wifiLocatedList.size() > 10 || _wifiLocatedList.size() == 0)
+    if (_wifiLocatedList.size() == 0)
     {
         _wifiLocatedList.clear();
 
@@ -2932,57 +2935,49 @@ void Vehicle::_handleWifi(mavlink_message_t& message)
 
 
 
+
+/* --------------------   Generate small rectangle mission ------------------------------------------------------------------
+ *  Do zrobienia: - Dodac warunki na podstawie lotow testowych
+ *                - Uzaleznic wyzwalanie misji na podstawie danych wifi
+ *                - Dodac zmienny parametr testValue zmniejszajacy siatke poszukiwan
+ *
     double testValue = 25.0;
-if (flag3){
+
+    if (flag3){
               polygonPoints << QPointF( -testValue, -testValue)
                             << QPointF( -testValue,  testValue)
                             << QPointF(  testValue,  testValue)
                             << QPointF(  testValue, -testValue);
               tangentOrigin = this->coordinate();
-        qDebug() << polygonPoints << endl;
-lol->generateGridRectangle(polygonPoints, centroidPoints,tangentOrigin,transectCoords,8.0,0);
-flag3 = false;
-}
+              qDebug() << polygonPoints << endl;
+              searchMissionSmall->generateGridRectangle(polygonPoints, centroidPoints,tangentOrigin,transectCoords,8.0,0);
+              flag3 = false;
+              }
+                if (flag)
+                {
+                QList<MissionItem*> missionItems;
+                for (int i = 0; i < transectCoords.count(); i++)
+                {
 
+                    MissionItem* missionItem = new MissionItem(this);
+                    transectCoords[i].setAltitude(20);
+                    missionItem->setCommand(MAV_CMD_NAV_WAYPOINT);
+                    missionItem->setCoordinate(transectCoords[i]);
+                    missionItem->setSequenceNumber(i+1);
+                    missionItem->setIsCurrentItem(false);
+                    missionItem->setFrame(MAV_FRAME_GLOBAL_RELATIVE_ALT);
+                    missionItem->setAutoContinue(true);
+                    missionItems.append(missionItem);
+                }
 
-
-
-if (flag)
-{
-QList<MissionItem*> missionItems;
-
-
-
-for (int i = 0; i < transectCoords.count(); i++)
-{
-    //MissionItem* homeItem = new MissionItem(NULL /* Vehicle */, this);   ---/ Home position on the front of the list
-    MissionItem* missionItem = new MissionItem(this);
-    transectCoords[i].setAltitude(20);
-    missionItem->setCommand(MAV_CMD_NAV_WAYPOINT);
-    missionItem->setCoordinate(transectCoords[i]);
-    missionItem->setSequenceNumber(i+1);
-    missionItem->setIsCurrentItem(false);
-    missionItem->setFrame(MAV_FRAME_GLOBAL_RELATIVE_ALT);
-    missionItem->setAutoContinue(true);
-    missionItems.append(missionItem);
-
-}
-//qDebug() << transectCoords << endl;
-
-// DO POPRAWY - ladowanie misji nie stabilne za kazdym razem
-// - przesunac kwadrat na dokladnie srodek coptera
-// - przeslac wiecej waypointow
-// - sprawdzic odbieranie misji w locie
-
-_missionManager->writeMissionItems(missionItems);
-_missionManager->generateResumeMission(0);
-flag = false;
-}
-
+                _missionManager->writeMissionItems(missionItems);
+                _missionManager->generateResumeMission(0);
+                flag = false;
+                }
+----------------------------------------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------
- *
- * Generate the same grid as last SearchMission. Available after the planning of the mission was ended.
- *
+  Generate the same grid as last SearchMission. Available after the planning of the mission was ended.
+
     QList<QPointF> centroidPoints, pointsInPolygon;
     QList<QGeoCoordinate> geoCentroidPoints;
     SearchMissionItem* searchMissionOut;
@@ -2994,19 +2989,15 @@ flag = false;
 
 
 
-    //  Save to file
 
+// -----  Save to txt file (tests) ------- //
     std::ofstream out;
-
-    // std::ios::app is the open mode "append" meaning
-    // new data will be written to the end of the file.
     out.open("/home/filip-uavs/Desktop/wifi.txt", std::ios::app);
-
-
     out << _coordinate.latitude() << "    ";
     out << _coordinate.longitude() << "    " ;
     out << wifi.min_distance << "\n" ;
     wifiLocated.clear();
+// --------------------------------------- //
 
     if (_testStrength)
     {
@@ -3020,12 +3011,10 @@ flag = false;
     qDebug() << _wifiLocatedList.rbegin()[1][2]<< endl;
     qDebug() << _wifiLocatedList.rbegin()[0][2]<< endl;
 
-
     if (_wifiLocatedList.rbegin()[0][2] > _wifiLocatedList.rbegin()[1][2] + 5)
     {
         qDebug() << "WARNING SIGNALS DROPPING!" << endl;
         _testStrength = _wifiLocatedList.rbegin()[1][2];
-
     }
 
  }

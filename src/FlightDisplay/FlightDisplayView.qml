@@ -695,7 +695,7 @@ QGCView {
             buttonVisible:      [ true, true, _guidedController.smartShotsAvailable ]
             buttonEnabled:      [ _guidedController.showPause, _anyActionAvailable, _anySmartShotAvailable ]
 
-            property bool _anyActionAvailable: _guidedController.showStartMission || _guidedController.showResumeMission || _guidedController.showChangeAlt || _guidedController.showLandAbort
+            property bool _anyActionAvailable: _guidedController.showStartMission || _guidedController.showResumeMission || _guidedController.showChangeAlt || _guidedController.showLandAbort || _guidedController.showWifiOn || _guidedController.showWifiOff
             property bool _anySmartShotAvailable: _guidedController.showOrbit
             property var _actionModel: [
                 {
@@ -727,6 +727,18 @@ QGCView {
                     text:       _guidedController.landAbortMessage,
                     action:     _guidedController.actionLandAbort,
                     visible:    _guidedController.showLandAbort
+                },
+                {
+                    title:      _guidedController.wifiOnTitle,
+                    text:       _guidedController.wifiOnMessage,
+                    action:     _guidedController.actionWifiOn,
+                    visible:    _guidedController.showWifiOn
+                },
+                {
+                    title:      _guidedController.wifiOffTitle,
+                    text:       _guidedController.wifiOffMessage,
+                    action:     _guidedController.actionWifiOff,
+                    visible:    _guidedController.showWifiOff
                 }
             ]
             property var _smartShotModel: [
@@ -817,6 +829,33 @@ QGCView {
                     break
                 }
             }
+        }
+
+        ToolStrip {
+            id:                 toolStripWifi
+            anchors.left:       toolStrip.left
+            anchors.leftMargin: toolStrip.width / 4
+            anchors.topMargin:  ScreenTools.defaultFontPixelHeight
+            anchors.top:        toolStripZoom.bottom
+            color:              qgcPal.window
+            visible:            _guidedController.showWifiOff
+            title:              qsTr("Wifi")
+            z:                  QGroundControl.zOrderWidgets
+            showAlternateIcon:  [ false ]
+            rotateImage:        [ false ]
+            animateImage:       [ true  ]
+            buttonEnabled:      [ true  ]
+            buttonVisible:      [ true  ]
+            //maxHeight:          mapScale.y - toolStripZoom.y
+
+            property bool _showZoom: !ScreenTools.isMobile
+
+            model: [
+                {
+                    name:               "Search",
+                    iconSource:         "/qmlimages/wifi.svg"
+                }
+            ]
         }
 
         GuidedActionsController {

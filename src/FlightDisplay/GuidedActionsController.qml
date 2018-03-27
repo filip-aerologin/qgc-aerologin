@@ -48,6 +48,8 @@ Item {
     readonly property string landAbortTitle:                qsTr("Land Abort")
     readonly property string setWaypointTitle:              qsTr("Set Waypoint")
     readonly property string gotoTitle:                     qsTr("Goto Location")
+    readonly property string wifiOnTitle:                   qsTr("Search Wifi Source")
+    readonly property string wifiOffTitle:                  qsTr("Stop Wifi Search")
 
     readonly property string armMessage:                        qsTr("Arm the vehicle.")
     readonly property string disarmMessage:                     qsTr("Disarm the vehicle")
@@ -67,6 +69,8 @@ Item {
     readonly property string landAbortMessage:                  qsTr("Abort the landing sequence.")
     readonly property string pauseMessage:                      qsTr("Pause the vehicle at it's current position.")
     readonly property string mvPauseMessage:                    qsTr("Pause all vehicles at their current position.")
+    readonly property string wifiOnMessage:                     qsTr("Start searching Wifi signal source.")
+    readonly property string wifiOffMessage:                    qsTr("Stop searching Wifi signal source.")
 
     readonly property int actionRTL:                        1
     readonly property int actionLand:                       2
@@ -87,6 +91,8 @@ Item {
     readonly property int actionPause:                      17
     readonly property int actionMVPause:                    18
     readonly property int actionMVStartMission:             19
+    readonly property int actionWifiOn:                     20
+    readonly property int actionWifiOff:                     21
 
     property bool showEmergenyStop:     !_hideEmergenyStop && _activeVehicle && _vehicleArmed && _vehicleFlying
     property bool showArm:              _activeVehicle && !_vehicleArmed
@@ -102,6 +108,8 @@ Item {
     property bool showOrbit:            !_hideOrbit && _activeVehicle && _vehicleFlying && _activeVehicle.orbitModeSupported && _vehicleArmed && !_missionActive
     property bool showLandAbort:        _activeVehicle && _vehicleFlying && _activeVehicle.fixedWing && _vehicleLanding
     property bool showGotoLocation:     _activeVehicle && _vehicleFlying
+    property bool showWifiOn:           _activeVehicle && !_wifiActivated
+    property bool showWifiOff:          _activeVehicle && _wifiActivated
 
     property bool guidedUIVisible:      guidedActionConfirm.visible || guidedActionList.visible
 
@@ -121,6 +129,7 @@ Item {
     property bool   _hideEmergenyStop:      !QGroundControl.corePlugin.options.guidedBarShowEmergencyStop
     property bool   _hideOrbit:             !QGroundControl.corePlugin.options.guidedBarShowOrbit
     property bool   _vehicleWasFlying:      false
+    property bool   _wifiActivated:         _activeVehicle ? _activeVehicle.wifiActive : false
 
     /*
     //Handy code for debugging state problems
@@ -285,6 +294,16 @@ Item {
             confirmDialog.message = mvPauseMessage
             confirmDialog.hideTrigger = true
             break;
+        case actionWifiOn:
+            confirmDialog.title = wifiOnTitle
+            confirmDialog.message = wifiOnMessage
+            confirmDialog.hideTrigger = Qt.binding(function() { return !showWifiOn })
+            break;
+        case actionWifiOff:
+            confirmDialog.title = wifiOffTitle
+            confirmDialog.message = wifiOffMessage
+            confirmDialog.hideTrigger = Qt.binding(function() { return !showWifiOff })
+            break;
         default:
             console.warn("Unknown actionCode", actionCode)
             return
@@ -356,6 +375,12 @@ Item {
                 var vehicle = rgVehicle.get(i)
                 vehicle.pauseVehicle()
             }
+            break     
+        case actionWifiOn:
+            _activeVehicle.resumeWifi()
+            break
+        case actionWifiOff:
+            _activeVehicle.resumeWifi()
             break
         default:
             console.warn(qsTr("Internal error: unknown actionCode"), actionCode)

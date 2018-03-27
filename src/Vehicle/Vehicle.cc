@@ -35,7 +35,10 @@
 #include "SearchMissionItem.h"
 
 
+
 #include <fstream>
+#include <iomanip>
+
 
 QGC_LOGGING_CATEGORY(VehicleLog, "VehicleLog")
 
@@ -136,6 +139,7 @@ Vehicle::Vehicle(LinkInterface*             link,
     , _rallyPointManagerInitialRequestSent(false)
     , _parameterManager(NULL)
     , _armed(false)
+    , _wifiActive(false)
     , _base_mode(0)
     , _custom_mode(0)
     , _nextSendMessageMultipleIndex(0)
@@ -188,6 +192,7 @@ Vehicle::Vehicle(LinkInterface*             link,
     connect(this, &Vehicle::_sendMessageOnLinkOnThread, this, &Vehicle::_sendMessageOnLink, Qt::QueuedConnection);
     connect(this, &Vehicle::flightModeChanged,          this, &Vehicle::_handleFlightModeChanged);
     connect(this, &Vehicle::armedChanged,               this, &Vehicle::_announceArmedChanged);
+    connect(this, &Vehicle::wifiActiveChanged,          this, &Vehicle::_announceWifiActiveChanged);
 
     _uas = new UAS(_mavlink, this, _firmwarePluginManager);
 
@@ -559,8 +564,6 @@ void Vehicle::_mavlinkMessageReceived(LinkInterface* link, mavlink_message_t mes
                 emit messagesLostChanged();
         }
     }
-
-
     // Mark this vehicle as active - but only if the traffic is coming from
     // the actual vehicle
     if (message.sysid == _id) {
@@ -1730,6 +1733,11 @@ void Vehicle::setArmed(bool armed)
                    armed ? 1.0f : 0.0f);
 }
 
+void Vehicle::setWifiActive(bool wifiActive)
+{
+  _wifiActive = wifiActive;
+}
+
 bool Vehicle::flightModeSetAvailable(void)
 {
     return _firmwarePlugin->isCapable(this, FirmwarePlugin::SetFlightModeCapability);
@@ -2194,6 +2202,11 @@ void Vehicle::_announceArmedChanged(bool armed)
     _say(QString("%1 %2").arg(_vehicleIdSpeech()).arg(armed ? QStringLiteral("armed") : QStringLiteral("disarmed")));
 }
 
+void Vehicle::_announceWifiActiveChanged(bool wifiActive)
+{
+    _say(QString("%1 %2").arg(_vehicleIdSpeech()).arg(wifiActive ? QStringLiteral("started Wifi source search") : QStringLiteral("stopped Wifi source search")));
+}
+
 void Vehicle::_setFlying(bool flying)
 {
     if (_flying != flying) {
@@ -2229,6 +2242,12 @@ bool Vehicle::takeoffVehicleSupported() const
 {
     return _firmwarePlugin->isCapable(this, FirmwarePlugin::TakeoffVehicleCapability);
 }
+
+bool Vehicle::wifiSupported(void) const
+{
+    return _wifiStrengthFact.rawValue() != 0;
+}
+
 
 void Vehicle::guidedModeRTL(void)
 {
@@ -2372,6 +2391,24 @@ void Vehicle::sendMavCommand(int component, MAV_CMD command, bool showError, flo
         _mavCommandRetryCount = 0;
         _sendMavCommandAgain();
     }
+}
+
+void Vehicle::resumeWifi(void)
+{
+    if (!wifiSupported() && !_wifiActive) {
+        qgcApp()->showMessage(QStringLiteral("Wifi sensor not connected."));
+        return;
+    }
+    if(!_wifiActive) {
+        qgcApp()->showMessage(QStringLiteral("Wifi search activated."));
+    }
+    else {
+        qgcApp()->showMessage(QStringLiteral("Wifi search stopped."));
+    }
+
+    _wifiActive = !_wifiActive;
+    emit wifiActiveChanged(_wifiActive);
+
 }
 
 void Vehicle::_sendMavCommandAgain(void)
@@ -2933,9 +2970,6 @@ void Vehicle::_handleWifi(mavlink_message_t& message)
     wifiLocated.append(wifi.min_distance);
     _wifiLocatedList.append(wifiLocated);
 
-
-
-
 /* --------------------   Generate small rectangle mission ------------------------------------------------------------------
  *  Do zrobienia: - Dodac warunki na podstawie lotow testowych
  *                - Uzaleznic wyzwalanie misji na podstawie danych wifi
@@ -2992,26 +3026,28 @@ void Vehicle::_handleWifi(mavlink_message_t& message)
 
 // -----  Save to txt file (tests) ------- //
     std::ofstream out;
-    out.open("/home/filip-uavs/Desktop/wifi.txt", std::ios::app);
-    out << _coordinate.latitude() << "    ";
-    out << _coordinate.longitude() << "    " ;
+    out.open("/home/aerologin/Desktop/wifi.txt", std::ios::app);
+    out << std::setprecision (10) << wifiLocated[0] << "    ";
+    out << std::setprecision (10) << wifiLocated[1] << "    ";
+    //out << _coordinate.latitude() << "    ";
+    //out << _coordinate.longitude() << "    " ;
     out << wifi.min_distance << "\n" ;
     wifiLocated.clear();
 // --------------------------------------- //
 
     if (_testStrength)
     {
-        if (_wifiLocatedList.rbegin()[0][2] > _testStrength + 5)
+        if (_wifiLocatedList.rbegin()[0][2] > _testStrength + 15)
         {
             qDebug() << "SIGNAL DROPPED AAAAAAAAAAAAAAA!" << endl;
         }
         _testStrength = 0;
     }
-    qDebug() << _wifiLocatedList<< endl;
-    qDebug() << _wifiLocatedList.rbegin()[1][2]<< endl;
-    qDebug() << _wifiLocatedList.rbegin()[0][2]<< endl;
+    //qDebug() << _wifiLocatedList << endl;
+    //qDebug() << _wifiLocatedList.rbegin()[1][2]<< endl;
+    //qDebug() << _wifiLocatedList.rbegin()[0][2]<< endl;
 
-    if (_wifiLocatedList.rbegin()[0][2] > _wifiLocatedList.rbegin()[1][2] + 5)
+    if (_wifiLocatedList.rbegin()[0][2] > _wifiLocatedList.rbegin()[1][2] + 15)
     {
         qDebug() << "WARNING SIGNALS DROPPING!" << endl;
         _testStrength = _wifiLocatedList.rbegin()[1][2];

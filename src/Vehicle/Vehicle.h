@@ -320,6 +320,7 @@ public:
     Q_PROPERTY(bool              initialPlanRequestComplete READ initialPlanRequestComplete                             NOTIFY initialPlanRequestCompleteChanged)
     Q_PROPERTY(QVariantList         staticCameraList        READ staticCameraList                                       CONSTANT)
     Q_PROPERTY(QGCCameraManager*    dynamicCameras          READ dynamicCameras                                         NOTIFY dynamicCamerasChanged)
+    Q_PROPERTY(bool                 wifiActive              READ wifiActive                 WRITE setWifiActive         NOTIFY wifiActiveChanged)
 
     // Vehicle state used for guided control
     Q_PROPERTY(bool flying                  READ flying NOTIFY flyingChanged)                               ///< Vehicle is flying
@@ -430,6 +431,9 @@ public:
     Q_INVOKABLE void triggerCamera(void);
     Q_INVOKABLE void sendPlan(QString planFile);
 
+    /// Wifi Messages
+    Q_INVOKABLE void resumeWifi(void);
+
 #if 0
     // Temporarily removed, waiting for new command implementation
     /// Test motor
@@ -443,6 +447,7 @@ public:
     bool pauseVehicleSupported  (void) const;
     bool orbitModeSupported     (void) const;
     bool takeoffVehicleSupported(void) const;
+    bool wifiSupported (void) const;
 
     // Property accessors
 
@@ -505,6 +510,10 @@ public:
     MissionController*  missionController(void) {return _missionController; }
 
     QGeoCoordinate homePosition(void);
+
+    bool wifiActive (void) {return _wifiActive;}
+    void setWifiActive(bool wifiActive);
+
 
     bool armed(void) { return _armed; }
     void setArmed(bool armed);
@@ -810,6 +819,8 @@ signals:
     // MAVLink protocol version
     void requestProtocolVersion(unsigned version);
 
+    void wifiActiveChanged (bool wifiActive);
+
 private slots:
     void _mavlinkMessageReceived(LinkInterface* link, mavlink_message_t message);
     void _linkInactiveOrDeleted(LinkInterface* link);
@@ -820,6 +831,7 @@ private slots:
     void _remoteControlRSSIChanged(uint8_t rssi);
     void _handleFlightModeChanged(const QString& flightMode);
     void _announceArmedChanged(bool armed);
+    void _announceWifiActiveChanged(bool wifiActive);
     void _offlineFirmwareTypeSettingChanged(QVariant value);
     void _offlineVehicleTypeSettingChanged(QVariant value);
     void _offlineCruiseSpeedSettingChanged(QVariant value);
@@ -998,8 +1010,11 @@ private:
     ParameterManager*    _parameterManager;
 
     bool    _armed;         ///< true: vehicle is armed
+    bool _wifiActive;
+
     uint8_t _base_mode;     ///< base_mode from HEARTBEAT
     uint32_t _custom_mode;  ///< custom_mode from HEARTBEAT
+
 
     /// Used to store a message being sent by sendMessageMultiple
     typedef struct {

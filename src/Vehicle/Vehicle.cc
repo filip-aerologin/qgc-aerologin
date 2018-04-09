@@ -677,7 +677,13 @@ void Vehicle::_mavlinkMessageReceived(LinkInterface* link, mavlink_message_t mes
     case MAVLINK_MSG_ID_DISTANCE_SENSOR:
         _handleWifi(message);
         break;
+    case MAVLINK_MSG_ID_MISSION_CURRENT:
+        _handleMissionCurrent(message);
+        break;
 
+    case MAVLINK_MSG_ID_MISSION_ITEM_REACHED:
+        _handleMissionReached(message);
+        break;
     case MAVLINK_MSG_ID_SERIAL_CONTROL:
     {
         mavlink_serial_control_t ser;
@@ -699,6 +705,20 @@ void Vehicle::_mavlinkMessageReceived(LinkInterface* link, mavlink_message_t mes
     _uas->receiveMessage(message);
 }
 
+void Vehicle::_handleMissionCurrent(const mavlink_message_t& message)
+{
+    mavlink_mission_current_t missionCurrent;
+
+    mavlink_msg_mission_current_decode(&message, &missionCurrent);
+    _missionCurrent = missionCurrent.seq;
+}
+
+void Vehicle::_handleMissionReached(const mavlink_message_t& message)
+{
+    mavlink_mission_item_reached_t itemReached;
+    mavlink_msg_mission_item_reached_decode(&message, &itemReached);
+    _missionItemReached = itemReached.seq;
+}
 
 void Vehicle::_handleCameraFeedback(const mavlink_message_t& message)
 {
@@ -1427,10 +1447,13 @@ QList<QPointF>  polygonPoints, centroidPoints, pointsInPolygon;
          QList<QGeoCoordinate> transectCoords;
          float distance;
          int i = 1;
-
+int test = 0;
 
 void Vehicle::_updateAttitude(UASInterface*, double roll, double pitch, double yaw, quint64)
 {
+    //searchMissionSmall = new SearchMissionItem(this);
+    //test = searchMissionSmall->searchItemsCounter();
+   // qDebug() << test<< endl;
     if (qIsInf(roll)) {
         _rollFact.setRawValue(0);
     } else {
@@ -2407,6 +2430,7 @@ void Vehicle::resumeWifi(void)
     }
 
     _wifiActive = !_wifiActive;
+    _wifiLocatedList.clear();
     emit wifiActiveChanged(_wifiActive);
 
 }
@@ -2943,17 +2967,33 @@ void Vehicle::sendPlan(QString planFile)
 
 
 
+int counter;
+int numberWaypoints = 100;
+
+double testValue = 16.0;
+double gridSize = 8.0;
+
+bool testStart = true;
+bool firstScan;
+bool detailedSearch;
+QGeoCoordinate smallestCoordinates;
 
 
-
+/*
 void Vehicle::_handleWifi(mavlink_message_t& message)
 {
     mavlink_distance_sensor_t wifi;
     mavlink_msg_distance_sensor_decode(&message, &wifi);
 
     QVector<double> wifiLocated;
-
-    _wifiStrengthFact.setRawValue(wifi.min_distance);
+    int wifiValue;
+    if (wifi.min_distance == 255) {
+          wifiValue = 0;
+    }
+    else {
+        wifiValue = wifi.min_distance;
+    }
+    _wifiStrengthFact.setRawValue(wifiValue);
 
     if (_wifiLocatedList.size() == 0)
     {
@@ -2969,6 +3009,8 @@ void Vehicle::_handleWifi(mavlink_message_t& message)
     wifiLocated.append(_coordinate.longitude());
     wifiLocated.append(wifi.min_distance);
     _wifiLocatedList.append(wifiLocated);
+
+    */
 
 /* --------------------   Generate small rectangle mission ------------------------------------------------------------------
  *  Do zrobienia: - Dodac warunki na podstawie lotow testowych
@@ -3018,42 +3060,295 @@ void Vehicle::_handleWifi(mavlink_message_t& message)
     searchMissionOut = new SearchMissionItem(this);
     searchMissionOut->generateGridOutside(centroidPoints,pointsInPolygon,geoCentroidPoints,50,0);
 ------------------------------------------------------------------------------------------------------*/
+/*
+
+    qDebug() << "CURRENT WAYPOINT: " << _missionManager->currentIndex() << endl; //           ----------------------  --  Parametr aktywnego waypointa (DO TESTU NA ZEWNATRZ)
 
 
 
 
+    if(_wifiActive) {
 
-
-// -----  Save to txt file (tests) ------- //
-    std::ofstream out;
-    out.open("/home/aerologin/Desktop/wifi.txt", std::ios::app);
-    out << std::setprecision (10) << wifiLocated[0] << "    ";
-    out << std::setprecision (10) << wifiLocated[1] << "    ";
-    //out << _coordinate.latitude() << "    ";
-    //out << _coordinate.longitude() << "    " ;
-    out << wifi.min_distance << "\n" ;
-    wifiLocated.clear();
-// --------------------------------------- //
-
-    if (_testStrength)
-    {
-        if (_wifiLocatedList.rbegin()[0][2] > _testStrength + 15)
-        {
-            qDebug() << "SIGNAL DROPPED AAAAAAAAAAAAAAA!" << endl;
+    // -----  Save to txt file (tests) -------
+        std::ofstream out;
+        out.open("/home/aerologin/Desktop/wifi.txt", std::ios::app);
+        out << std::setprecision (10) << wifiLocated[0] << "    ";
+        out << std::setprecision (10) << wifiLocated[1] << "    ";
+        out << wifi.min_distance << "\n" ;
+        wifiLocated.clear();
+    // ---------------------------------------
+if (!detailedSearch) {
+        if (testStart) {
+        _testStrength = _wifiLocatedList.rbegin()[0][2];
+        qDebug() << "TEST STARTED - VALUE TESTTED: " << _testStrength << endl;
+        testStart = false;
+        counter = 0;
+        firstScan = true;
         }
-        _testStrength = 0;
-    }
-    //qDebug() << _wifiLocatedList << endl;
-    //qDebug() << _wifiLocatedList.rbegin()[1][2]<< endl;
-    //qDebug() << _wifiLocatedList.rbegin()[0][2]<< endl;
 
-    if (_wifiLocatedList.rbegin()[0][2] > _wifiLocatedList.rbegin()[1][2] + 15)
+
+
+if (!firstScan){
+        if ((_wifiLocatedList.rbegin()[0][2]  >= _testStrength + 2) && _testStrength != 255 && _wifiLocatedList.rbegin()[0][2] != 255 && _testStrength < 64)  {
+                   counter++;
+                   qDebug() << "NEXT VALUE HIGHER " << counter << " TIMES" << endl;
+                }
+        else {
+            testStart = true;
+        }
+}
+        firstScan = false;
+}
+            if (counter == 3 || (_missionManager->currentIndex() == numberWaypoints - 1 && detailedSearch))
+            {
+                qDebug() << "SIGNAL OUT - DETAILED AUTO SEARCH" << endl;
+
+                int smallestWifi = _wifiLocatedList.begin()[0][2];
+
+                for (int i = 1 ; i < _wifiLocatedList.count(); i++ )
+                {
+                    if (_wifiLocatedList.begin()[i][2] < smallestWifi)
+                        smallestWifi = _wifiLocatedList.begin()[i][2];
+                        smallestCoordinates.setLatitude(_wifiLocatedList.begin()[i][0]);
+                        smallestCoordinates.setLongitude(_wifiLocatedList.begin()[i][1]);
+                }
+                qDebug() << "SMALLEST WIFI: " << smallestWifi << endl;
+                qDebug() << "SMALLEST COORDINATES: " << smallestCoordinates << endl;
+
+          if (testValue >= 5.0)
+          {
+
+                polygonPoints << QPointF( -testValue, -testValue)
+                              << QPointF( -testValue,  testValue)
+                              << QPointF(  testValue,  testValue)
+                              << QPointF(  testValue, -testValue);
+                tangentOrigin = smallestCoordinates;
+                searchMissionSmall->generateGridRectangle(polygonPoints,centroidPoints,tangentOrigin,transectCoords,gridSize,0);
+                polygonPoints.clear();
+
+                QList<MissionItem*> missionItems;
+                for (int i = 0; i < transectCoords.count(); i++) {
+
+                     MissionItem* missionItem = new MissionItem(this);
+                     transectCoords[i].setAltitude(20);
+                     missionItem->setCommand(MAV_CMD_NAV_WAYPOINT);
+                     missionItem->setCoordinate(transectCoords[i]);
+                     missionItem->setSequenceNumber(i+1);
+                     missionItem->setIsCurrentItem(false);
+                     missionItem->setFrame(MAV_FRAME_GLOBAL_RELATIVE_ALT);
+                     missionItem->setAutoContinue(true);
+                     missionItems.append(missionItem);
+                }
+                MissionItem* missionItem = new MissionItem(this);
+                missionItem->setCommand(MAV_CMD_DO_SET_MODE);
+                missionItem->setParam1(216);
+                missionItems.append(missionItem);
+                _missionManager->writeMissionItems(missionItems);
+                //_missionManager->generateResumeMission(0);
+                this->startMission();
+                qDebug() << "NUMBER WAYPOINTS: " << transectCoords.count() << endl;
+                numberWaypoints = transectCoords.count();
+                transectCoords.clear();
+                missionItems.clear();
+                _wifiLocatedList.clear();
+                detailedSearch = true;
+                counter = 0;
+                testValue = testValue - 5.0;
+                gridSize = gridSize - 2.5;
+}
+          else
+          {
+              qDebug() << "SEARCH STOPPED"  << endl;
+              int smallestWifi = _wifiLocatedList.begin()[0][2];
+
+              for (int i = 1 ; i < _wifiLocatedList.count(); i++ )
+              {
+                  if (_wifiLocatedList.begin()[i][2] < smallestWifi)
+                      smallestWifi = _wifiLocatedList.begin()[i][2];
+                      smallestCoordinates.setLatitude(_wifiLocatedList.begin()[i][0]);
+                      smallestCoordinates.setLongitude(_wifiLocatedList.begin()[i][1]);
+              }
+              qDebug() << "SMALLEST WIFI: " << smallestWifi << endl;
+              qDebug() << "GOING TO COORDINATES: " << smallestCoordinates << endl;
+
+              this->guidedModeGotoLocation(smallestCoordinates);
+              //_missionManager->writeArduPilotGuidedMissionItem(smallestCoordinates,false);
+            }
+
+}
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+   /*
+        if (_testStrength)
+        {
+            if (_wifiLocatedList.rbegin()[0][2] > _testStrength + 15)
+            {
+                qDebug() << "SIGNAL DROPPED AAAAAAAAAAAAAAA!" << endl;
+            }
+            _testStrength = 0;
+        }
+
+        if (_wifiLocatedList.rbegin()[0][2] > _wifiLocatedList.rbegin()[1][2] + 15)
+        {
+            qDebug() << "WARNING SIGNALS DROPPING!" << endl;
+            _testStrength = _wifiLocatedList.rbegin()[1][2];
+        }
+
+    }
+    else {
+        counter = 0;
+        detailedSearch = false;
+    }
+
+}
+
+*/
+int lol = 0;
+double test1;
+
+
+void Vehicle::_handleWifi(mavlink_message_t& message)
+{
+    mavlink_distance_sensor_t wifi;
+    mavlink_msg_distance_sensor_decode(&message, &wifi);
+
+    QVector<double> wifiLocated;
+    int wifiValue;
+    if (wifi.min_distance == 255) {
+          wifiValue = 0;
+    }
+    else {
+        wifiValue = wifi.min_distance;
+    }
+    _wifiStrengthFact.setRawValue(wifiValue);
+
+    if (_wifiLocatedList.size() == 0)
     {
-        qDebug() << "WARNING SIGNALS DROPPING!" << endl;
-        _testStrength = _wifiLocatedList.rbegin()[1][2];
-    }
+        _wifiLocatedList.clear();
 
- }
+        wifiLocated.append(_coordinate.latitude());
+        wifiLocated.append(_coordinate.longitude());
+        wifiLocated.append(wifi.min_distance);
+        _wifiLocatedList.append(wifiLocated);
+        wifiLocated.clear();
+    }
+    wifiLocated.append(_coordinate.latitude());
+    wifiLocated.append(_coordinate.longitude());
+    wifiLocated.append(wifi.min_distance);
+    _wifiLocatedList.append(wifiLocated);
+
+    if(_wifiActive) {
+
+    // -----  Save to txt file (tests) -------
+        std::ofstream out;
+        out.open("/home/aerologin/Desktop/wifi.txt", std::ios::app);
+        out << std::setprecision (10) << wifiLocated[0] << "    ";
+        out << std::setprecision (10) << wifiLocated[1] << "    ";
+        out << wifi.min_distance << "\n" ;
+        wifiLocated.clear();
+    // ---------------------------------------
+
+        //qDebug() << searchMissionSmall->_transectSegments << endl;
+
+if (!detailedSearch) {
+
+    if(_missionItemReached == _missionManager->_lastMissionRequest) {
+
+                int smallestWifi = _wifiLocatedList.begin()[0][2];
+
+                for (int i = 1 ; i < _wifiLocatedList.count(); i++ )
+                {
+                    if (_wifiLocatedList.begin()[i][2] < smallestWifi)
+                    {
+                        smallestWifi = _wifiLocatedList.begin()[i][2];
+                        smallestCoordinates.setLatitude(_wifiLocatedList.begin()[i][0]);
+                        smallestCoordinates.setLongitude(_wifiLocatedList.begin()[i][1]);
+                    }
+                }
+                qDebug() << "SMALLEST WIFI: " << smallestWifi << endl;
+                qDebug() << "SMALLEST COORDINATES: " << smallestCoordinates << endl;
+
+          if (testValue >= 15.0)
+          {
+                polygonPoints << QPointF( -testValue, -testValue)
+                              << QPointF( -testValue,  testValue)
+                              << QPointF(  testValue,  testValue)
+                              << QPointF(  testValue, -testValue);
+                tangentOrigin = smallestCoordinates;
+                searchMissionSmall->generateGridRectangle(polygonPoints,centroidPoints,tangentOrigin,transectCoords,gridSize,0);
+                polygonPoints.clear();
+
+                QList<MissionItem*> missionItems;
+                for (int i = 0; i < transectCoords.count(); i++) {
+
+                     MissionItem* missionItem = new MissionItem(this);
+                     transectCoords[i].setAltitude(20);
+                     missionItem->setCommand(MAV_CMD_NAV_WAYPOINT);
+                     missionItem->setCoordinate(transectCoords[i]);
+                     missionItem->setSequenceNumber(i+1);
+                     missionItem->setIsCurrentItem(false);
+                     missionItem->setFrame(MAV_FRAME_GLOBAL_RELATIVE_ALT);
+                     missionItem->setAutoContinue(true);
+                     missionItems.append(missionItem);
+                }
+                _missionManager->writeMissionItems(missionItems);
+                this->setFlightMode("BRAKE");
+                this->setFlightMode("AUTO");
+
+                numberWaypoints = transectCoords.count();
+                transectCoords.clear();
+
+                missionItems.clear();
+                _wifiLocatedList.clear();
+                testValue = 0;
+                //gridSize = gridSize - 2.5;
+
+                //_missionManager->generateResumeMission(1);
+                //this->startMission();
+}
+          else
+          {
+              qDebug() << "SEARCH STOPPED"  << endl;
+              int smallestWifi = _wifiLocatedList.begin()[0][2];
+
+              for (int i = 1 ; i < _wifiLocatedList.count(); i++ )
+              {
+                  if (_wifiLocatedList.begin()[i][2] < smallestWifi)
+                  {
+                      smallestWifi = _wifiLocatedList.begin()[i][2];
+                      smallestCoordinates.setLatitude(_wifiLocatedList.begin()[i][0]);
+                      smallestCoordinates.setLongitude(_wifiLocatedList.begin()[i][1]);
+                  }
+              }
+              qDebug() << "SMALLEST WIFI: " << smallestWifi << endl;
+              qDebug() << "GOING TO COORDINATES: " << smallestCoordinates << endl;
+
+              this->guidedModeGotoLocation(smallestCoordinates);
+              detailedSearch = true;
+              //_missionManager->writeArduPilotGuidedMissionItem(smallestCoordinates,false);
+            }
+}
+}
+
+}
+    else {
+        detailedSearch = false;
+        testValue = 16.0;
+    }
+}
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

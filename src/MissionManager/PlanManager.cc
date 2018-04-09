@@ -22,14 +22,15 @@
 QGC_LOGGING_CATEGORY(PlanManagerLog, "PlanManagerLog")
 
 PlanManager::PlanManager(Vehicle* vehicle, MAV_MISSION_TYPE planType)
-    : _vehicle(vehicle)
+    : _lastMissionRequest(-1)
+    , _vehicle(vehicle)
     , _planType(planType)
     , _dedicatedLink(NULL)
     , _ackTimeoutTimer(NULL)
     , _expectedAck(AckNone)
     , _transactionInProgress(TransactionNone)
     , _resumeMission(false)
-    , _lastMissionRequest(-1)
+
     , _currentMissionIndex(-1)
     , _lastCurrentIndex(-1)
 {
@@ -664,6 +665,7 @@ void PlanManager::_mavlinkMessageReceived(const mavlink_message_t& message)
 
     case MAVLINK_MSG_ID_MISSION_ITEM_REACHED:
         // FIXME: NYI
+
         break;
 
     case MAVLINK_MSG_ID_MISSION_CURRENT:
@@ -870,10 +872,10 @@ void PlanManager::_handleMissionCurrent(const mavlink_message_t& message)
     mavlink_mission_current_t missionCurrent;
 
     mavlink_msg_mission_current_decode(&message, &missionCurrent);
-
     if (missionCurrent.seq != _currentMissionIndex) {
         qCDebug(PlanManagerLog) << QStringLiteral("_handleMissionCurrent %1 currentIndex:").arg(_planTypeString()) << missionCurrent.seq;
         _currentMissionIndex = missionCurrent.seq;
+        qDebug() << "Mission Seq : " << missionCurrent.seq << endl;
         emit currentIndexChanged(_currentMissionIndex);
     }
 

@@ -885,6 +885,8 @@ private:
     void _handleScaledPressure(mavlink_message_t& message);
     void _handleScaledPressure2(mavlink_message_t& message);
     void _handleScaledPressure3(mavlink_message_t& message);
+    void _handleMissionCurrent(const mavlink_message_t& message);
+    void _handleMissionReached(const mavlink_message_t& message);
     void _handleCameraFeedback(const mavlink_message_t& message);
     void _handleCameraImageCaptured(const mavlink_message_t& message);
     void _handleADSBVehicle(const mavlink_message_t& message);
@@ -911,6 +913,9 @@ private:
     int     _defaultComponentId;
     bool    _active;
     bool    _offlineEditingVehicle; ///< This Vehicle is a "disconnected" vehicle for ui use while offline editing
+
+    int     _missionCurrent; ///< Current waypoint
+    int     _missionItemReached; ///< Waypoint reached
 
     MAV_AUTOPILOT       _firmwareType;
     MAV_TYPE            _vehicleType;

@@ -71,6 +71,8 @@ public:
     // These values are public so the unit test can set appropriate signal wait times
     static const int _ackTimeoutMilliseconds = 1000;
     static const int _maxRetryCount = 5;
+
+    int                 _lastMissionRequest;    ///< Index of item last requested by MISSION_REQUEST
     
 signals:
     void newMissionItemsAvailable   (bool removeAllRequested);
@@ -143,7 +145,7 @@ protected:
     bool                _resumeMission;
     QList<int>          _itemIndicesToWrite;    ///< List of mission items which still need to be written to vehicle
     QList<int>          _itemIndicesToRead;     ///< List of mission items which still need to be requested from vehicle
-    int                 _lastMissionRequest;    ///< Index of item last requested by MISSION_REQUEST
+    //int                 _lastMissionRequest;    ///< Index of item last requested by MISSION_REQUEST
     
     QList<MissionItem*> _missionItems;          ///< Set of mission items on vehicle
     QList<MissionItem*> _writeMissionItems;     ///< Set of mission items currently being written to vehicle

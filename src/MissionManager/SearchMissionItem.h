@@ -99,6 +99,7 @@ public:
     QList<QGeoCoordinate> geoCentroidPoints;
 
 
+
     void setRefly90Degrees(bool refly90Degrees);
 
     // Overrides from ComplexMissionItem
@@ -134,14 +135,13 @@ public:
     bool exitCoordinateHasRelativeAltitude  (void) const final { return _gridAltitudeRelativeFact.rawValue().toBool(); }
     bool exitCoordinateSameAsEntry          (void) const final { return false; }
 
-    void setDirty           (bool dirty) final;
-    void setCoordinate      (const QGeoCoordinate& coordinate) final;
-    void setSequenceNumber  (int sequenceNumber) final;
-    void setTurnaroundDist  (double dist) { _turnaroundDistFact.setRawValue(dist); }
-    void save               (QJsonArray&  missionItems) final;
+    void setDirty              (bool dirty) final;
+    void setCoordinate         (const QGeoCoordinate& coordinate) final;
+    void setSequenceNumber     (int sequenceNumber) final;
+    void setTurnaroundDist     (double dist) { _turnaroundDistFact.setRawValue(dist); }
+    void save                  (QJsonArray&  missionItems) final;
     void generateGridRectangle (QList<QPointF> & polygonPoints, QList<QPointF> & centroidPoints, QGeoCoordinate & tangentOrigin,  QList<QGeoCoordinate> & geoCentroidPoints, double gridSize, double entryLocation);
     void generateGridOutside   (QList<QPointF> & centroidPoints, QList<QPointF> & pointsInPolygon, QList<QGeoCoordinate> & geoCentroidPoints, double gridSize, int entryLocation);
-
 
     // Must match json spec for GridEntryLocation
     enum EntryLocation {

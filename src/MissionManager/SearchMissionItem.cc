@@ -697,6 +697,7 @@ void SearchMissionItem::_adjustTransectsToEntryPointLocation(QList<QList<QGeoCoo
     qCDebug(SearchMissionItemLog) << "Modified entry point" << transects.first().first();
 }
 
+
 void SearchMissionItem::generateGridRectangle(QList<QPointF> & polygonPoints, QList<QPointF> & centroidPoints, QGeoCoordinate & tangentOrigin,  QList<QGeoCoordinate> & geoCentroidPoints, double gridSize, double entryLocation)
 {
     _generateLines(polygonPoints,centroidPoints,gridSize,entryLocation);
@@ -704,6 +705,7 @@ void SearchMissionItem::generateGridRectangle(QList<QPointF> & polygonPoints, QL
 }
 void SearchMissionItem::generateGridOutside(QList<QPointF> & centroidPoints, QList<QPointF> & pointsInPolygon, QList<QGeoCoordinate> & geoCentroidPoints, double gridSize, int entryLocation)
 {
+
     _generateLines(polygonPointsOutside,centroidPoints,gridSize,entryLocation);
     _pointsInPolygon(polygonPointsOutside,centroidPoints,pointsInPolygon);
     _convertToGeoPoints(pointsInPolygon,tangentOriginOutside,geoCentroidPoints);
@@ -711,7 +713,6 @@ void SearchMissionItem::generateGridOutside(QList<QPointF> & centroidPoints, QLi
 
 void SearchMissionItem::_generateGrid(void)
 {
-    //_tangentOrigin = 0;
     polygonPointsOutside.clear();
     if (_ignoreRecalc) {
         return;
@@ -726,7 +727,6 @@ void SearchMissionItem::_generateGrid(void)
     _transectSegments.clear();
     _reflyTransectSegments.clear();
     _additionalFlightDelaySeconds = 0;
-
 
 
     QList<QPointF>          polygonPoints, centroidPoints, pointsInPolygon;
@@ -762,7 +762,6 @@ void SearchMissionItem::_generateGrid(void)
     }
     _setCoveredArea(0.5 * fabs(coveredArea));
 
-
     _generateLines(polygonPoints,centroidPoints,gridSize,entryLocation);
     _pointsInPolygon(polygonPoints,centroidPoints,pointsInPolygon);
     _convertToGeo(pointsInPolygon,tangentOrigin);
@@ -786,9 +785,10 @@ void SearchMissionItem::_generateGrid(void)
         const QList<QGeoCoordinate>& transectSegment = _transectSegments[i];
 
         _missionCommandCount += transectSegment.count();    // This accounts for all waypoints
-
     }
+
     emit lastSequenceNumberChanged(lastSequenceNumber());
+
 
     // Set exit coordinate
     if (_simpleGridPoints.count()) {

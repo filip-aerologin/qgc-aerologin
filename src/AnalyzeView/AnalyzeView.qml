@@ -103,11 +103,11 @@ Rectangle {
                         buttonText:         qsTr("Log Download")
                         pageSource:         "LogDownloadPage.qml"
                     }
-                    ListElement {
+                  /*  ListElement {
                         buttonImage:        "/qmlimages/GeoTagIcon"
                         buttonText:         qsTr("GeoTag Images")
                         pageSource:         "GeoTagPage.qml"
-                    }
+                    }*/
                     /*
                     ListElement {
                         buttonImage:        "/qmlimages/MavlinkConsoleIcon"

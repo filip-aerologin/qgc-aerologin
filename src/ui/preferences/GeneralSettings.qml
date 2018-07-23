@@ -277,7 +277,7 @@ QGCView {
                             property Fact _telemetrySaveNotArmed: QGroundControl.settingsManager.appSettings.telemetrySaveNotArmed
                         }
                         //-----------------------------------------------------------------
-                        //-- Clear settings
+                     /*   //-- Clear settings
                         QGCCheckBox {
                             id:         clearCheck
                             text:       qsTr("Clear all settings on next start")
@@ -301,7 +301,7 @@ QGCView {
                                     clearDialog.visible = false
                                 }
                             }
-                        }
+                        }*/
                         //-----------------------------------------------------------------
                         //-- Battery talker
                         Row {
@@ -357,7 +357,7 @@ QGCView {
                         }
 
                         //-----------------------------------------------------------------
-                        //-- Mission AutoLoad
+                    /*    //-- Mission AutoLoad
                         FactCheckBox {
                             text:       qsTr("AutoLoad Missions")
                             fact:       _autoLoad
@@ -365,10 +365,10 @@ QGCView {
 
                             property Fact _autoLoad: QGroundControl.settingsManager.appSettings.autoLoadMissions
                         }
-
+*/
                         //-----------------------------------------------------------------
                         //-- Save path
-                        Row {
+                    /*    Row {
                             spacing:    ScreenTools.defaultFontPixelWidth
                             visible:    _savePath.visible && !ScreenTools.isMobile
 
@@ -396,7 +396,7 @@ QGCView {
                                     onAcceptedForLoad: _savePath.rawValue = file
                                 }
                             }
-                        }
+                        } */
                     }
                 }
 
@@ -646,7 +646,7 @@ QGCView {
                 anchors.margins:    ScreenTools.defaultFontPixelWidth * 2
                 //anchors.horizontalCenter: parent.horizontalCenter
                 //anchors.horizontalCenterOffset: -20
-                Item {
+             /*   Item {
                     width:                      parent.width
                     height:                     unitLabel.height
                     anchors.margins:            ScreenTools.defaultFontPixelWidth
@@ -687,7 +687,7 @@ QGCView {
                         }
                     }
                 }
-
+*/
 
                 //-----------------------------------------------------------------
                 //-- Offline Maps
@@ -704,7 +704,8 @@ QGCView {
                     }
                 }
                 Rectangle {
-                    height:                     settingsColumn.height - (rtkGrid.height + (ScreenTools.defaultFontPixelHeight * 2 ) + (unitLabel.height) + (ScreenTools.defaultFontPixelWidth * 6) )
+                    height:  settingsColumn.height - rtkLabel1.height - ScreenTools.defaultFontPixelWidth
+                    //height:                     settingsColumn.height - (rtkGrid.height + (ScreenTools.defaultFontPixelHeight * 2 ) + (unitLabel.height) + (ScreenTools.defaultFontPixelWidth * 6) )
                     width:                      parent.width
                     color:                      qgcPal.windowShade
                     anchors.margins:            ScreenTools.defaultFontPixelWidth

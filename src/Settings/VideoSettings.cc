@@ -73,7 +73,7 @@ VideoSettings::VideoSettings(QObject* parent)
     }
 #endif*/
     if (videoSourceList.count() == 0) {
-        noVideo = true;
+        //noVideo = true;
         videoSourceList.append(videoSourceNoVideo);
     } else {
         videoSourceList.insert(0, videoDisabled);

@@ -135,7 +135,7 @@ exists ($$PWD/.git) {
         message(QGroundControl $${GIT_VERSION})
     }
 } else {
-    GIT_VERSION     = None
+    GIT_VERSION     = ""
     VERSION         = 0.0.0   # Marker to indicate out-of-tree build
     MAC_VERSION     = 0.0.0
     MAC_BUILD       = 0

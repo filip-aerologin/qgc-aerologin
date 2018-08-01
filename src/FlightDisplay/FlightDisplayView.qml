@@ -695,7 +695,7 @@ QGCView {
             buttonVisible:      [ true, true, _guidedController.smartShotsAvailable ]
             buttonEnabled:      [ _guidedController.showPause, _anyActionAvailable, _anySmartShotAvailable ]
 
-            property bool _anyActionAvailable: _guidedController.showStartMission || _guidedController.showResumeMission || _guidedController.showChangeAlt || _guidedController.showLandAbort || _guidedController.showWifiOn || _guidedController.showWifiOff
+            property bool _anyActionAvailable: _guidedController.showStartMission || _guidedController.showResumeMission || _guidedController.showChangeAlt || _guidedController.showLandAbort  /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT || _guidedController.showWifiOn || _guidedController.showWifiOff */
             property bool _anySmartShotAvailable: _guidedController.showOrbit
             property var _actionModel: [
                 {
@@ -727,7 +727,10 @@ QGCView {
                     text:       _guidedController.landAbortMessage,
                     action:     _guidedController.actionLandAbort,
                     visible:    _guidedController.showLandAbort
-                },
+                }
+                 /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
+
+                ,
                 {
                     title:      _guidedController.wifiOnTitle,
                     text:       _guidedController.wifiOnMessage,
@@ -740,6 +743,7 @@ QGCView {
                     action:     _guidedController.actionWifiOff,
                     visible:    _guidedController.showWifiOff
                 }
+                */
             ]
             property var _smartShotModel: [
                 {
@@ -830,7 +834,7 @@ QGCView {
                 }
             }
         }
-
+ /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
         ToolStrip {
             id:                 toolStripWifi
             anchors.left:       toolStrip.left
@@ -857,7 +861,7 @@ QGCView {
                 }
             ]
         }
-
+*/
         GuidedActionsController {
             id:                 guidedActionsController
             missionController:  _missionController

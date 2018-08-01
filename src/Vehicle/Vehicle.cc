@@ -63,7 +63,9 @@ const char* Vehicle::_altitudeAMSLFactName =        "altitudeAMSL";
 const char* Vehicle::_flightDistanceFactName =      "flightDistance";
 const char* Vehicle::_flightTimeFactName =          "flightTime";
 const char* Vehicle::_distanceToHomeFactName =      "distanceToHome";
+ /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
 const char* Vehicle::_wifiStrengthFactName =        "wifiStrength";
+*/
 
 const char* Vehicle::_gpsFactGroupName =        "gps";
 const char* Vehicle::_batteryFactGroupName =    "battery";
@@ -139,7 +141,9 @@ Vehicle::Vehicle(LinkInterface*             link,
     , _rallyPointManagerInitialRequestSent(false)
     , _parameterManager(NULL)
     , _armed(false)
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     , _wifiActive(false)
+        */
     , _base_mode(0)
     , _custom_mode(0)
     , _nextSendMessageMultipleIndex(0)
@@ -174,7 +178,9 @@ Vehicle::Vehicle(LinkInterface*             link,
     , _flightDistanceFact   (0, _flightDistanceFactName,    FactMetaData::valueTypeDouble)
     , _flightTimeFact       (0, _flightTimeFactName,        FactMetaData::valueTypeElapsedTimeInSeconds)
     , _distanceToHomeFact   (0, _distanceToHomeFactName,    FactMetaData::valueTypeDouble)
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     , _wifiStrengthFact     (0, _wifiStrengthFactName,      FactMetaData::valueTypeInt16)
+        */
     , _gpsFactGroup(this)
     , _batteryFactGroup(this)
     , _windFactGroup(this)
@@ -192,8 +198,9 @@ Vehicle::Vehicle(LinkInterface*             link,
     connect(this, &Vehicle::_sendMessageOnLinkOnThread, this, &Vehicle::_sendMessageOnLink, Qt::QueuedConnection);
     connect(this, &Vehicle::flightModeChanged,          this, &Vehicle::_handleFlightModeChanged);
     connect(this, &Vehicle::armedChanged,               this, &Vehicle::_announceArmedChanged);
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     connect(this, &Vehicle::wifiActiveChanged,          this, &Vehicle::_announceWifiActiveChanged);
-
+    */
     _uas = new UAS(_mavlink, this, _firmwarePluginManager);
 
     connect(_uas, &UAS::imageReady,                     this, &Vehicle::_imageReady);
@@ -348,7 +355,9 @@ Vehicle::Vehicle(MAV_AUTOPILOT              firmwareType,
     , _flightDistanceFact   (0, _flightDistanceFactName,    FactMetaData::valueTypeDouble)
     , _flightTimeFact       (0, _flightTimeFactName,        FactMetaData::valueTypeElapsedTimeInSeconds)
     , _distanceToHomeFact   (0, _distanceToHomeFactName,    FactMetaData::valueTypeDouble)
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     , _wifiStrengthFact     (0, _wifiStrengthFactName,      FactMetaData::valueTypeInt16)
+        */
     , _gpsFactGroup(this)
     , _batteryFactGroup(this)
     , _windFactGroup(this)
@@ -404,8 +413,9 @@ void Vehicle::_commonInit(void)
     _addFact(&_flightDistanceFact,      _flightDistanceFactName);
     _addFact(&_flightTimeFact,          _flightTimeFactName);
     _addFact(&_distanceToHomeFact,      _distanceToHomeFactName);
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     _addFact(&_wifiStrengthFact,        _wifiStrengthFactName);
-
+    */
     _addFactGroup(&_gpsFactGroup,       _gpsFactGroupName);
     _addFactGroup(&_batteryFactGroup,   _batteryFactGroupName);
     _addFactGroup(&_windFactGroup,      _windFactGroupName);
@@ -674,9 +684,11 @@ void Vehicle::_mavlinkMessageReceived(LinkInterface* link, mavlink_message_t mes
     case MAVLINK_MSG_ID_ADSB_VEHICLE:
         _handleADSBVehicle(message);
         break;
+         /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     case MAVLINK_MSG_ID_DISTANCE_SENSOR:
         _handleWifi(message);
         break;
+        */
     case MAVLINK_MSG_ID_MISSION_CURRENT:
         _handleMissionCurrent(message);
         break;
@@ -1755,12 +1767,12 @@ void Vehicle::setArmed(bool armed)
                    true,    // show error if fails
                    armed ? 1.0f : 0.0f);
 }
-
+ /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
 void Vehicle::setWifiActive(bool wifiActive)
 {
   _wifiActive = wifiActive;
 }
-
+*/
 bool Vehicle::flightModeSetAvailable(void)
 {
     return _firmwarePlugin->isCapable(this, FirmwarePlugin::SetFlightModeCapability);
@@ -2224,12 +2236,12 @@ void Vehicle::_announceArmedChanged(bool armed)
 {
     _say(QString("%1 %2").arg(_vehicleIdSpeech()).arg(armed ? QStringLiteral("armed") : QStringLiteral("disarmed")));
 }
-
+ /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
 void Vehicle::_announceWifiActiveChanged(bool wifiActive)
 {
     _say(QString("%1 %2").arg(_vehicleIdSpeech()).arg(wifiActive ? QStringLiteral("started Wifi source search") : QStringLiteral("stopped Wifi source search")));
 }
-
+*/
 void Vehicle::_setFlying(bool flying)
 {
     if (_flying != flying) {
@@ -2265,12 +2277,12 @@ bool Vehicle::takeoffVehicleSupported() const
 {
     return _firmwarePlugin->isCapable(this, FirmwarePlugin::TakeoffVehicleCapability);
 }
-
+ /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
 bool Vehicle::wifiSupported(void) const
 {
     return _wifiStrengthFact.rawValue() != 0;
 }
-
+*/
 
 void Vehicle::guidedModeRTL(void)
 {
@@ -2415,7 +2427,7 @@ void Vehicle::sendMavCommand(int component, MAV_CMD command, bool showError, flo
         _sendMavCommandAgain();
     }
 }
-
+ /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
 void Vehicle::resumeWifi(void)
 {
     if (!wifiSupported() && !_wifiActive) {
@@ -2434,7 +2446,7 @@ void Vehicle::resumeWifi(void)
     emit wifiActiveChanged(_wifiActive);
 
 }
-
+*/
 void Vehicle::_sendMavCommandAgain(void)
 {
     if(!_mavCommandQueue.size()) {
@@ -3216,6 +3228,8 @@ if (!firstScan){
 }
 
 */
+
+ /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
 int lol = 0;
 double test1;
 
@@ -3349,7 +3363,7 @@ if (!detailedSearch) {
         testValue = 16.0;
     }
 }
-
+*/
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 

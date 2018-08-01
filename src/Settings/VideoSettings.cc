@@ -64,7 +64,7 @@ VideoSettings::VideoSettings(QObject* parent)
     videoSourceList.append(videoSourceUDP);
 #endif
     //videoSourceList.append(videoSourceRTSP);                          // Disable TCP/RTSP
-    //videoSourceList.append(videoSourceTCP);
+    videoSourceList.append(videoSourceTCP);
 #endif
 /*#ifndef QGC_DISABLE_UVC                                               // Disable Connected Cameras
     QList<QCameraInfo> cameras = QCameraInfo::availableCameras();

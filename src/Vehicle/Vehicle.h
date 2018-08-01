@@ -320,8 +320,9 @@ public:
     Q_PROPERTY(bool              initialPlanRequestComplete READ initialPlanRequestComplete                             NOTIFY initialPlanRequestCompleteChanged)
     Q_PROPERTY(QVariantList         staticCameraList        READ staticCameraList                                       CONSTANT)
     Q_PROPERTY(QGCCameraManager*    dynamicCameras          READ dynamicCameras                                         NOTIFY dynamicCamerasChanged)
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     Q_PROPERTY(bool                 wifiActive              READ wifiActive                 WRITE setWifiActive         NOTIFY wifiActiveChanged)
-
+    */
     // Vehicle state used for guided control
     Q_PROPERTY(bool flying                  READ flying NOTIFY flyingChanged)                               ///< Vehicle is flying
     Q_PROPERTY(bool landing                 READ landing NOTIFY landingChanged)                             ///< Vehicle is in landing pattern (DO_LAND_START)
@@ -345,7 +346,9 @@ public:
     Q_PROPERTY(Fact* altitudeAMSL       READ altitudeAMSL       CONSTANT)
     Q_PROPERTY(Fact* flightDistance     READ flightDistance     CONSTANT)
     Q_PROPERTY(Fact* distanceToHome     READ distanceToHome     CONSTANT)
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     Q_PROPERTY(Fact* wifiStrength       READ wifiStrength       CONSTANT)
+    */
 
 
 
@@ -432,7 +435,9 @@ public:
     Q_INVOKABLE void sendPlan(QString planFile);
 
     /// Wifi Messages
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     Q_INVOKABLE void resumeWifi(void);
+    */
 
 #if 0
     // Temporarily removed, waiting for new command implementation
@@ -510,10 +515,10 @@ public:
     MissionController*  missionController(void) {return _missionController; }
 
     QGeoCoordinate homePosition(void);
-
+ /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     bool wifiActive (void) {return _wifiActive;}
     void setWifiActive(bool wifiActive);
-
+*/
 
     bool armed(void) { return _armed; }
     void setArmed(bool armed);
@@ -628,8 +633,9 @@ public:
     Fact* altitudeAMSL      (void) { return &_altitudeAMSLFact; }
     Fact* flightDistance    (void) { return &_flightDistanceFact; }
     Fact* distanceToHome    (void) { return &_distanceToHomeFact; }
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     Fact* wifiStrength      (void) { return &_wifiStrengthFact; }
-
+*/
     FactGroup* gpsFactGroup         (void) { return &_gpsFactGroup; }
     FactGroup* batteryFactGroup     (void) { return &_batteryFactGroup; }
     FactGroup* windFactGroup        (void) { return &_windFactGroup; }
@@ -756,7 +762,9 @@ signals:
     void capabilitiesKnownChanged(bool capabilitiesKnown);
     void initialPlanRequestCompleteChanged(bool initialPlanRequestComplete);
     void capabilityBitsChanged(uint64_t capabilityBits);
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     void wifiSignalDropped(QList<QVector<double>> wifiLocatedList);
+    */
 
     void messagesReceivedChanged    ();
     void messagesSentChanged        ();
@@ -818,8 +826,9 @@ signals:
 
     // MAVLink protocol version
     void requestProtocolVersion(unsigned version);
-
+ /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     void wifiActiveChanged (bool wifiActive);
+    */
 
 private slots:
     void _mavlinkMessageReceived(LinkInterface* link, mavlink_message_t message);
@@ -831,7 +840,9 @@ private slots:
     void _remoteControlRSSIChanged(uint8_t rssi);
     void _handleFlightModeChanged(const QString& flightMode);
     void _announceArmedChanged(bool armed);
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     void _announceWifiActiveChanged(bool wifiActive);
+    */
     void _offlineFirmwareTypeSettingChanged(QVariant value);
     void _offlineVehicleTypeSettingChanged(QVariant value);
     void _offlineCruiseSpeedSettingChanged(QVariant value);
@@ -907,7 +918,9 @@ private:
     void _startPlanRequest(void);
     void _setupAutoDisarmSignalling(void);
     void _setCapabilities(uint64_t capabilityBits);
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     void _handleWifi(mavlink_message_t& message);
+    */
 
     int     _id;                    ///< Mavlink system id
     int     _defaultComponentId;
@@ -970,9 +983,11 @@ private:
     unsigned        _maxProtoVersion;
     bool            _vehicleCapabilitiesKnown;
     uint64_t        _capabilityBits;
+     /* WIFI SEARCH DISABLED - TO ENABLE UNCOMMENT
     QVector<double> _wifiLocated;
     QList<QVector<double>> _wifiLocatedList;
     int              _testStrength;
+    */
 
     QGCCameraManager* _cameras;
 
